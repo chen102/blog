@@ -3,38 +3,78 @@ package service
 import (
 	"blog/model"
 	"blog/serializer"
+	"blog/tool"
+	"fmt"
+	"strconv"
+
+	"github.com/mitchellh/mapstructure"
 )
 
-type ArticleSservice struct {
+type ArticleAddSservice struct {
 	Title   string `from:"ArticleTitle" json:"ArticleTitle" binding:"required,max=20"`
 	Content string `from:"ArticleContent" json:"ArticleContent" binding:"required"`
 }
-
-func ArticleList() serializer.Response {
-	return serializer.Response{}
+type ArticleSservice struct {
+	Id uint `from:"id" json:"id" binding:"required"`
 }
-func AddArticle(service *ArticleSservice) serializer.Response {
-	//var article model.Article
-	//id := model.Redisdb.Get("uid").Result()
-	////事务
-	//pipe := model.Redisdb.TxPipeline()
-	//pipe.Incr("uid")
-	//if err := pipe.HSet(); err != nil {
-	//return serializer.Err(err)
-	//}
-	//if _, err := pipe.Exec(); err != nil {
+
+func (service *ArticleSservice) ArticleList() serializer.Response {
+	//ids, err := model.Redisdb.SMembers("articles").Result()
+	//if err != nil {
 	//return serializer.Err(err)
 	//}
 	return serializer.Response{}
 }
-func DeleteArticle() serializer.Response {
+func (service *ArticleAddSservice) AddArticle() serializer.Response {
+	id, err := model.Redisdb.Get("id").Result()
+	if err != nil {
+		return serializer.Err(err)
+	}
+
+	article := map[string]interface{}{
+		"title":   service.Title,
+		"content": service.Content,
+		"time":    tool.ShortTime(),
+	}
+	//redis事务
+	pipe := model.Redisdb.TxPipeline()
+	pipe.Incr("id")
+	redisKEY := tool.StrSplicing("article:", id)
+	//使用hash存文章
+	if err := pipe.HMSet(redisKEY, article).Err(); err != nil {
+		return serializer.Err(err)
+	}
+	//使用set存文章id
+	if err := pipe.SAdd("articles", id).Err(); err != nil {
+		return serializer.Err(err)
+	}
+	if _, err := pipe.Exec(); err != nil {
+		return serializer.Err(err)
+	}
+	return serializer.Response{
+		Code: 0,
+		Msg:  "Article ID:" + id + " ADD Succ！",
+	}
+}
+func (service *ArticleSservice) DeleteArticle() serializer.Response {
 	return serializer.Response{}
 
 }
-func ShowArticle() serializer.Response {
-	return serializer.Response{}
-
+func (service *ArticleSservice) ShowArticle() serializer.Response {
+	var article model.Article
+	redisKEY := tool.StrSplicing("article:", strconv.Itoa(int(service.Id)))
+	fmt.Println(redisKEY)
+	data, err := model.Redisdb.HGetAll(redisKEY).Result()
+	if err != nil {
+		return serializer.Err(err)
+	}
+	if err := mapstructure.Decode(data, &article); err != nil {
+		fmt.Println("ERROR:", err)
+		return serializer.Err(err)
+	}
+	fmt.Println(article)
+	return serializer.BuildArticleResponse(article, service.Id)
 }
-func UpdateArticle() serializer.Response {
+func (service *ArticleSservice) UpdateArticle() serializer.Response {
 	return serializer.Response{}
 }

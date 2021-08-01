@@ -1,11 +1,7 @@
 package model
 
-import (
-	"time"
-)
-
 type Article struct {
-	Title   string
-	Time    time.Time
-	Content string
+	Title   string `mapstructure:"title"`
+	Time    string `mapstructure:"time"`
+	Content string `mapstructure:"content"`
 }

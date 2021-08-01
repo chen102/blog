@@ -24,7 +24,7 @@ func ArticleList(c *gin.Context) {
 	}
 }
 func AddArticle(c *gin.Context) {
-	var service service.ArticleSservice
+	var service service.ArticleAddSservice
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, ErrorResponse(err))
 	} else {
@@ -68,5 +68,5 @@ func UpdateArticle(c *gin.Context) {
 
 }
 func ErrorResponse(err error) serializer.Response {
-	return serializer.Response{Error: err}
+	return serializer.Response{Error: err.Error()}
 }
