@@ -5,7 +5,7 @@ import (
 )
 
 type Article struct {
-	title   string
-	time    time.Time
-	content string
+	Title   string
+	Time    time.Time
+	Content string
 }

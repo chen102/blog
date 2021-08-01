@@ -1,10 +1,18 @@
 package api
 
 import (
+	"blog/serializer"
+	"blog/service"
+
 	"github.com/gin-gonic/gin"
-	"service"
 )
 
+func Ping(c *gin.Context) {
+	c.JSON(200, serializer.Response{
+		Code: 0,
+		Msg:  "Pong",
+	})
+}
 func ArticleList(c *gin.Context) {
 	var service service.ArticleSservice
 	if err := c.ShouldBind(&service); err != nil {
