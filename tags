@@ -20,21 +20,28 @@ DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/articlemanage.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
 Init	model/del.go	/^func Init() {$/;"	f
+JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
+JsonStringParam	gintest/test.go	/^func JsonStringParam(str string) (io.Reader, error) {$/;"	f
+JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
 New	router.go	/^func New() *gin.Engine {$/;"	f
+NewRequest	gintest/test.go	/^func NewRequest(method, url, bodytype string, body map[string]interface{}) (*http.Request, error) {$/;"	f
 NoErr	serializer/common.go	/^	NoErr = iota$/;"	c
 ParamErr	serializer/common.go	/^	ParamErr$/;"	c
+ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {$/;"	f
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
 Response	serializer/common.go	/^type Response struct {$/;"	t
-ShortTime	tool/time.go	/^func ShortTime() string {$/;"	f
+ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
 ShowArticle	service/articlemanage.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
-StrSplicing	tool/time.go	/^func StrSplicing(str1, str2 string) string {$/;"	f
-TestPingRoute	router_test.go	/^func TestPingRoute(t *testing.T) {$/;"	f
+StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
+StrSplicing	tool/common.go	/^func StrSplicing(str1, str2 string) string {$/;"	f
+TestShowRoute	router_test.go	/^func TestShowRoute(t *testing.T) {$/;"	f
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/articlemanage.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
+gintest	gintest/test.go	/^package gintest$/;"	p
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
 main	router.go	/^package main$/;"	p
@@ -44,4 +51,4 @@ model	model/del.go	/^package model$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p
 service	service/articlemanage.go	/^package service$/;"	p
-tool	tool/time.go	/^package tool$/;"	p
+tool	tool/common.go	/^package tool$/;"	p

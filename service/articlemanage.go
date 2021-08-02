@@ -5,17 +5,16 @@ import (
 	"blog/serializer"
 	"blog/tool"
 	"fmt"
-	"strconv"
-
 	"github.com/mitchellh/mapstructure"
+	"strconv"
 )
 
 type ArticleAddSservice struct {
-	Title   string `from:"ArticleTitle" json:"ArticleTitle" binding:"required,max=20"`
-	Content string `from:"ArticleContent" json:"ArticleContent" binding:"required"`
+	Title   string `form:"ArticleTitle" json:"ArticleTitle" binding:"required,max=20"`
+	Content string `form:"ArticleContent" json:"ArticleContent" binding:"required"`
 }
 type ArticleSservice struct {
-	Id uint `from:"id" json:"id" binding:"required"`
+	Id uint `form:"id" json:"id" binding:"required"`
 }
 
 func (service *ArticleSservice) ArticleList() serializer.Response {
@@ -65,11 +64,11 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 	if err != nil {
 		return serializer.Err(serializer.RedisErr, err)
 	}
+
 	if err := mapstructure.Decode(data, &article); err != nil {
 		fmt.Println("ERROR:", err)
 		return serializer.Err(serializer.RedisErr, err)
 	}
-	fmt.Println(article)
 	return serializer.BuildArticleResponse(article, service.Id)
 }
 func (service *ArticleSservice) UpdateArticle() serializer.Response {
