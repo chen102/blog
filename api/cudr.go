@@ -16,7 +16,7 @@ func Ping(c *gin.Context) {
 func ArticleList(c *gin.Context) {
 	var service service.ArticleSservice
 	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
 		res := service.ArticleList()
 		c.JSON(200, res)
@@ -26,7 +26,7 @@ func ArticleList(c *gin.Context) {
 func AddArticle(c *gin.Context) {
 	var service service.ArticleAddSservice
 	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
 		res := service.AddArticle()
 		c.JSON(200, res)
@@ -37,7 +37,7 @@ func AddArticle(c *gin.Context) {
 func DeleteArticle(c *gin.Context) {
 	var service service.ArticleSservice
 	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
 		res := service.DeleteArticle()
 		c.JSON(200, res)
@@ -48,7 +48,7 @@ func DeleteArticle(c *gin.Context) {
 func ShowArticle(c *gin.Context) {
 	var service service.ArticleSservice
 	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
 		res := service.ShowArticle()
 		c.JSON(200, res)
@@ -59,14 +59,11 @@ func ShowArticle(c *gin.Context) {
 func UpdateArticle(c *gin.Context) {
 	var service service.ArticleSservice
 	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, ErrorResponse(err))
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
 		res := service.UpdateArticle()
 		c.JSON(200, res)
 
 	}
 
-}
-func ErrorResponse(err error) serializer.Response {
-	return serializer.Response{Error: err.Error()}
 }

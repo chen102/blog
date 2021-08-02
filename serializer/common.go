@@ -1,14 +1,27 @@
 package serializer
 
+const (
+	NoErr = iota
+	ParamErr
+	RedisErr
+)
+
 type Response struct {
 	Code  int         `json:"code"`
 	Data  interface{} `json:"data,omitempty"`
 	Msg   string      `json:"msg"`
-	Error string      `json:"error",omitempty,`
+	Error string      `json:"error,omitempty",`
 }
 
-func Err(err error) Response {
+func BuildResponse(msg string) Response {
 	return Response{
+		Code: 0,
+		Msg:  msg,
+	}
+}
+func Err(errtype int, err error) Response {
+	return Response{
+		Code:  errtype,
 		Error: err.Error(),
 	}
 }

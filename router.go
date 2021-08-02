@@ -7,7 +7,7 @@ import (
 
 func New() *gin.Engine {
 	r := gin.Default()
-	r.POST("ping", api.Ping)
+	r.GET("ping", api.Ping)
 	v1 := r.Group("article/manage")
 	{
 		v1.POST("add", api.AddArticle)

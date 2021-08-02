@@ -28,7 +28,7 @@ func (service *ArticleSservice) ArticleList() serializer.Response {
 func (service *ArticleAddSservice) AddArticle() serializer.Response {
 	id, err := model.Redisdb.Get("id").Result()
 	if err != nil {
-		return serializer.Err(err)
+		return serializer.Err(serializer.RedisErr, err)
 	}
 
 	article := map[string]interface{}{
@@ -42,19 +42,16 @@ func (service *ArticleAddSservice) AddArticle() serializer.Response {
 	redisKEY := tool.StrSplicing("article:", id)
 	//使用hash存文章
 	if err := pipe.HMSet(redisKEY, article).Err(); err != nil {
-		return serializer.Err(err)
+		return serializer.Err(serializer.RedisErr, err)
 	}
 	//使用set存文章id
 	if err := pipe.SAdd("articles", id).Err(); err != nil {
-		return serializer.Err(err)
+		return serializer.Err(serializer.RedisErr, err)
 	}
 	if _, err := pipe.Exec(); err != nil {
-		return serializer.Err(err)
+		return serializer.Err(serializer.RedisErr, err)
 	}
-	return serializer.Response{
-		Code: 0,
-		Msg:  "Article ID:" + id + " ADD Succ！",
-	}
+	return serializer.BuildResponse("Article ID:" + id + " ADD Succ！")
 }
 func (service *ArticleSservice) DeleteArticle() serializer.Response {
 	return serializer.Response{}
@@ -66,11 +63,11 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 	fmt.Println(redisKEY)
 	data, err := model.Redisdb.HGetAll(redisKEY).Result()
 	if err != nil {
-		return serializer.Err(err)
+		return serializer.Err(serializer.RedisErr, err)
 	}
 	if err := mapstructure.Decode(data, &article); err != nil {
 		fmt.Println("ERROR:", err)
-		return serializer.Err(err)
+		return serializer.Err(serializer.RedisErr, err)
 	}
 	fmt.Println(article)
 	return serializer.BuildArticleResponse(article, service.Id)

@@ -14,26 +14,31 @@ ArticleList	service/articlemanage.go	/^func (service *ArticleSservice) ArticleLi
 ArticleSservice	service/articlemanage.go	/^type ArticleSservice struct {$/;"	t
 BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article, id uint) Article {$/;"	f
 BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article, id uint) Response {$/;"	f
+BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
 Del	model/del.go	/^func Del() {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/articlemanage.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
-Err	serializer/common.go	/^func Err(err error) Response {$/;"	f
-ErrorResponse	api/cudr.go	/^func ErrorResponse(err error) serializer.Response {$/;"	f
+Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
 Init	model/del.go	/^func Init() {$/;"	f
 New	router.go	/^func New() *gin.Engine {$/;"	f
+NoErr	serializer/common.go	/^	NoErr = iota$/;"	c
+ParamErr	serializer/common.go	/^	ParamErr$/;"	c
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
+RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
 Response	serializer/common.go	/^type Response struct {$/;"	t
 ShortTime	tool/time.go	/^func ShortTime() string {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
 ShowArticle	service/articlemanage.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
 StrSplicing	tool/time.go	/^func StrSplicing(str1, str2 string) string {$/;"	f
+TestPingRoute	router_test.go	/^func TestPingRoute(t *testing.T) {$/;"	f
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/articlemanage.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
 main	router.go	/^package main$/;"	p
+main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
