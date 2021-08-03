@@ -2,12 +2,11 @@ package main
 
 import (
 	"blog/gintest"
-	"blog/model"
 	//"encoding/json"
 	"fmt"
 	//"net/http"
 	//"net/http/httptest"
-	"github.com/stretchr/testify/assert"
+	//"github.com/stretchr/testify/assert"
 	//"strings"
 	"testing"
 )
@@ -29,27 +28,32 @@ import (
 //}
 
 func TestShowRoute(t *testing.T) {
-	r := New()
-	model.Del()
-	model.Init()
-	//payload := strings.NewReader(`{"id":1}`)  //JSON
-	//payload := strings.NewReader("id=1") //FORM
-	//req, err := gintest.NewRequest("POST", "/article/manage/show", "FORM", payload)
-	//JSON中变量
-	var id uint = 1
+	r := gintest.NewTest()
 	param := map[string]interface{}{
-		"id": id,
+		"id": 1,
 	}
+	testCases := []struct {
+		Casename              string
+		Method, Url, Bodytype string
+		Param                 interface{}
+		Exp                   interface{}
+	}{
+		{"C01", "POST", "/article/manage/show", "JSON", param, false},
+		{"C02", "POST", "/article/manage/show", "FORM", param, false},
+	}
+	for _, v := range testCases {
 
-	//req, err := gintest.NewRequest("POST", "/article/manage/show", "JSON", param)
-	req, err := gintest.NewRequest("POST", "/article/manage/show", "FORM", param)
-	if err != nil {
-		t.Error(err.Error())
+		fmt.Println(v.Casename, ": Testing")
+		req, err := gintest.NewRequest(v.Method, v.Url, v.Bodytype, v.Param.(map[string]interface{}))
+		if err != nil {
+			t.Error(err.Error())
+		}
+		bodyBody, err := gintest.StartHandler(r, req)
+		if err != nil {
+			t.Error(err.Error())
+		}
+
+		fmt.Println(bodyBody)
 	}
-	bodyBody, err := gintest.StartHandler(r, req)
-	if err != nil {
-		t.Error(err.Error())
-	}
-	fmt.Println(bodyBody)
-	assert.Equal(t, 0, 0)
+	//assert.Equal(t, 0, 0)
 }

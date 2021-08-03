@@ -1,10 +1,11 @@
 package main
 
 import "blog/model"
+import "blog/router"
 
 func main() {
 	model.Del()
 	model.Init()
-	r := New()
+	r := router.New()
 	r.Run(":3000")
 }

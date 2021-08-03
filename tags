@@ -21,10 +21,10 @@ DeleteArticle	service/articlemanage.go	/^func (service *ArticleSservice) DeleteA
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
 Init	model/del.go	/^func Init() {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
-JsonStringParam	gintest/test.go	/^func JsonStringParam(str string) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
-New	router.go	/^func New() *gin.Engine {$/;"	f
+New	router/router.go	/^func New() *gin.Engine {$/;"	f
 NewRequest	gintest/test.go	/^func NewRequest(method, url, bodytype string, body map[string]interface{}) (*http.Request, error) {$/;"	f
+NewTest	gintest/test.go	/^func NewTest() *gin.Engine {$/;"	f
 NoErr	serializer/common.go	/^	NoErr = iota$/;"	c
 ParamErr	serializer/common.go	/^	ParamErr$/;"	c
 ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {$/;"	f
@@ -44,10 +44,10 @@ api	api/cudr.go	/^package api$/;"	p
 gintest	gintest/test.go	/^package gintest$/;"	p
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
-main	router.go	/^package main$/;"	p
 main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
+router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p
 service	service/articlemanage.go	/^package service$/;"	p

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	//"io/ioutil"
+	"blog/model"
+	"blog/router"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/http/httptest"
@@ -13,7 +15,13 @@ import (
 	"strings"
 )
 
-//判断返回body字段
+func NewTest() *gin.Engine {
+	model.Del()
+	model.Init()
+	return router.New()
+}
+
+//JSON转map
 func JsonToMap(str []byte) (map[string]interface{}, error) {
 	var tempMap map[string]interface{}
 	err := json.Unmarshal(str, &tempMap)
@@ -28,10 +36,6 @@ func JsonMapParam(param map[string]interface{}) (io.Reader, error) {
 		return nil, err
 	}
 	return bytes.NewBuffer(j), nil
-}
-func JsonStringParam(str string) (io.Reader, error) {
-	var jsonstr = []byte(str)
-	return bytes.NewBuffer(jsonstr), nil
 }
 func NewRequest(method, url, bodytype string, body map[string]interface{}) (*http.Request, error) {
 	if method == "GET" {
