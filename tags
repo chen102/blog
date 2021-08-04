@@ -30,13 +30,15 @@ ParamErr	serializer/common.go	/^	ParamErr$/;"	c
 ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {$/;"	f
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
+RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
 Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
 Response	serializer/common.go	/^type Response struct {$/;"	t
 ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
 ShowArticle	service/articlemanage.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
+SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
-StrSplicing	tool/common.go	/^func StrSplicing(str1, str2 string) string {$/;"	f
+StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
 TestShowRoute	router_test.go	/^func TestShowRoute(t *testing.T) {$/;"	f
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/articlemanage.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f

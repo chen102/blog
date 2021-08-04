@@ -14,11 +14,20 @@ func ShortTime() string {
 
 }
 
-//字符串拼接
-func StrSplicing(str1, str2 string) string {
+//多字符串拼接
+func StrSplicing(str ...string) string {
 	var build strings.Builder
-	build.WriteString(str1)
-	build.WriteString(str2)
+	for _, v := range str {
+
+		build.WriteString(v)
+	}
 	return build.String()
 
+}
+func SliceToString(str []string) string {
+	var temp string
+	for _, v := range str {
+		temp += v + ","
+	}
+	return temp
 }

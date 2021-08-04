@@ -5,18 +5,22 @@ import (
 )
 
 type Article struct {
-	Id      uint   `json:"ArticleId"`
-	Title   string `json:"ArticleTitle"`
-	Time    string `json:"ArticleTime"`
-	Content string `json:"ArticleContent"`
+	AuthorId  string `json:"AuthorId"` //这里string的原因是model.Article是string
+	ArticleId uint   `json:"ArticleId"`
+	Title     string `json:"ArticleTitle"`
+	Time      string `json:"ArticleTime"`
+	Content   string `json:"ArticleContent"`
+	Tags      string `json:"ArticleTags"`
 }
 
 func BuildArticle(article model.Article, id uint) Article {
 	return Article{
-		Id:      id,
-		Title:   article.Title,
-		Time:    article.Time,
-		Content: article.Content,
+		AuthorId:  article.AuthorId,
+		ArticleId: id,
+		Title:     article.Title,
+		Time:      article.Time,
+		Content:   article.Content,
+		Tags:      article.Tags,
 	}
 }
 func BuildArticleResponse(article model.Article, id uint) Response {

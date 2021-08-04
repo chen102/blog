@@ -29,6 +29,9 @@ import (
 
 func TestShowRoute(t *testing.T) {
 	r := gintest.NewTest()
+	articleParam:=map[string]interface{} {
+			""
+	}
 	param := map[string]interface{}{
 		"id": 1,
 	}
