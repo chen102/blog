@@ -27,7 +27,10 @@ func StrSplicing(str ...string) string {
 func SliceToString(str []string) string {
 	var temp string
 	for _, v := range str {
-		temp += v + ","
+		if v != "" {
+
+			temp += v + ","
+		}
 	}
 	return temp
 }

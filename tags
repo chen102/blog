@@ -9,9 +9,12 @@ AddArticle	service/articlemanage.go	/^func (service *ArticleAddSservice) AddArti
 Article	model/article.go	/^type Article struct {$/;"	t
 Article	serializer/article.go	/^type Article struct {$/;"	t
 ArticleAddSservice	service/articlemanage.go	/^type ArticleAddSservice struct {$/;"	t
+ArticleIdKey	model/rediskey.go	/^func ArticleIdKey(articleid string) string {$/;"	f
 ArticleList	api/cudr.go	/^func ArticleList(c *gin.Context) {$/;"	f
 ArticleList	service/articlemanage.go	/^func (service *ArticleSservice) ArticleList() serializer.Response {$/;"	f
 ArticleSservice	service/articlemanage.go	/^type ArticleSservice struct {$/;"	t
+ArticleTagsKey	model/rediskey.go	/^func ArticleTagsKey(articleid string) string {$/;"	f
+AuthorArticlesKey	model/rediskey.go	/^func AuthorArticlesKey(authorid string) string {$/;"	f
 BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article, id uint) Article {$/;"	f
 BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article, id uint) Response {$/;"	f
 BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
@@ -19,6 +22,7 @@ Del	model/del.go	/^func Del() {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/articlemanage.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
+GetArticleIDKey	model/rediskey.go	/^func GetArticleIDKey() string {$/;"	f
 Init	model/del.go	/^func Init() {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
@@ -39,7 +43,11 @@ ShowArticle	service/articlemanage.go	/^func (service *ArticleSservice) ShowArtic
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
 StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
-TestShowRoute	router_test.go	/^func TestShowRoute(t *testing.T) {$/;"	f
+TagKey	model/rediskey.go	/^func TagKey(tag string) string {$/;"	f
+TestArticleAddRoute	router_test.go	/^func TestArticleAddRoute(t *testing.T) {$/;"	f
+TestArticleShowRoute	router_test.go	/^func TestArticleShowRoute(t *testing.T) {$/;"	f
+TestCase	gintest/test.go	/^type TestCase struct {$/;"	t
+TestCases	gintest/test.go	/^type TestCases []TestCase$/;"	t
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/articlemanage.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
@@ -49,6 +57,7 @@ main	main.go	/^package main$/;"	p
 main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
+model	model/rediskey.go	/^package model$/;"	p
 router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p

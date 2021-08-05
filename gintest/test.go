@@ -15,6 +15,12 @@ import (
 	"strings"
 )
 
+type TestCase struct {
+	CaseName, Method, Url, BodyType string      //用例名称,方法，地址，body类型
+	Param, Exp                      interface{} //参数，期望输出
+}
+type TestCases []TestCase
+
 func NewTest() *gin.Engine {
 	model.Del()
 	model.Init()

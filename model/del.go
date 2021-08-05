@@ -17,7 +17,7 @@ func Del() {
 	log.Println(pong, err)
 }
 func Init() {
-	if err := Redisdb.SetNX("id", 1, 0).Err(); err != nil {
+	if err := Redisdb.SetNX(GetArticleIDKey(), 1, 0).Err(); err != nil {
 		panic(err)
 	}
 }
