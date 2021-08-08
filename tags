@@ -11,18 +11,22 @@ Article	serializer/article.go	/^type Article struct {$/;"	t
 ArticleAddSservice	service/articlemanage.go	/^type ArticleAddSservice struct {$/;"	t
 ArticleIdKey	model/rediskey.go	/^func ArticleIdKey(articleid string) string {$/;"	f
 ArticleList	api/cudr.go	/^func ArticleList(c *gin.Context) {$/;"	f
-ArticleList	service/articlemanage.go	/^func (service *ArticleSservice) ArticleList() serializer.Response {$/;"	f
+ArticleList	service/articlemanage.go	/^func (service *ArticleListservice) ArticleList() serializer.Response {$/;"	f
+ArticleListservice	service/articlemanage.go	/^type ArticleListservice struct {$/;"	t
 ArticleSservice	service/articlemanage.go	/^type ArticleSservice struct {$/;"	t
 ArticleTagsKey	model/rediskey.go	/^func ArticleTagsKey(articleid string) string {$/;"	f
 AuthorArticlesKey	model/rediskey.go	/^func AuthorArticlesKey(authorid string) string {$/;"	f
-BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article, id uint) Article {$/;"	f
-BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article, id uint) Response {$/;"	f
+BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article) Article {$/;"	f
+BuildArticleList	serializer/article.go	/^func BuildArticleList(articles []model.Article) []Article {$/;"	f
+BuildArticleListResponse	serializer/article.go	/^func BuildArticleListResponse(articles []model.Article) Response {$/;"	f
+BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article) Response {$/;"	f
 BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
 Del	model/del.go	/^func Del() {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/articlemanage.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
 GetArticleIDKey	model/rediskey.go	/^func GetArticleIDKey() string {$/;"	f
+GetSort	model/rediskey.go	/^func GetSort(key string, returnId bool, strs ...string) []string {$/;"	f
 Init	model/del.go	/^func Init() {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
@@ -41,8 +45,10 @@ ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
 ShowArticle	service/articlemanage.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
+SortArgs	model/rediskey.go	/^func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
 StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
+StrconvErr	serializer/common.go	/^	StrconvErr$/;"	c
 TagKey	model/rediskey.go	/^func TagKey(tag string) string {$/;"	f
 TestArticleAddRoute	router_test.go	/^func TestArticleAddRoute(t *testing.T) {$/;"	f
 TestArticleShowRoute	router_test.go	/^func TestArticleShowRoute(t *testing.T) {$/;"	f

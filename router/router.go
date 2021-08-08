@@ -14,7 +14,7 @@ func New() *gin.Engine {
 		v1.DELETE("delete", api.DeleteArticle)
 		v1.POST("update", api.UpdateArticle)
 		v1.POST("show", api.ShowArticle) //传ID了不能用GET
-		v1.GET("list", api.ArticleList)
+		v1.POST("list", api.ArticleList)
 	}
 	return r
 }

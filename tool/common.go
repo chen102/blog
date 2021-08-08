@@ -27,10 +27,7 @@ func StrSplicing(str ...string) string {
 func SliceToString(str []string) string {
 	var temp string
 	for _, v := range str {
-		if v != "" {
-
-			temp += v + ","
-		}
+		temp += v + ","
 	}
-	return temp
+	return temp[:len(temp)-1] //最后一个,不要
 }

@@ -4,7 +4,32 @@ package model
 
 import (
 	"blog/tool"
+	"github.com/go-redis/redis"
 )
+
+//Sort命令的参数
+func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {
+	return &redis.Sort{
+		By:     by,
+		Offset: offset,
+		Count:  count,
+		Get:    get,
+		Order:  order, //DESC或ASC
+		Alpha:  alpha, //拍字母
+	}
+}
+
+//获取key排序后指定的字段
+func GetSort(key string, returnId bool, strs ...string) []string {
+	get := make([]string, 0)
+	if returnId {
+		get = append(get, "#") //GET #返回ID
+	}
+	for _, str := range strs {
+		get = append(get, tool.StrSplicing(key, "->", str))
+	}
+	return get
+}
 
 //文章全局id键 articlemanager:articleid:xx
 func GetArticleIDKey() string {

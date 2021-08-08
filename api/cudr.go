@@ -14,7 +14,7 @@ func Ping(c *gin.Context) {
 	})
 }
 func ArticleList(c *gin.Context) {
-	var service service.ArticleSservice
+	var service service.ArticleListservice
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
