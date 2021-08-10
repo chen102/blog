@@ -2,13 +2,13 @@ package service
 
 import (
 	"blog/model"
+	"blog/model/redis"
 	"blog/serializer"
-	"blog/tool"
-
-	"fmt"
-	"strconv"
-
+	//"blog/tool"
+	//"encoding/json"
+	//"fmt"
 	"github.com/mitchellh/mapstructure"
+	"strconv"
 )
 
 type ArticleAddSservice struct {
@@ -26,26 +26,89 @@ type ArticleListservice struct {
 	Offset   uint `form:"ArticleOffset" json:"ArticleOffset" binding:"omitempty"`
 	Count    uint `form:"ArticleCount" json:"ArticleCount" binding:"omitempty"`
 }
+type ArticleCommentservice struct {
+	UserId    uint   `form:"UserId" json:"UserId" binding:"required"`
+	AuthorId  uint   `form:"AuthorId" json:"AuthorId" binding:"required"`
+	ArticleId uint   `form:"ArticleId" json:"ArticleId" binding:"required"`
+	Content   string `form:"CommentContent" json:"CommentContent" binding:"required"`
+	//子评论，回复评论
+	CommentId uint `form:"CommentId" json:"CommentId" binding:"omitempty"`
+	ToUser    uint `form:"ToUser" json:"ToUser" binding:"omitempty"`
+}
+type StatCommentservice struct {
+}
+type StatArticleservice struct {
+}
 
-func (service *ArticleListservice) ArticleList() serializer.Response {
-	//这里应该也是一样，先在用户集合了找
-	if service.Count == 0 {
-		service.Count = 5
-	}
-	articlenum, err := model.Redisdb.SCard(model.AuthorArticlesKey(strconv.Itoa(int(service.AuthorId)))).Result()
+func (service *StatCommentservice) StatComment() serializer.Response {
+	return serializer.BuildResponse("xx")
+}
+func (service *StatArticleservice) StatArticle() serializer.Response {
+	return serializer.BuildResponse("xx")
+}
+
+//评论功能设计
+//有序集合存储评论ID，根据评论点赞排行
+//哈希存储评论和子评论
+//对文章评论：生成新评论ID，加入评论集，写入评论
+//对评论评论：找到评论ID，写入评论评论
+func (service *ArticleCommentservice) ArticleComment() serializer.Response {
+	id, err := redis.AddComment(service.UserId, service.AuthorId, service.ArticleId, service.Content)
 	if err != nil {
+
 		return serializer.Err(serializer.RedisErr, err)
 	}
-	fmt.Printf("%T", articlenum)
-	if articlenum <= int64(service.Offset) { //当偏移量大于总文章数时，后面返回空
-		return serializer.BuildResponse("is Null")
-	}
-	get := model.GetSort(model.ArticleIdKey("*"), true, "title", "time", "tags")
-	sortargs := model.SortArgs("", int64(service.Offset), int64(service.Count), get, "DESC", false)
-	//这里其实应用用by，拿文章的发布时间来进行排序，但是文章id是系统分配的，id大的一定是后发布的,所以这里直接用key来排序了
+	return serializer.BuildResponse("Comment ID:" + strconv.Itoa(int(id)) + " ADD Succ！")
+	//if service.CommentId != 0 { //子评论
+	//if service.ToUser == 0 {
+	//return serializer.BuildResponse("ToUser is Null! ")
+	//}
+	//comment["touser"] = service.ToUser
+	//comment_json, err := json.Marshal(comment)
+	//if err != nil {
+	//return serializer.Err(serializer.StrconvErr, err)
+	//}
+	//ok, err := model.Redisdb.HExists(model.ArticleCommentIDKey(service.CommentId), "comment").Result()
+	//if !ok {
+	//return serializer.BuildResponse("Comment ID:" + strconv.Itoa(int(service.CommentId)) + " NOT EXIST")
+	//}
+	//if err = model.Redisdb.HSet(model.ArticleCommentIDKey(service.CommentId), "subcomments", comment_json).Err(); err != nil {
 
-	res, err := model.Redisdb.Sort(model.AuthorArticlesKey(strconv.Itoa(int(service.AuthorId))), sortargs).Result()
+	//return serializer.Err(serializer.RedisErr, err)
+	//}
+	//return serializer.BuildResponse("Recv Succ!")
+	//} else { //评论
+	////开始事务
+	////生成评论id,保证id并发安全
+	//pipe := model.Redisdb.TxPipeline()
+	//if err := pipe.SetNX(model.GetArticleCommentsIDKey(service.ArticleId), 1, 0).Err(); err != nil {
+	//return serializer.Err(serializer.RedisErr, err)
+	//}
+	////wahch用法不对
+	////if err := pipe.Watch(model.GetArticleCommentsIDKey(service.ArticleId)).Err(); err != nil {
+	////return serializer.Err(serializer.RedisErr, err)
+	////}
+	//commentid, err := pipe.Get(model.GetArticleCommentsIDKey(service.ArticleId)).Result()
+	//if err != nil {
+	//return serializer.Err(serializer.RedisErr, err)
+	//}
+
+	//pipe.Incr(model.GetArticleCommentsIDKey(service.ArticleId))
+	////将评论id写入有序集合
+	//if err = pipe.ZAdd(model.ArticleCommentRankKey(service.ArticleId), model.InitCommentRank(commentid)).Err(); err != nil {
+
+	//return serializer.Err(serializer.RedisErr, err)
+	//}
+	//if _, err := pipe.Exec(); err != nil {
+	//return serializer.Err(serializer.RedisErr, err)
+	//}
+
+	//}
+}
+func (service *ArticleListservice) ArticleList() serializer.Response {
+	res, err := redis.ListArticle(service.AuthorId, service.Offset, service.Count)
 	if err != nil {
+
 		return serializer.Err(serializer.RedisErr, err)
 	}
 	//Sort返回的结果为string，将string转为多个文章模型进行响应
@@ -74,69 +137,22 @@ func (service *ArticleListservice) ArticleList() serializer.Response {
 		}
 	}
 	return serializer.BuildArticleListResponse(article)
-
 }
 func (service *ArticleAddSservice) AddArticle() serializer.Response {
-	id, err := model.Redisdb.Get(model.GetArticleIDKey()).Result()
+	id, err := redis.AddArticle(service.AuthorId, service.Title, service.Content, service.Tags)
 	if err != nil {
 		return serializer.Err(serializer.RedisErr, err)
 	}
-
-	article := map[string]interface{}{
-		"title":   service.Title,
-		"content": service.Content,
-		"time":    tool.ShortTime(),
-	}
-	if service.Tags != nil {
-		article["tags"] = tool.SliceToString(service.Tags)
-	}
-	//redis事务
-	pipe := model.Redisdb.TxPipeline()
-	pipe.Incr(model.GetArticleIDKey())
-	if err := pipe.HMSet(model.ArticleIdKey(id), article).Err(); err != nil {
-		return serializer.Err(serializer.RedisErr, err)
-	}
-	id_int, err := strconv.Atoi(id) //优化:底层使用整数集合
-	if err != nil {
-		return serializer.Err(serializer.RedisErr, err)
-	}
-	if err := pipe.SAdd(model.AuthorArticlesKey(strconv.Itoa(int(service.AuthorId))), id_int).Err(); err != nil {
-		return serializer.Err(serializer.RedisErr, err)
-	}
-	//若设置了标签，使用集合存文章tag，和tag对应的文章
-	//可以根据标签找到相应文章
-	if service.Tags != nil {
-		if err := pipe.SAdd(model.ArticleTagsKey(id), service.Tags).Err(); err != nil {
-			return serializer.Err(serializer.RedisErr, err)
-		}
-		for _, tag := range service.Tags {
-			if tag != "" {
-				if err := pipe.SAdd(model.TagKey(tag), id_int).Err(); err != nil {
-					return serializer.Err(serializer.RedisErr, err)
-				}
-			}
-		}
-	}
-	if _, err := pipe.Exec(); err != nil {
-		return serializer.Err(serializer.RedisErr, err)
-	}
-	return serializer.BuildResponse("Article ID:" + id + " ADD Succ！")
+	return serializer.BuildResponse("Article ID:" + strconv.Itoa(id) + " ADD Succ！")
 }
 func (service *ArticleSservice) DeleteArticle() serializer.Response {
 	return serializer.Response{}
 
 }
 func (service *ArticleSservice) ShowArticle() serializer.Response {
-	//这里应该先在用户集合里找，有这个用户再去该用户的文章列表找,目前还没做用户模块
-	ok, err := model.Redisdb.SIsMember(model.AuthorArticlesKey(strconv.Itoa(int(service.AuthorId))), strconv.Itoa(int(service.ArticleId))).Result() //在该作者所有文章中找到相应id
-	if err != nil {
-		return serializer.Err(serializer.RedisErr, err)
-	} else if !ok {
-		return serializer.BuildResponse("Article ID:" + strconv.Itoa(int(service.ArticleId)) + " NOT EXIST")
-	}
 
 	var article model.Article
-	data, err := model.Redisdb.HGetAll(model.ArticleIdKey(strconv.Itoa(int(service.ArticleId)))).Result()
+	data, err := redis.ShowArticle(service.AuthorId, service.ArticleId)
 	if err != nil {
 		return serializer.Err(serializer.RedisErr, err)
 	}
@@ -145,6 +161,13 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 	}
 	article.ArticleId = service.ArticleId
 	article.AuthorId = service.AuthorId
+	//显示评论
+	comment, err := redis.ShowComment(service.AuthorId, service.ArticleId)
+	if err != nil {
+
+		return serializer.Err(serializer.RedisErr, err)
+	}
+	article.Comment = comment
 	return serializer.BuildArticleResponse(article)
 }
 func (service *ArticleSservice) UpdateArticle() serializer.Response {

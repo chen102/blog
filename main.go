@@ -5,7 +5,7 @@ import "blog/router"
 
 func main() {
 	model.Del()
-	model.Init()
+	//model.Init()
 	r := router.New()
 	r.Run(":3000")
 }

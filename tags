@@ -5,31 +5,46 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 AddArticle	api/cudr.go	/^func AddArticle(c *gin.Context) {$/;"	f
+AddArticle	model/redis/addarticle.go	/^func AddArticle(uid uint, title, content string, tags []string) (int, error) {$/;"	f
 AddArticle	service/articlemanage.go	/^func (service *ArticleAddSservice) AddArticle() serializer.Response {$/;"	f
+AddComment	model/redis/addarticle.go	/^func AddComment(who, uid, artid uint, content string) (int, error) {$/;"	f
 Article	model/article.go	/^type Article struct {$/;"	t
 Article	serializer/article.go	/^type Article struct {$/;"	t
 ArticleAddSservice	service/articlemanage.go	/^type ArticleAddSservice struct {$/;"	t
-ArticleIdKey	model/rediskey.go	/^func ArticleIdKey(articleid string) string {$/;"	f
+ArticleComment	service/articlemanage.go	/^func (service *ArticleCommentservice) ArticleComment() serializer.Response {$/;"	f
+ArticleCommentIDKey	model/rediskey.go	/^func ArticleCommentIDKey(userid, articleid, commentid uint) string {$/;"	f
+ArticleCommentIDStringKey	model/rediskey.go	/^func ArticleCommentIDStringKey(userid, articlid, commentid string) string {$/;"	f
+ArticleCommentRankKey	model/rediskey.go	/^func ArticleCommentRankKey(userid, articleid uint) string {$/;"	f
+ArticleCommentservice	service/articlemanage.go	/^type ArticleCommentservice struct {$/;"	t
+ArticleIdKey	model/rediskey.go	/^func ArticleIdKey(userid, articleid uint) string {$/;"	f
+ArticleIdStringKey	model/rediskey.go	/^func ArticleIdStringKey(userid, articleid string) string {$/;"	f
 ArticleList	api/cudr.go	/^func ArticleList(c *gin.Context) {$/;"	f
 ArticleList	service/articlemanage.go	/^func (service *ArticleListservice) ArticleList() serializer.Response {$/;"	f
 ArticleListservice	service/articlemanage.go	/^type ArticleListservice struct {$/;"	t
 ArticleSservice	service/articlemanage.go	/^type ArticleSservice struct {$/;"	t
-ArticleTagsKey	model/rediskey.go	/^func ArticleTagsKey(articleid string) string {$/;"	f
-AuthorArticlesKey	model/rediskey.go	/^func AuthorArticlesKey(authorid string) string {$/;"	f
+ArticleSubCommentRankKey	model/rediskey.go	/^func ArticleSubCommentRankKey(userid, articleid, commentid uint) string {$/;"	f
+ArticleTagsKey	model/rediskey.go	/^func ArticleTagsKey(userid, articleid uint) string {$/;"	f
+ArticleTagsStringKey	model/rediskey.go	/^func ArticleTagsStringKey(userid, articleid string) string {$/;"	f
+AuthorArticlesKey	model/rediskey.go	/^func AuthorArticlesKey(userid uint) string {$/;"	f
 BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article) Article {$/;"	f
 BuildArticleList	serializer/article.go	/^func BuildArticleList(articles []model.Article) []Article {$/;"	f
 BuildArticleListResponse	serializer/article.go	/^func BuildArticleListResponse(articles []model.Article) Response {$/;"	f
 BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article) Response {$/;"	f
 BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
+Comment	model/article.go	/^type Comment struct {$/;"	t
+CommentArticle	api/cudr.go	/^func CommentArticle(c *gin.Context) {$/;"	f
 Del	model/del.go	/^func Del() {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/articlemanage.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
-GetArticleIDKey	model/rediskey.go	/^func GetArticleIDKey() string {$/;"	f
+GetArticleCommentsIDKey	model/rediskey.go	/^func GetArticleCommentsIDKey(userid, articleid uint) string {$/;"	f
+GetArticleIDKey	model/rediskey.go	/^func GetArticleIDKey(userid uint) string {$/;"	f
+GetArticleSubCommentsIDKey	model/rediskey.go	/^func GetArticleSubCommentsIDKey(userid, articleid, commentid uint) string {$/;"	f
 GetSort	model/rediskey.go	/^func GetSort(key string, returnId bool, strs ...string) []string {$/;"	f
-Init	model/del.go	/^func Init() {$/;"	f
+InitCommentRank	model/rediskey.go	/^func InitCommentRank(member interface{}) redis.Z {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
+ListArticle	model/redis/showarticle.go	/^func ListArticle(uid, offset, count uint) ([]string, error) {$/;"	f
 New	router/router.go	/^func New() *gin.Engine {$/;"	f
 NewRequest	gintest/test.go	/^func NewRequest(method, url, bodytype string, body map[string]interface{}) (*http.Request, error) {$/;"	f
 NewTest	gintest/test.go	/^func NewTest() *gin.Engine {$/;"	f
@@ -39,21 +54,32 @@ ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
+RedisNil	model/rediskey.go	/^const RedisNil = redis.Nil$/;"	c
 Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
 Response	serializer/common.go	/^type Response struct {$/;"	t
 ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
+ShowArticle	model/redis/showarticle.go	/^func ShowArticle(uid, artid uint) (interface{}, error) {$/;"	f
 ShowArticle	service/articlemanage.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
+ShowComment	model/redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
 SortArgs	model/rediskey.go	/^func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
+StatArticle	api/cudr.go	/^func StatArticle(c *gin.Context) {$/;"	f
+StatArticle	service/articlemanage.go	/^func (service *StatArticleservice) StatArticle() serializer.Response {$/;"	f
+StatArticleservice	service/articlemanage.go	/^type StatArticleservice struct {$/;"	t
+StatComment	api/cudr.go	/^func StatComment(c *gin.Context) {$/;"	f
+StatComment	service/articlemanage.go	/^func (service *StatCommentservice) StatComment() serializer.Response {$/;"	f
+StatCommentservice	service/articlemanage.go	/^type StatCommentservice struct {$/;"	t
 StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
 StrconvErr	serializer/common.go	/^	StrconvErr$/;"	c
-TagKey	model/rediskey.go	/^func TagKey(tag string) string {$/;"	f
+TagKey	model/rediskey.go	/^func TagKey(userid uint, tag string) string {$/;"	f
 TestArticleAddRoute	router_test.go	/^func TestArticleAddRoute(t *testing.T) {$/;"	f
 TestArticleShowRoute	router_test.go	/^func TestArticleShowRoute(t *testing.T) {$/;"	f
 TestCase	gintest/test.go	/^type TestCase struct {$/;"	t
 TestCases	gintest/test.go	/^type TestCases []TestCase$/;"	t
+Transactional	model/rediskey.go	/^var Transactional *redis.Tx$/;"	v
+UintToStr	model/rediskey.go	/^func UintToStr(str uint) string {$/;"	f
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/articlemanage.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
@@ -64,6 +90,8 @@ main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
 model	model/rediskey.go	/^package model$/;"	p
+redis	model/redis/addarticle.go	/^package redis$/;"	p
+redis	model/redis/showarticle.go	/^package redis$/;"	p
 router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p

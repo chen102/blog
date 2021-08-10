@@ -6,5 +6,11 @@ type Article struct {
 	Title     string `mapstructure:"title"`
 	Time      string `mapstructure:"time"`
 	Content   string `mapstructure:"content"`
-	Tags      string `mapstructure:tags`
+	Tags      string `mapstructure:"tags"`
+	Comment   []string
+}
+type Comment struct {
+	CommentId uint
+	Content   []string
+	stat      uint
 }

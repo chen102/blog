@@ -6,12 +6,13 @@ import (
 )
 
 type Article struct {
-	AuthorId  uint   `json:"AuthorId,omitempty"`
-	ArticleId uint   `json:"ArticleId,omitempty"`
-	Title     string `json:"ArticleTitle,omitempty"`
-	Time      string `json:"ArticleTime,omitempty"`
-	Content   string `json:"ArticleContent,omitempty"`
-	Tags      string `json:"ArticleTags,omitempty"`
+	AuthorId  uint     `json:"AuthorId,omitempty"`
+	ArticleId uint     `json:"ArticleId,omitempty"`
+	Title     string   `json:"ArticleTitle,omitempty"`
+	Time      string   `json:"ArticleTime,omitempty"`
+	Content   string   `json:"ArticleContent,omitempty"`
+	Tags      string   `json:"ArticleTags,omitempty"`
+	Comment   []string `json:"ArticleComment,omitempty"`
 }
 
 //返回一篇文章的详细详细
@@ -23,6 +24,7 @@ func BuildArticle(article model.Article) Article {
 		Time:      article.Time,
 		Content:   article.Content,
 		Tags:      article.Tags,
+		Comment:   article.Comment,
 	}
 }
 

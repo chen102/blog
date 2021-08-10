@@ -67,3 +67,36 @@ func UpdateArticle(c *gin.Context) {
 	}
 
 }
+func CommentArticle(c *gin.Context) {
+	var service service.ArticleCommentservice
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.ArticleComment()
+		c.JSON(200, res)
+
+	}
+
+}
+func StatComment(c *gin.Context) {
+	var service service.StatCommentservice
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.StatComment()
+		c.JSON(200, res)
+
+	}
+
+}
+func StatArticle(c *gin.Context) {
+	var service service.StatArticleservice
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.StatArticle()
+		c.JSON(200, res)
+
+	}
+
+}
