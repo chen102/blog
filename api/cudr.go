@@ -100,3 +100,14 @@ func StatArticle(c *gin.Context) {
 	}
 
 }
+func ShowArticleComment(c *gin.Context) {
+	var service service.ArticleCommentListservice
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.ArticleCommentList()
+		c.JSON(200, res)
+
+	}
+
+}

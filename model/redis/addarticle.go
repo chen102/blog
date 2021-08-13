@@ -4,9 +4,10 @@ import (
 	. "blog/model"
 	"blog/tool"
 	"encoding/json"
-	"github.com/go-redis/redis"
-	//"strconv"
+	"errors"
 	"fmt"
+	"github.com/go-redis/redis"
+	"strconv"
 )
 
 func AddArticle(uid uint, title, content string, tags []string) (int, error) {
@@ -75,13 +76,14 @@ func AddComment(who, uid, artid uint, content string) (int, error) {
 
 			return err
 		}
-		comment := map[string]interface{}{
-			"commentid": commentid,
-			"time":      tool.ShortTime(),
-			"content":   content,
-			"user":      who,
+		comment := Comment{
+			CommentId: uint(commentid),
+			UserId:    who,
+			AuthorId:  uid,
+			Time:      tool.ShortTime(),
+			Content:   content,
 		}
-		comment_json, err := json.Marshal(comment)
+		comment_json, err := json.Marshal(comment) //序列化
 		if err != nil {
 			return err
 		}
@@ -102,4 +104,25 @@ func AddComment(who, uid, artid uint, content string) (int, error) {
 		return -1, err
 	}
 	return commentid, nil
+}
+func StatComment(who, uid, artid, commentid uint) error {
+	//点赞集合,防止重复点赞
+	pipe := Redisdb.Pipeline()
+	if ok, err := pipe.SAdd(UserStatKey(who), UserValue(uid, artid, commentid)).Result(); ok == 0 {
+		return errors.New("aleady stat")
+	} else if err != nil {
+		return err
+	}
+	//点赞数+1
+	if err := pipe.Incr(ArticleCommentStatKey(uid, artid, commentid)).Err(); err != nil {
+		return err
+	}
+	//更新Rank
+	if err := pipe.ZIncrBy(ArticleCommentRankKey(uid, artid), 1, strconv.Itoa(int(commentid))).Err(); err != nil {
+		return err
+	}
+	if _, err := pipe.Exec(); err != nil {
+		return err
+	}
+	return nil
 }

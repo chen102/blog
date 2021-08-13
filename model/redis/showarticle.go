@@ -48,11 +48,22 @@ func ShowComment(uid, artid uint) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if commentnum == 0 {
-		return nil, errors.New("There are no comments at this time")
-	}
 	if commentnum < 5 {
 		comment := make([]string, commentnum)
+		commentids, err := Redisdb.ZRevRange(ArticleCommentRankKey(uid, artid), 0, commentnum).Result()
+		if err != nil {
+			return nil, err
+		}
+		for k, commentid := range commentids {
+			comment[k], err = Redisdb.HGet(ArticleCommentIDStringKey(strconv.Itoa(int(uid)), strconv.Itoa(int(artid)), commentid), "comment:0").Result()
+
+		}
+		comment = append(comment, strconv.Itoa(int(commentnum))) //最后一个string判断是否还有评论
+		return comment, nil
+
+	} else {
+
+		comment := make([]string, 5)
 		commentids, err := Redisdb.ZRange(ArticleCommentRankKey(uid, artid), 0, 5).Result()
 		if err != nil {
 			return nil, err
@@ -61,13 +72,30 @@ func ShowComment(uid, artid uint) ([]string, error) {
 			comment[k], err = Redisdb.HGet(ArticleCommentIDStringKey(strconv.Itoa(int(uid)), strconv.Itoa(int(artid)), commentid), "comment:0").Result()
 
 		}
+
+		comment = append(comment, strconv.Itoa(int(commentnum))) //默认只显示5条评论，并把总评论数返回
 		return comment, nil
+	}
 
-		//} else {
-
-		//}
-		////默认显示5条
+}
+func ShowAllComment(uid, artid, offset, count uint) ([]string, error) {
+	comment := make([]string, count)
+	stop := count + offset - 1
+	commentids, err := Redisdb.ZRevRange(ArticleCommentRankKey(uid, artid), int64(offset), int64(stop)).Result()
+	if err != nil {
+		return nil, err
+	}
+	for k, commentid := range commentids {
+		comment[k], err = Redisdb.HGet(ArticleCommentIDStringKey(strconv.Itoa(int(uid)), strconv.Itoa(int(artid)), commentid), "comment:0").Result()
 
 	}
-	return nil, nil
+	return comment, nil
+
+}
+func GetStat(uid, artid, commentid uint) (uint, error) {
+	stat, err := Redisdb.Get(ArticleCommentStatKey(uid, artid, commentid)).Int()
+	if err != nil && err != RedisNil {
+		return 0, err
+	}
+	return uint(stat), nil
 }

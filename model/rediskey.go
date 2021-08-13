@@ -70,7 +70,7 @@ func ArticleIdStringKey(userid, articleid string) string {
 	return tool.StrSplicing("articlemanager:userid:", userid, ":articleid:", articleid, ":hash")
 }
 
-//用户文章合集键 articlemanager:userid:xx:articlid:set
+//用户文章合集键 articlemanager:userid:xx:articleid:set
 //value:用户的所有文章id
 func AuthorArticlesKey(userid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:set")
@@ -110,4 +110,17 @@ func ArticleCommentIDStringKey(userid, articlid, commentid string) string {
 }
 func ArticleCommentIDKey(userid, articleid, commentid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":commentid:", UintToStr(commentid), ":hash")
+}
+
+//评论点赞数 articlemanager:userid:xx:articleid:xx:commentid:xx:stats:int
+func ArticleCommentStatKey(userid, articleid, commentid uint) string {
+	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":commentid:", UintToStr(commentid), ":stats:int")
+}
+
+//用户点赞的文章评论合集 articlemanager:userid:xx:stat:set
+func UserStatKey(userid uint) string {
+	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":stat:set")
+}
+func UserValue(userid, artid, commentid uint) string {
+	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid), ":", UintToStr(commentid))
 }

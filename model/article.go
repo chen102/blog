@@ -1,16 +1,20 @@
 package model
 
 type Article struct {
-	ArticleId uint
-	AuthorId  uint
-	Title     string `mapstructure:"title"`
-	Time      string `mapstructure:"time"`
-	Content   string `mapstructure:"content"`
-	Tags      string `mapstructure:"tags"`
-	Comment   []string
+	ArticleId  uint
+	AuthorId   uint
+	Title      string `mapstructure:"title"`
+	Time       string `mapstructure:"time"`
+	Content    string `mapstructure:"content"`
+	Tags       string `mapstructure:"tags"`
+	Comment    []Comment
+	CommentNum uint
 }
 type Comment struct {
 	CommentId uint
-	Content   []string
-	stat      uint
+	UserId    uint
+	AuthorId  uint
+	Time      string
+	Content   string
+	Stat      uint
 }
