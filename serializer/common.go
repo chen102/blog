@@ -4,6 +4,7 @@ const (
 	NoErr = iota
 	ParamErr
 	RedisErr
+	MysqlErr
 	StrconvErr
 )
 
@@ -32,6 +33,8 @@ func Err(errtype int, err error) Response {
 	case 2:
 		resp.Msg = "Redis操作失败"
 	case 3:
+		resp.Msg = "Mysql操作失败"
+	case 4:
 		resp.Msg = "类型转换错误"
 	default:
 		resp.Msg = "未知错误" //这确定不是坑自己？

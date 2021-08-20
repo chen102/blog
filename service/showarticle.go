@@ -11,24 +11,29 @@ import (
 	"strconv"
 )
 
+//文章服务
 type ArticleSservice struct {
 	AuthorId  uint `form:"AuthorId" json:"AuthorId" binding:"required"`
 	ArticleId uint `form:"ArticleId" json:"ArticleId" binding:"required"`
 }
 
+//分页服务
+type Paginationservice struct {
+	Offset uint `form:"Offset" json:"Offset" binding:"omitempty"`
+	Count  uint `form:"Count" json:"Count" binding:"omitempty"`
+}
+
 //文章分页服务
 type ArticleListservice struct {
+	Type     bool `form:"rank" json:"rank" binding:"omitempty"`
 	AuthorId uint `form:"AuthorId" json:"AuthorId" binding:"required"`
-	Offset   uint `form:"Offset" json:"Offset" binding:"omitempty"`
-	Count    uint `form:"Count" json:"Count" binding:"omitempty"`
+	Paginationservice
 }
 
 //评论分页服务,若评论超过5条，需发起请求获取全部评论(分页的形式)
 type ArticleCommentListservice struct {
-	AuthorId  uint `form:"AuthorId" json:"AuthorId" binding:"required"`
-	ArticleId uint `form:"ArticleId" json:"ArticleId" binding:"required"`
-	Offset    uint `form:"Offset" json:"Offset" binding:"omitempty"`
-	Count     uint `form:"Count" json:"Count" binding:"omitempty"`
+	ArticleSservice
+	Paginationservice
 }
 
 func (service *ArticleCommentListservice) ArticleCommentList() serializer.Response {
@@ -58,7 +63,7 @@ func (service *ArticleCommentListservice) ArticleCommentList() serializer.Respon
 }
 
 func (service *ArticleListservice) ArticleList() serializer.Response {
-	res, err := redis.ListArticle(service.AuthorId, service.Offset, service.Count)
+	res, err := redis.ListArticle(service.AuthorId, service.Offset, service.Count, service.Type)
 	if err != nil {
 
 		return serializer.Err(serializer.RedisErr, err)

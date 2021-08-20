@@ -112,15 +112,32 @@ func ArticleCommentIDKey(userid, articleid, commentid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":commentid:", UintToStr(commentid), ":hash")
 }
 
+//文章点赞数
+//每篇文章的点赞数
+func ArticleStatKey(userid, articleid uint) string {
+	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":stats:int")
+}
+
 //评论点赞数 articlemanager:userid:xx:articleid:xx:commentid:xx:stats:int
+//value:每条评论的点赞数
 func ArticleCommentStatKey(userid, articleid, commentid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":commentid:", UintToStr(commentid), ":stats:int")
 }
 
-//用户点赞的文章评论合集 articlemanager:userid:xx:stat:set
-func UserStatKey(userid uint) string {
-	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":stat:set")
+//用户点赞的文章/评论合集 articlemanager:userid:xx:comment:stat:set
+//评论value:用户:文章:评论
+//文章value:用户:文章
+func UserStatKey(userid uint, article bool) string {
+	if article {
+		return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":article:stat:set")
+	} else {
+
+		return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":comment:stat:set")
+	}
 }
-func UserValue(userid, artid, commentid uint) string {
+func UserStatCommentValue(userid, artid, commentid uint) string {
 	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid), ":", UintToStr(commentid))
+}
+func UserStatArticleValue(userid, artid uint) string {
+	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid))
 }

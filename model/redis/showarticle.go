@@ -2,7 +2,9 @@ package redis
 
 import (
 	. "blog/model"
+	"blog/tool"
 	"errors"
+	"github.com/go-redis/redis"
 	"strconv"
 )
 
@@ -21,7 +23,7 @@ func ShowArticle(uid, artid uint) (interface{}, error) {
 	}
 	return data, nil
 }
-func ListArticle(uid, offset, count uint) ([]string, error) {
+func ListArticle(uid, offset, count uint, rank bool) ([]string, error) {
 
 	if count == 0 {
 		count = 5
@@ -33,9 +35,16 @@ func ListArticle(uid, offset, count uint) ([]string, error) {
 	if articlenum <= int64(offset) { //当偏移量大于总文章数时，后面返回空
 		return nil, errors.New("is null")
 	}
-	get := GetSort(ArticleIdStringKey(strconv.Itoa(int(uid)), "*"), true, "title", "time", "tags")
-	sortargs := SortArgs("", int64(offset), int64(count), get, "DESC", false)
-	//这里其实应用用by，拿文章的发布时间来进行排序，但是文章id是系统分配的，id大的一定是后发布的,所以这里直接用key来排序了,后序可以加个按时间排序
+	get := GetSort(ArticleIdStringKey(strconv.Itoa(int(uid)), "*"), true, "title", "time", "stat", "tags")
+	var sortargs *redis.Sort
+	if rank { //按点赞排序
+
+		sortargs = SortArgs(tool.StrSplicing(ArticleIdStringKey(strconv.Itoa(int(uid)), "*"), "->stat"), int64(offset), int64(count), get, "DESC", false)
+	} else { //默认按时间排序
+		sortargs = SortArgs("", int64(offset), int64(count), get, "DESC", false)
+		//这里其实应用用也by，拿文章的发布时间来进行排序，但是文章id是系统分配的，id大的一定是后发布的,所以这里直接用key来排序了,后序可以加个按时间排序
+
+	}
 
 	res, err := Redisdb.Sort(AuthorArticlesKey(uid), sortargs).Result()
 	if err != nil {

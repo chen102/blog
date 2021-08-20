@@ -8,14 +8,15 @@ import (
 
 //评论点赞服务
 type StatCommentservice struct {
-	UserId    uint `form:"UserId" json:"UserId" binding:"required"`
-	AuthorId  uint `form:"AuthorId" json:"AuthorId" binding:"required"`
-	ArticleId uint `form:"ArticleId" json:"ArticleId" binding:"required"`
+	UserId uint `form:"UserId" json:"UserId" binding:"required"`
+	ArticleSservice
 	CommentId uint `form:"CommentId json:"CommentId binding:required`
 }
 
 //文章点赞服务
 type StatArticleservice struct {
+	UserId uint `form:"UserId" json:"UserId" binding:"required"`
+	ArticleSservice
 }
 
 func (service *StatCommentservice) StatComment() serializer.Response {
@@ -24,8 +25,13 @@ func (service *StatCommentservice) StatComment() serializer.Response {
 	}
 	return serializer.BuildResponse("stat ok!")
 }
+
+//文章点赞功能，因为文章是用hash存的，所以可以直接将stat作为文章的一个filed，然后通过这个字段排序，可以优先得到点赞高的文章
 func (service *StatArticleservice) StatArticle() serializer.Response {
-	return serializer.BuildResponse("xx")
+	if err := redis.StatArticle(service.UserId, service.AuthorId, service.ArticleId); err != nil {
+		return serializer.Err(serializer.RedisErr, err)
+	}
+	return serializer.BuildResponse("stat ok!")
 }
 
 //添加文章服务
@@ -38,10 +44,9 @@ type ArticleAddSservice struct {
 
 //添加评论服务
 type ArticleCommentservice struct {
-	UserId    uint   `form:"UserId" json:"UserId" binding:"requiredV"`
-	AuthorId  uint   `form:"AuthorId" json:"AuthorId" binding:"required"`
-	ArticleId uint   `form:"ArticleId" json:"ArticleId" binding:"required"`
-	Content   string `form:"CommentContent" json:"CommentContent" binding:"required"`
+	UserId uint `form:"UserId" json:"UserId" binding:"requiredV"`
+	ArticleSservice
+	Content string `form:"CommentContent" json:"CommentContent" binding:"required"`
 }
 
 //评论功能设计

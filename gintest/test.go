@@ -22,8 +22,8 @@ type TestCase struct {
 type TestCases []TestCase
 
 func NewTest() *gin.Engine {
-	model.Del()
-	model.Init()
+	model.DelRedis()
+	model.DelMysql()
 	return router.New()
 }
 

@@ -28,17 +28,37 @@ import (
 //assert.Equal(t, "pong", w.Body.String())
 //}
 
-func TestArticleAddRoute(t *testing.T) {
+func TestUserRegister(t *testing.T) {
 	r := gintest.NewTest()
-	articleParam := map[string]interface{}{
-		"AuthorId":       1,
-		"ArticleTitle":   "redis教程",
-		"ArticleContent": "先这样，再这样，再那样",
-		"Tags":           []string{"redis", "nosql"},
-	}
 	testCases := gintest.TestCases{
-		{CaseName: "C01", Method: "POST", Url: "/article/manage/add", BodyType: "JSON", Param: articleParam, Exp: false},
-		{CaseName: "C02", Method: "POST", Url: "/article/manage/add", BodyType: "FORM", Param: articleParam, Exp: false},
+		{CaseName: "两次输入密码不同", Method: "POST", Url: "/api/v0/user/register", BodyType: "JSON", Param: map[string]interface{}{
+
+			"username":    "chenmou",
+			"account":     "11111111",
+			"password":    "12341234",
+			"reppassword": "12341235",
+		}, Exp: false},
+		{CaseName: "用户名已存在", Method: "POST", Url: "/api/v0/user/register", BodyType: "FORM", Param: map[string]interface{}{
+
+			"username":    "chenmou",
+			"account":     "11111111",
+			"password":    "12341234",
+			"reppassword": "12341234",
+		}, Exp: false},
+		{CaseName: "账户已存在", Method: "POST", Url: "/api/v0/user/register", BodyType: "JSON", Param: map[string]interface{}{
+
+			"username":    "chenmou1",
+			"account":     "11111111",
+			"password":    "12341234",
+			"reppassword": "12341234",
+		}, Exp: false},
+		{CaseName: "正常", Method: "POST", Url: "/api/v0/user/register", BodyType: "JSON", Param: map[string]interface{}{
+
+			"username":    "chenmou3",
+			"account":     "111111111",
+			"password":    "12341234",
+			"reppassword": "12341234",
+		}, Exp: false},
 	}
 	for _, v := range testCases {
 
@@ -53,18 +73,22 @@ func TestArticleAddRoute(t *testing.T) {
 		}
 
 		fmt.Println(bodyBody)
+
 	}
-	//assert.Equal(t, 0, 0)
 }
-func TestArticleShowRoute(t *testing.T) {
+func TestUserLogin(t *testing.T) {
 	r := gintest.NewTest()
-	param := map[string]interface{}{
-		"AuthorId":  1,
-		"ArticleId": 1,
-	}
 	testCases := gintest.TestCases{
-		{CaseName: "C03", Method: "POST", Url: "/article/manage/show", BodyType: "JSON", Param: param, Exp: false},
-		{CaseName: "C04", Method: "POST", Url: "/article/manage/show", BodyType: "FORM", Param: param, Exp: false},
+		{CaseName: "账户不对", Method: "POST", Url: "/api/v0/user/login", BodyType: "JSON", Param: map[string]interface{}{
+
+			"account":  "1111111315",
+			"password": "12341234",
+		}, Exp: false},
+		{CaseName: "正常", Method: "POST", Url: "/api/v0/user/login", BodyType: "FORM", Param: map[string]interface{}{
+
+			"account":  "111111111",
+			"password": "12341234",
+		}, Exp: false},
 	}
 	for _, v := range testCases {
 
@@ -79,6 +103,6 @@ func TestArticleShowRoute(t *testing.T) {
 		}
 
 		fmt.Println(bodyBody)
+
 	}
-	//assert.Equal(t, 0, 0)
 }

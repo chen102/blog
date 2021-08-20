@@ -23,6 +23,7 @@ func AddArticle(uid uint, title, content string, tags []string) (int, error) {
 			"title":   title,
 			"content": content,
 			"time":    tool.ShortTime(),
+			"stat":    0,
 		}
 		if tags != nil {
 			article["tags"] = tool.SliceToString(tags)
@@ -108,7 +109,7 @@ func AddComment(who, uid, artid uint, content string) (int, error) {
 func StatComment(who, uid, artid, commentid uint) error {
 	//点赞集合,防止重复点赞
 	pipe := Redisdb.Pipeline()
-	if ok, err := pipe.SAdd(UserStatKey(who), UserValue(uid, artid, commentid)).Result(); ok == 0 {
+	if ok, err := pipe.SAdd(UserStatKey(who, false), UserStatCommentValue(uid, artid, commentid)).Result(); ok == 0 {
 		return errors.New("aleady stat")
 	} else if err != nil {
 		return err
@@ -119,6 +120,25 @@ func StatComment(who, uid, artid, commentid uint) error {
 	}
 	//更新Rank
 	if err := pipe.ZIncrBy(ArticleCommentRankKey(uid, artid), 1, strconv.Itoa(int(commentid))).Err(); err != nil {
+		return err
+	}
+	if _, err := pipe.Exec(); err != nil {
+		return err
+	}
+	return nil
+}
+func StatArticle(who, uid, artid uint) error {
+	pipe := Redisdb.Pipeline()
+	//点赞集合,防止重复点赞
+	if ok, err := pipe.SAdd(UserStatKey(who, true), UserStatArticleValue(uid, artid)).Result(); err != nil {
+		return err
+	} else if ok == 0 {
+		return errors.New("aleady stat")
+	}
+
+	fmt.Println("DEBUG!!!")
+	//点赞数+1
+	if err := pipe.HIncrBy(ArticleIdKey(uid, artid), "stat", 1).Err(); err != nil {
 		return err
 	}
 	if _, err := pipe.Exec(); err != nil {

@@ -2,30 +2,35 @@ package router
 
 import (
 	"blog/api"
+	"blog/session"
 	"github.com/gin-gonic/gin"
 )
 
 func New() *gin.Engine {
 	r := gin.Default()
 	r.GET("ping", api.Ping)
-	v1 := r.Group("article/manage")
+	//全局中间件
+	r.Use(session.Session("secret"))
+	r.Use(session.Cors())
+	r.Use(session.CurrentUser())
+	v0 := r.Group("/api/v0")
 	{
-		v1.POST("add", api.AddArticle)
-		v1.DELETE("delete", api.DeleteArticle)
-		v1.POST("update", api.UpdateArticle)
-		v1.POST("show", api.ShowArticle) //传ID了不能用GET
-		v1.POST("list", api.ArticleList)
-		v1.POST("comment", api.CommentArticle)
-		v1.POST("comment/list", api.ShowArticleComment)
-		v1.POST("statcomment", api.StatComment)
-		//v1.POST("statarticle", api.StatArticle)
-		//v1.POST("subcomment")
-		//v1.POST("rank")
-		//v1.POST("getcomment")
-		//v1.POST("getsubcomment")
-		//v1.POST("mytags")
-		//v1.POST("tagarticle")
-		//v1.POST("subscribe") //发布订阅
+		v0.POST("user/register", api.UserRegister)
+		v0.POST("user/login", api.UserLogin)
+		v0.POST("article/show", api.ShowArticle) //传ID了不能用GET
+		v0.POST("article/list", api.ArticleList)
+		v0.POST("article/comment/list", api.ShowArticleComment)
+		auth := v0.Group("/")
+		auth.Use(session.AuthRequired()) //需要登录的操作
+		{
+			//auth.DELETE("user/logout", api.UserLogout)
+			auth.POST("article/add", api.AddArticle)
+			auth.DELETE("article/delete", api.DeleteArticle)
+			auth.POST("article/update", api.UpdateArticle)
+			auth.POST("article/comment", api.CommentArticle)
+			auth.POST("article/statcomment", api.StatComment)
+			auth.POST("article/statarticle", api.StatArticle)
+		}
 	}
 	return r
 }
