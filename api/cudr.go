@@ -28,7 +28,7 @@ func AddArticle(c *gin.Context) {
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
-		res := service.AddArticle()
+		res := service.AddArticle(c)
 		c.JSON(200, res)
 
 	}

@@ -13,7 +13,7 @@ import (
 func CurrentUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		uid := session.Get("user_id") //从会话获得用户id
+		uid := session.Get("userID") //从会话获得用户id
 		if uid != nil {
 			user, err := db.GetUser(uid)
 			if err == nil {

@@ -3,7 +3,7 @@ package redis
 import (
 	. "blog/model"
 	"blog/tool"
-	"encoding/json"
+	//"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/go-redis/redis"
@@ -64,47 +64,47 @@ func AddArticle(uid uint, title, content string, tags []string) (int, error) {
 	return artid, nil
 }
 func AddComment(who, uid, artid uint, content string) (int, error) {
-	if err := Redisdb.SetNX(GetArticleCommentsIDKey(uid, artid), 1, 0).Err(); err != nil && err != RedisNil {
-		return -1, err
-	}
-	commentid, err := Redisdb.Get(GetArticleCommentsIDKey(uid, artid)).Int()
-	if err != nil && err != RedisNil {
-		return -1, err
-	}
-	transactional := func(tx *redis.Tx) error {
-		//写入评论集
-		if err = tx.ZAdd(ArticleCommentRankKey(uid, artid), InitCommentRank(commentid)).Err(); err != nil {
+	//if err := Redisdb.SetNX(GetArticleCommentsIDKey(uid, artid), 1, 0).Err(); err != nil && err != RedisNil {
+	//return -1, err
+	//}
+	//commentid, err := Redisdb.Get(GetArticleCommentsIDKey(uid, artid)).Int()
+	//if err != nil && err != RedisNil {
+	//return -1, err
+	//}
+	//transactional := func(tx *redis.Tx) error {
+	////写入评论集
+	//if err = tx.ZAdd(ArticleCommentRankKey(uid, artid), InitCommentRank(commentid)).Err(); err != nil {
 
-			return err
-		}
-		comment := Comment{
-			CommentId: uint(commentid),
-			UserId:    who,
-			AuthorId:  uid,
-			Time:      tool.ShortTime(),
-			Content:   content,
-		}
-		comment_json, err := json.Marshal(comment) //序列化
-		if err != nil {
-			return err
-		}
-		//写入评论
-		if err = tx.HSet(ArticleCommentIDKey(uid, artid, uint(commentid)), "comment:0", comment_json).Err(); err != nil {
+	//return err
+	//}
+	//comment := Comment{
+	//CommentId: uint(commentid),
+	//UserId:    who,
+	//AuthorId:  uid,
+	//Time:      tool.ShortTime(),
+	//Content:   content,
+	//}
+	//comment_json, err := json.Marshal(comment) //序列化
+	//if err != nil {
+	//return err
+	//}
+	////写入评论
+	//if err = tx.HSet(ArticleCommentIDKey(uid, artid, uint(commentid)), "comment:0", comment_json).Err(); err != nil {
 
-			return err
-		}
-		data, err := tx.HGet(ArticleCommentIDKey(uid, artid, uint(commentid)), "comment:0").Result()
-		fmt.Println(data)
-		fmt.Println(ArticleCommentIDKey(uid, artid, uint(commentid)))
-		return nil
-	}
-	if err := Redisdb.Watch(transactional, GetArticleCommentsIDKey(uid, artid)); err != nil {
-		return -1, err
-	}
-	if err := Redisdb.Incr(GetArticleCommentsIDKey(uid, artid)).Err(); err != nil {
-		return -1, err
-	}
-	return commentid, nil
+	//return err
+	//}
+	//data, err := tx.HGet(ArticleCommentIDKey(uid, artid, uint(commentid)), "comment:0").Result()
+	//fmt.Println(data)
+	//fmt.Println(ArticleCommentIDKey(uid, artid, uint(commentid)))
+	//return nil
+	//}
+	//if err := Redisdb.Watch(transactional, GetArticleCommentsIDKey(uid, artid)); err != nil {
+	//return -1, err
+	//}
+	//if err := Redisdb.Incr(GetArticleCommentsIDKey(uid, artid)).Err(); err != nil {
+	//return -1, err
+	//}
+	return 0, nil
 }
 func StatComment(who, uid, artid, commentid uint) error {
 	//点赞集合,防止重复点赞

@@ -3,53 +3,53 @@ package serializer
 import (
 	"blog/model"
 	"strconv"
+	"time"
 )
 
 type Article struct {
-	AuthorId   uint            `json:"AuthorId,omitempty"`
-	ArticleId  uint            `json:"ArticleId,omitempty"`
-	Title      string          `json:"ArticleTitle,omitempty"`
-	Time       string          `json:"ArticleTime,omitempty"`
-	Content    string          `json:"ArticleContent,omitempty"`
-	Tags       string          `json:"ArticleTags,omitempty"`
-	Comment    []model.Comment `json:"ArticleComment,omitempty"`
-	CommentNum uint            `json:"ArticleCommentNum,omitempty"`
-}
-type Comment struct {
-	CommentId uint
-	UserId    uint
-	AuthorId  uint
-	Time      string
-	Content   string
-	Stat      uint
+	AuthorId  uint      `json:"AuthorId,omitempty"`
+	ArticleId uint      `json:"ArticleId,omitempty"`
+	Title     string    `json:"ArticleTitle,omitempty"`
+	Time      time.Time `json:"ArticleTime,omitempty"`
+	Content   string    `json:"ArticleContent,omitempty"`
+	Tags      string    `json:"ArticleTags,omitempty"`
+	//Comment    []model.Comment `json:"ArticleComment,omitempty"`
+	//CommentNum uint            `json:"ArticleCommentNum,omitempty"`
 }
 
-func BuildCommentList(comments []model.Comment) []Comment {
-	comm := make([]Comment, 0)
-	for _, comment := range comments {
-		comm = append(comm, Comment{
-			CommentId: comment.CommentId,
-			UserId:    comment.UserId,
-			AuthorId:  comment.AuthorId,
-			Time:      comment.Time,
-			Content:   comment.Content,
-			Stat:      comment.Stat,
-		})
-	}
-	return comm
-}
+//type Comment struct {
+//CommentId uint
+//UserId    uint
+//AuthorId  uint
+//Time      string
+//Content   string
+//Stat      uint
+//}
+
+//func BuildCommentList(comments []model.Comment) []Comment {
+//comm := make([]Comment, 0)
+//for _, comment := range comments {
+//comm = append(comm, Comment{
+//CommentId: comment.CommentId,
+//UserId:    comment.UserId,
+//AuthorId:  comment.AuthorId,
+//Time:      comment.Time,
+//Content:   comment.Content,
+//Stat:      comment.Stat,
+//})
+//}
+//return comm
+//}
 
 //返回一篇文章的详细详细
 func BuildArticle(article model.Article) Article {
 	return Article{
-		AuthorId:   article.AuthorId,
-		ArticleId:  article.ArticleId,
-		Title:      article.Title,
-		Time:       article.Time,
-		Content:    article.Content,
-		Tags:       article.Tags,
-		Comment:    article.Comment,
-		CommentNum: article.CommentNum,
+		AuthorId:  article.UserID,
+		ArticleId: article.ID,
+		Title:     article.Title,
+		Time:      article.UpdatedAt,
+		Content:   article.Content,
+		Tags:      article.Tags,
 	}
 }
 
@@ -58,9 +58,9 @@ func BuildArticleList(articles []model.Article) []Article {
 	art := make([]Article, 0)
 	for _, article := range articles {
 		arttemp := Article{
-			ArticleId: article.ArticleId,
+			ArticleId: article.ID,
 			Title:     article.Title,
-			Time:      article.Time,
+			Time:      article.UpdatedAt,
 			Tags:      article.Tags,
 		}
 		art = append(art, arttemp)
@@ -70,7 +70,7 @@ func BuildArticleList(articles []model.Article) []Article {
 func BuildArticleResponse(article model.Article) Response {
 	return Response{
 		Data: BuildArticle(article),
-		Msg:  "article ID:" + strconv.Itoa(int(article.ArticleId)) + " Context Display Succ!",
+		Msg:  "article ID:" + strconv.Itoa(int(article.ID)) + " Context Display Succ!",
 	}
 }
 func BuildArticleListResponse(articles []model.Article) Response {
@@ -79,9 +79,10 @@ func BuildArticleListResponse(articles []model.Article) Response {
 		Msg:  strconv.Itoa(len(articles)) + " articles Display Succ!",
 	}
 }
-func BuildCommentListResponse(comments []model.Comment) Response {
-	return Response{
-		Data: BuildCommentList(comments),
-		Msg:  strconv.Itoa(len(comments)) + " comment Display Succ!",
-	}
-}
+
+//func BuildCommentListResponse(comments []model.Comment) Response {
+//return Response{
+//Data: BuildCommentList(comments),
+//Msg:  strconv.Itoa(len(comments)) + " comment Display Succ!",
+//}
+//}

@@ -9,12 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//用户注册服务
 type UserRegisterService struct {
 	UserName    string `form:"username" json:"username" binding:"required,min=2,max=20"`
 	Account     string `form:"account" json:"account" binding:"required,min=7,max=20"`
 	Password    string `form:"password" json:"password" binding:"required,min=7,max=20"`
 	RepPassword string `form:"reppassword" json:"reppassword" binding:"required,min=7,max=20"`
 }
+
+//用户登录服务
 type UserLoginService struct {
 	Account  string `form:"account" json:"account" binding:"required,min=7,max=20"`
 	Password string `form:"password" json:"password" binding:"required,min=7,max=20"`

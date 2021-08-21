@@ -23,7 +23,7 @@ func DelRedis() {
 	log.Println(pong, err)
 }
 func DelMysql() error {
-	db, err := gorm.Open("mysql", "root:chenxi1234@tcp(10.177.3.141:3306)/blog?charset=utf8&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", "root:chenxi1234@tcp(10.177.3.141:3306)/blog?charset=utf8mb4&parseTime=True&loc=Local")
 	if err != nil {
 		return err
 	}
@@ -37,6 +37,9 @@ func DelMysql() error {
 	db.DB().SetConnMaxLifetime(time.Second * 30) //一个连接使用的最大时长
 	//设置一个连接被使用的最长时间，即过了一段时间后会被强制回收，理论上这可以有效减少不可用连接出现的概率。当数据库方面也设置了连接的超时时间时，这个值应当不超过数据库的超时参数值。
 
+	db.Set("gorm:table_options", "charset=utf8mb4") //tips:mysql容器中的默认编码是临时的,容器重启了就没了
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Article{})
 	DB = db
 	return nil
 }

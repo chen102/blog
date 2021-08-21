@@ -6,7 +6,7 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 AddArticle	api/cudr.go	/^func AddArticle(c *gin.Context) {$/;"	f
 AddArticle	model/redis/addarticle.go	/^func AddArticle(uid uint, title, content string, tags []string) (int, error) {$/;"	f
-AddArticle	service/addarticle.go	/^func (service *ArticleAddSservice) AddArticle() serializer.Response {$/;"	f
+AddArticle	service/addarticle.go	/^func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Response {$/;"	f
 AddComment	model/redis/addarticle.go	/^func AddComment(who, uid, artid uint, content string) (int, error) {$/;"	f
 Article	model/article.go	/^type Article struct {$/;"	t
 Article	serializer/article.go	/^type Article struct {$/;"	t
@@ -35,12 +35,8 @@ BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article) Ar
 BuildArticleList	serializer/article.go	/^func BuildArticleList(articles []model.Article) []Article {$/;"	f
 BuildArticleListResponse	serializer/article.go	/^func BuildArticleListResponse(articles []model.Article) Response {$/;"	f
 BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article) Response {$/;"	f
-BuildCommentList	serializer/article.go	/^func BuildCommentList(comments []model.Comment) []Comment {$/;"	f
-BuildCommentListResponse	serializer/article.go	/^func BuildCommentListResponse(comments []model.Comment) Response {$/;"	f
 BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
 CheckPassword	model/user.go	/^func (user *User) CheckPassword(password string) bool {$/;"	f
-Comment	model/article.go	/^type Comment struct {$/;"	t
-Comment	serializer/article.go	/^type Comment struct {$/;"	t
 CommentArticle	api/cudr.go	/^func CommentArticle(c *gin.Context) {$/;"	f
 Cors	session/cors.go	/^func Cors() gin.HandlerFunc {$/;"	f
 CurrentUser	session/auth.go	/^func CurrentUser() gin.HandlerFunc {$/;"	f

@@ -1,21 +1,15 @@
 package model
 
+import (
+	"github.com/jinzhu/gorm"
+)
+
 type Article struct {
-	ArticleId  uint
-	AuthorId   uint
-	Title      string `mapstructure:"title"`
-	Stat       int    `mapstructure:"stat"`
-	Time       string `mapstructure:"time"`
-	Content    string `mapstructure:"content"`
-	Tags       string `mapstructure:"tags"`
-	Comment    []Comment
-	CommentNum uint
-}
-type Comment struct {
-	CommentId uint
-	UserId    uint
-	AuthorId  uint
-	Time      string
-	Content   string
-	Stat      uint
+	gorm.Model
+	Title   string
+	UserID  uint
+	User    User `gorm:"ForeignKey:UserID"` //使用UserID作为外键
+	Stat    uint
+	Tags    string
+	Content string
 }
