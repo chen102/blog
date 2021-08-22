@@ -67,14 +67,14 @@ func (service *ArticleCommentservice) ArticleComment() serializer.Response {
 	return serializer.BuildResponse("xx")
 }
 func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Response {
-	user, _ := c.Get("user") //获取当前用户
-	u, ok := user.(*model.User)
-	if !ok {
+	user := model.GetcurrentID(c)
+	if user == nil {
+
 		return serializer.Err(serializer.NoErr, errors.New("用户不存在"))
 	}
 	article := model.Article{
 		Title:   service.Title,
-		UserID:  u.ID,
+		UserID:  user.ID,
 		Content: service.Content,
 		Tags:    tool.SliceToString(service.Tags),
 	}

@@ -2,11 +2,14 @@ package service
 
 import (
 	"blog/model"
+	"errors"
 	//"blog/model/redis"
 	"blog/serializer"
+
+	"github.com/gin-gonic/gin"
 	//"blog/tool"
 	//"encoding/json"
-	//"fmt"
+	"fmt"
 	//"github.com/mitchellh/mapstructure"
 	//"strconv"
 )
@@ -26,7 +29,7 @@ type Paginationservice struct {
 //文章分页服务
 type ArticleListservice struct {
 	Type     bool `form:"rank" json:"rank" binding:"omitempty"`
-	AuthorId uint `form:"AuthorId" json:"AuthorId" binding:"required"`
+	AuthorId uint `form:"AuthorId" json:"AuthorId" binding:"omitempty"` //若为空，即为自己的文章列表
 	Paginationservice
 }
 
@@ -63,7 +66,29 @@ func (service *ArticleCommentListservice) ArticleCommentList() serializer.Respon
 	return serializer.BuildResponse("xx")
 }
 
-func (service *ArticleListservice) ArticleList() serializer.Response {
+func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Response {
+	var user model.User
+	if service.AuthorId != 0 { //指定了用户
+		if err := model.DB.Where("user_id=?", service.AuthorId).First(&user).Error; err != nil {
+			fmt.Println(service.AuthorId)
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+	} else {
+
+		onse := model.GetcurrentID(c) //没有指定用户默认就是自己的列表
+		if onse == nil {
+
+			return serializer.Err(serializer.NoErr, errors.New("用户不存在"))
+		}
+		user = *onse
+	}
+	if service.Count == 0 {
+		service.Count = 5
+	}
+	if err := model.DB.Limit(service.Count).Offset(service.Offset).Where("user_id=?", user.ID).Find(&user.Articles).Error; err != nil {
+		return serializer.Err(serializer.MysqlErr, err)
+	}
+	return serializer.BuildArticleListResponse(user.Articles)
 	//res, err := redis.ListArticle(service.AuthorId, service.Offset, service.Count, service.Type)
 	//if err != nil {
 
@@ -95,7 +120,7 @@ func (service *ArticleListservice) ArticleList() serializer.Response {
 	//}
 	//}
 	//return serializer.BuildArticleListResponse(article)
-	return serializer.BuildResponse("xx")
+	//return serializer.BuildResponse("xx")
 }
 func (service *ArticleSservice) DeleteArticle() serializer.Response {
 	return serializer.Response{}
@@ -106,6 +131,12 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 	if err := model.DB.First(&article, service.ArticleId).Error; err != nil {
 		return serializer.Err(serializer.MysqlErr, err)
 	}
+	//根据文章的用户ID查询该用户的名称
+	var user []model.User
+	if err := model.DB.Select("user_name").First(&user, article.UserID).Error; err != nil {
+		return serializer.Err(serializer.MysqlErr, err)
+	}
+	article.UserName = user[0].UserName
 	return serializer.BuildArticleResponse(article)
 	//var article model.Article
 	//data, err := redis.ShowArticle(service.AuthorId, service.ArticleId)

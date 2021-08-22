@@ -22,7 +22,7 @@ ArticleCommentservice	service/addarticle.go	/^type ArticleCommentservice struct 
 ArticleIdKey	model/rediskey.go	/^func ArticleIdKey(userid, articleid uint) string {$/;"	f
 ArticleIdStringKey	model/rediskey.go	/^func ArticleIdStringKey(userid, articleid string) string {$/;"	f
 ArticleList	api/cudr.go	/^func ArticleList(c *gin.Context) {$/;"	f
-ArticleList	service/showarticle.go	/^func (service *ArticleListservice) ArticleList() serializer.Response {$/;"	f
+ArticleList	service/showarticle.go	/^func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Response {$/;"	f
 ArticleListservice	service/showarticle.go	/^type ArticleListservice struct {$/;"	t
 ArticleSservice	service/showarticle.go	/^type ArticleSservice struct {$/;"	t
 ArticleStatKey	model/rediskey.go	/^func ArticleStatKey(userid, articleid uint) string {$/;"	f
@@ -52,6 +52,7 @@ GetArticleSubCommentsIDKey	model/rediskey.go	/^func GetArticleSubCommentsIDKey(u
 GetSort	model/rediskey.go	/^func GetSort(key string, returnId bool, strs ...string) []string {$/;"	f
 GetStat	model/redis/showarticle.go	/^func GetStat(uid, artid, commentid uint) (uint, error) {$/;"	f
 GetUser	model/db/user.go	/^func GetUser(ID interface{}) (User, error) {$/;"	f
+GetcurrentID	model/user.go	/^func GetcurrentID(c *gin.Context) *User {$/;"	f
 InitCommentRank	model/rediskey.go	/^func InitCommentRank(member interface{}) redis.Z {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
@@ -84,6 +85,7 @@ ShowComment	model/redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]st
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
 SortArgs	model/rediskey.go	/^func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
+Stat	model/stat.go	/^type Stat struct {$/;"	t
 StatArticle	api/cudr.go	/^func StatArticle(c *gin.Context) {$/;"	f
 StatArticle	model/redis/addarticle.go	/^func StatArticle(who, uid, artid uint) error {$/;"	f
 StatArticle	service/addarticle.go	/^func (service *StatArticleservice) StatArticle() serializer.Response {$/;"	f
@@ -121,6 +123,7 @@ main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
 model	model/rediskey.go	/^package model$/;"	p
+model	model/stat.go	/^package model$/;"	p
 model	model/user.go	/^package model$/;"	p
 redis	model/redis/addarticle.go	/^package redis$/;"	p
 redis	model/redis/showarticle.go	/^package redis$/;"	p

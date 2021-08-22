@@ -6,10 +6,10 @@ import (
 
 type Article struct {
 	gorm.Model
-	Title   string
-	UserID  uint
-	User    User `gorm:"ForeignKey:UserID"` //使用UserID作为外键
-	Stat    uint
-	Tags    string
-	Content string
+	Title    string
+	UserID   uint   //用户的外键
+	UserName string `gorm:"-"`
+	Stat     uint
+	Tags     string
+	Content  string
 }
