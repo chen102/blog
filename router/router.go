@@ -28,8 +28,7 @@ func New() *gin.Engine {
 			auth.DELETE("article/delete", api.DeleteArticle)
 			auth.POST("article/update", api.UpdateArticle)
 			auth.POST("article/comment", api.CommentArticle)
-			auth.POST("article/statcomment", api.StatComment)
-			auth.POST("article/statarticle", api.StatArticle)
+			auth.POST("article/stat", api.Stat)
 		}
 	}
 	return r

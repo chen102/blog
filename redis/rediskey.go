@@ -1,6 +1,6 @@
 //Redis所有Key
 //命名规范:   模块名:业务逻辑:存储的东西:value类型
-package model
+package redis
 
 import (
 	"blog/tool"
@@ -42,6 +42,17 @@ func GetSort(key string, returnId bool, strs ...string) []string {
 }
 func UintToStr(str uint) string {
 	return strconv.Itoa(int(str))
+}
+
+//文章点赞数
+//statservice:articleid:xx:likes:int
+func ArticleStatKey(artid uint) string {
+	return tool.StrSplicing("statservice:articleid:", UintToStr(artid), ":likes:int")
+}
+
+//用户所有的点赞文章
+func UserStatArticleKey(userid, artid uint) string {
+	return tool.StrSplicing("userservice:userid:", UintToStr(userid), ":articleid:", UintToStr(artid), "article:hash")
 }
 
 //文章主键键 articlemanager:userid:xx:articlid:int
@@ -110,12 +121,6 @@ func ArticleCommentIDStringKey(userid, articlid, commentid string) string {
 }
 func ArticleCommentIDKey(userid, articleid, commentid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":commentid:", UintToStr(commentid), ":hash")
-}
-
-//文章点赞数
-//每篇文章的点赞数
-func ArticleStatKey(userid, articleid uint) string {
-	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":stats:int")
 }
 
 //评论点赞数 articlemanager:userid:xx:articleid:xx:commentid:xx:stats:int

@@ -75,7 +75,7 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 		}
 	} else {
 
-		onse := model.GetcurrentID(c) //没有指定用户默认就是自己的列表
+		onse := model.GetcurrentUser(c) //没有指定用户默认就是自己的列表
 		if onse == nil {
 
 			return serializer.Err(serializer.NoErr, errors.New("用户不存在"))

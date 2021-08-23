@@ -67,7 +67,7 @@ func (service *ArticleCommentservice) ArticleComment() serializer.Response {
 	return serializer.BuildResponse("xx")
 }
 func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Response {
-	user := model.GetcurrentID(c)
+	user := model.GetcurrentUser(c)
 	if user == nil {
 
 		return serializer.Err(serializer.NoErr, errors.New("用户不存在"))

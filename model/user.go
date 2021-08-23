@@ -33,7 +33,7 @@ func (user *User) CheckPassword(password string) bool {
 }
 
 //获取当前登录用户的ID
-func GetcurrentID(c *gin.Context) *User {
+func GetcurrentUser(c *gin.Context) *User {
 	user, _ := c.Get("user") //获取当前用户
 	if u, ok := user.(*User); ok {
 		return u

@@ -111,3 +111,12 @@ func ShowArticleComment(c *gin.Context) {
 	}
 
 }
+func Stat(c *gin.Context) {
+	var service service.StatService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.Stat(c)
+		c.JSON(200, res)
+	}
+}

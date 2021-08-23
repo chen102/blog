@@ -23,6 +23,16 @@ type UserLoginService struct {
 	Password string `form:"password" json:"password" binding:"required,min=7,max=20"`
 }
 
+//用户点赞列表
+type UserStatListService struct {
+	StatType model.StatType `form:"StatType" json:"StatType" binding:"omitempty,oneof=1 2"`
+	UserId   uint           `form:"AuthorId" json:"AuthorId" binding:"omitempty"` //若为空，即为自己的点赞文章列表
+	Paginationservice
+}
+
+func UserStatList() serializer.Response {
+	return serializer.BuildResponse("xx")
+}
 func (service *UserRegisterService) Register() serializer.Response {
 	if service.Password != service.RepPassword {
 		return serializer.Err(serializer.ParamErr, errors.New("两次输入密码不同"))

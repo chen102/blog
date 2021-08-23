@@ -5,32 +5,32 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 AddArticle	api/cudr.go	/^func AddArticle(c *gin.Context) {$/;"	f
-AddArticle	model/redis/addarticle.go	/^func AddArticle(uid uint, title, content string, tags []string) (int, error) {$/;"	f
+AddArticle	redis/addarticle.go	/^func AddArticle(uid uint, title, content string, tags []string) (int, error) {$/;"	f
 AddArticle	service/addarticle.go	/^func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Response {$/;"	f
-AddComment	model/redis/addarticle.go	/^func AddComment(who, uid, artid uint, content string) (int, error) {$/;"	f
+AddComment	redis/addarticle.go	/^func AddComment(who, uid, artid uint, content string) (int, error) {$/;"	f
 Article	model/article.go	/^type Article struct {$/;"	t
 Article	serializer/article.go	/^type Article struct {$/;"	t
 ArticleAddSservice	service/addarticle.go	/^type ArticleAddSservice struct {$/;"	t
 ArticleComment	service/addarticle.go	/^func (service *ArticleCommentservice) ArticleComment() serializer.Response {$/;"	f
-ArticleCommentIDKey	model/rediskey.go	/^func ArticleCommentIDKey(userid, articleid, commentid uint) string {$/;"	f
-ArticleCommentIDStringKey	model/rediskey.go	/^func ArticleCommentIDStringKey(userid, articlid, commentid string) string {$/;"	f
+ArticleCommentIDKey	redis/rediskey.go	/^func ArticleCommentIDKey(userid, articleid, commentid uint) string {$/;"	f
+ArticleCommentIDStringKey	redis/rediskey.go	/^func ArticleCommentIDStringKey(userid, articlid, commentid string) string {$/;"	f
 ArticleCommentList	service/showarticle.go	/^func (service *ArticleCommentListservice) ArticleCommentList() serializer.Response {$/;"	f
 ArticleCommentListservice	service/showarticle.go	/^type ArticleCommentListservice struct {$/;"	t
-ArticleCommentRankKey	model/rediskey.go	/^func ArticleCommentRankKey(userid, articleid uint) string {$/;"	f
-ArticleCommentStatKey	model/rediskey.go	/^func ArticleCommentStatKey(userid, articleid, commentid uint) string {$/;"	f
+ArticleCommentRankKey	redis/rediskey.go	/^func ArticleCommentRankKey(userid, articleid uint) string {$/;"	f
+ArticleCommentStatKey	redis/rediskey.go	/^func ArticleCommentStatKey(userid, articleid, commentid uint) string {$/;"	f
 ArticleCommentservice	service/addarticle.go	/^type ArticleCommentservice struct {$/;"	t
-ArticleIdKey	model/rediskey.go	/^func ArticleIdKey(userid, articleid uint) string {$/;"	f
-ArticleIdStringKey	model/rediskey.go	/^func ArticleIdStringKey(userid, articleid string) string {$/;"	f
+ArticleIdKey	redis/rediskey.go	/^func ArticleIdKey(userid, articleid uint) string {$/;"	f
+ArticleIdStringKey	redis/rediskey.go	/^func ArticleIdStringKey(userid, articleid string) string {$/;"	f
 ArticleList	api/cudr.go	/^func ArticleList(c *gin.Context) {$/;"	f
 ArticleList	service/showarticle.go	/^func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Response {$/;"	f
 ArticleListservice	service/showarticle.go	/^type ArticleListservice struct {$/;"	t
 ArticleSservice	service/showarticle.go	/^type ArticleSservice struct {$/;"	t
-ArticleStatKey	model/rediskey.go	/^func ArticleStatKey(userid, articleid uint) string {$/;"	f
-ArticleSubCommentRankKey	model/rediskey.go	/^func ArticleSubCommentRankKey(userid, articleid, commentid uint) string {$/;"	f
-ArticleTagsKey	model/rediskey.go	/^func ArticleTagsKey(userid, articleid uint) string {$/;"	f
-ArticleTagsStringKey	model/rediskey.go	/^func ArticleTagsStringKey(userid, articleid string) string {$/;"	f
+ArticleStatKey	redis/rediskey.go	/^func ArticleStatKey(artid uint) string {$/;"	f
+ArticleSubCommentRankKey	redis/rediskey.go	/^func ArticleSubCommentRankKey(userid, articleid, commentid uint) string {$/;"	f
+ArticleTagsKey	redis/rediskey.go	/^func ArticleTagsKey(userid, articleid uint) string {$/;"	f
+ArticleTagsStringKey	redis/rediskey.go	/^func ArticleTagsStringKey(userid, articleid string) string {$/;"	f
 AuthRequired	session/auth.go	/^func AuthRequired() gin.HandlerFunc {$/;"	f
-AuthorArticlesKey	model/rediskey.go	/^func AuthorArticlesKey(userid uint) string {$/;"	f
+AuthorArticlesKey	redis/rediskey.go	/^func AuthorArticlesKey(userid uint) string {$/;"	f
 BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article) Article {$/;"	f
 BuildArticleList	serializer/article.go	/^func BuildArticleList(articles []model.Article) []Article {$/;"	f
 BuildArticleListResponse	serializer/article.go	/^func BuildArticleListResponse(articles []model.Article) Response {$/;"	f
@@ -46,17 +46,16 @@ DelRedis	model/del.go	/^func DelRedis() {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/showarticle.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
-GetArticleCommentsIDKey	model/rediskey.go	/^func GetArticleCommentsIDKey(userid, articleid uint) string {$/;"	f
-GetArticleIDKey	model/rediskey.go	/^func GetArticleIDKey(userid uint) string {$/;"	f
-GetArticleSubCommentsIDKey	model/rediskey.go	/^func GetArticleSubCommentsIDKey(userid, articleid, commentid uint) string {$/;"	f
-GetSort	model/rediskey.go	/^func GetSort(key string, returnId bool, strs ...string) []string {$/;"	f
-GetStat	model/redis/showarticle.go	/^func GetStat(uid, artid, commentid uint) (uint, error) {$/;"	f
+GetArticleCommentsIDKey	redis/rediskey.go	/^func GetArticleCommentsIDKey(userid, articleid uint) string {$/;"	f
+GetArticleIDKey	redis/rediskey.go	/^func GetArticleIDKey(userid uint) string {$/;"	f
+GetArticleSubCommentsIDKey	redis/rediskey.go	/^func GetArticleSubCommentsIDKey(userid, articleid, commentid uint) string {$/;"	f
+GetSort	redis/rediskey.go	/^func GetSort(key string, returnId bool, strs ...string) []string {$/;"	f
+GetStat	redis/showarticle.go	/^func GetStat(uid, artid, commentid uint) (uint, error) {$/;"	f
 GetUser	model/db/user.go	/^func GetUser(ID interface{}) (User, error) {$/;"	f
-GetcurrentID	model/user.go	/^func GetcurrentID(c *gin.Context) *User {$/;"	f
-InitCommentRank	model/rediskey.go	/^func InitCommentRank(member interface{}) redis.Z {$/;"	f
+GetcurrentUser	model/user.go	/^func GetcurrentUser(c *gin.Context) *User {$/;"	f
+InitCommentRank	redis/rediskey.go	/^func InitCommentRank(member interface{}) redis.Z {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
-ListArticle	model/redis/showarticle.go	/^func ListArticle(uid, offset, count uint, rank bool) ([]string, error) {$/;"	f
 Login	service/user.go	/^func (service *UserLoginService) Login(c *gin.Context) serializer.Response {$/;"	f
 MysqlErr	serializer/common.go	/^	MysqlErr$/;"	c
 New	router/router.go	/^func New() *gin.Engine {$/;"	f
@@ -69,40 +68,51 @@ ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
-RedisNil	model/rediskey.go	/^const RedisNil = redis.Nil$/;"	c
+RedisNil	redis/rediskey.go	/^const RedisNil = redis.Nil$/;"	c
 Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
 Register	service/user.go	/^func (service *UserRegisterService) Register() serializer.Response {$/;"	f
 Response	serializer/common.go	/^type Response struct {$/;"	t
 Session	session/session.go	/^func Session(secret string) gin.HandlerFunc {$/;"	f
 SetPassword	model/user.go	/^func (user *User) SetPassword(password string) error {$/;"	f
 ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
-ShowAllComment	model/redis/showarticle.go	/^func ShowAllComment(uid, artid, offset, count uint) ([]string, error) {$/;"	f
+ShowAllComment	redis/showarticle.go	/^func ShowAllComment(uid, artid, offset, count uint) ([]string, error) {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
-ShowArticle	model/redis/showarticle.go	/^func ShowArticle(uid, artid uint) (interface{}, error) {$/;"	f
+ShowArticle	redis/showarticle.go	/^func ShowArticle(uid, artid uint) (interface{}, error) {$/;"	f
 ShowArticle	service/showarticle.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
 ShowArticleComment	api/cudr.go	/^func ShowArticleComment(c *gin.Context) {$/;"	f
-ShowComment	model/redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
+ShowComment	redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
-SortArgs	model/rediskey.go	/^func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {$/;"	f
+SortArgs	redis/rediskey.go	/^func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
+Stat	api/cudr.go	/^func Stat(c *gin.Context) {$/;"	f
 Stat	model/stat.go	/^type Stat struct {$/;"	t
+Stat	redis/stat.go	/^func Stat(stat model.Stat, article map[string]interface{}) error {$/;"	f
+Stat	service/stat.go	/^func (service *StatService) Stat(c *gin.Context) serializer.Response {$/;"	f
 StatArticle	api/cudr.go	/^func StatArticle(c *gin.Context) {$/;"	f
-StatArticle	model/redis/addarticle.go	/^func StatArticle(who, uid, artid uint) error {$/;"	f
+StatArticle	model/stat.go	/^	StatArticle StatType = iota$/;"	c
+StatArticle	redis/addarticle.go	/^func StatArticle(who, uid, artid uint) error {$/;"	f
 StatArticle	service/addarticle.go	/^func (service *StatArticleservice) StatArticle() serializer.Response {$/;"	f
+StatArticle	service/stat.go	/^func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
 StatArticleservice	service/addarticle.go	/^type StatArticleservice struct {$/;"	t
 StatComment	api/cudr.go	/^func StatComment(c *gin.Context) {$/;"	f
-StatComment	model/redis/addarticle.go	/^func StatComment(who, uid, artid, commentid uint) error {$/;"	f
+StatComment	model/stat.go	/^	StatComment$/;"	c
+StatComment	redis/addarticle.go	/^func StatComment(who, uid, artid, commentid uint) error {$/;"	f
 StatComment	service/addarticle.go	/^func (service *StatCommentservice) StatComment() serializer.Response {$/;"	f
+StatComment	service/stat.go	/^func StatComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
 StatCommentservice	service/addarticle.go	/^type StatCommentservice struct {$/;"	t
+StatService	service/stat.go	/^type StatService struct {$/;"	t
+StatSubComment	model/stat.go	/^	StatSubComment$/;"	c
+StatSubComment	service/stat.go	/^func StatSubComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
+StatType	model/stat.go	/^type StatType uint$/;"	t
 StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
 StrconvErr	serializer/common.go	/^	StrconvErr$/;"	c
-TagKey	model/rediskey.go	/^func TagKey(userid uint, tag string) string {$/;"	f
+TagKey	redis/rediskey.go	/^func TagKey(userid uint, tag string) string {$/;"	f
 TestCase	gintest/test.go	/^type TestCase struct {$/;"	t
 TestCases	gintest/test.go	/^type TestCases []TestCase$/;"	t
 TestUserLogin	router_test.go	/^func TestUserLogin(t *testing.T) {$/;"	f
 TestUserRegister	router_test.go	/^func TestUserRegister(t *testing.T) {$/;"	f
-Transactional	model/rediskey.go	/^var Transactional *redis.Tx$/;"	v
-UintToStr	model/rediskey.go	/^func UintToStr(str uint) string {$/;"	f
+Transactional	redis/rediskey.go	/^var Transactional *redis.Tx$/;"	v
+UintToStr	redis/rediskey.go	/^func UintToStr(str uint) string {$/;"	f
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/showarticle.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f
 User	model/user.go	/^type User struct {$/;"	t
@@ -110,9 +120,12 @@ UserLogin	api/user.go	/^func UserLogin(c *gin.Context) {$/;"	f
 UserLoginService	service/user.go	/^type UserLoginService struct {$/;"	t
 UserRegister	api/user.go	/^func UserRegister(c *gin.Context) {$/;"	f
 UserRegisterService	service/user.go	/^type UserRegisterService struct {$/;"	t
-UserStatArticleValue	model/rediskey.go	/^func UserStatArticleValue(userid, artid uint) string {$/;"	f
-UserStatCommentValue	model/rediskey.go	/^func UserStatCommentValue(userid, artid, commentid uint) string {$/;"	f
-UserStatKey	model/rediskey.go	/^func UserStatKey(userid uint, article bool) string {$/;"	f
+UserStatArticleKey	redis/rediskey.go	/^func UserStatArticleKey(userid, artid uint) string {$/;"	f
+UserStatArticleValue	redis/rediskey.go	/^func UserStatArticleValue(userid, artid uint) string {$/;"	f
+UserStatCommentValue	redis/rediskey.go	/^func UserStatCommentValue(userid, artid, commentid uint) string {$/;"	f
+UserStatKey	redis/rediskey.go	/^func UserStatKey(userid uint, article bool) string {$/;"	f
+UserStatList	service/user.go	/^func UserStatList() serializer.Response {$/;"	f
+UserStatListService	service/user.go	/^type UserStatListService struct {$/;"	t
 api	api/cudr.go	/^package api$/;"	p
 api	api/user.go	/^package api$/;"	p
 db	model/db/user.go	/^package db$/;"	p
@@ -122,16 +135,18 @@ main	main.go	/^package main$/;"	p
 main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
-model	model/rediskey.go	/^package model$/;"	p
 model	model/stat.go	/^package model$/;"	p
 model	model/user.go	/^package model$/;"	p
-redis	model/redis/addarticle.go	/^package redis$/;"	p
-redis	model/redis/showarticle.go	/^package redis$/;"	p
+redis	redis/addarticle.go	/^package redis$/;"	p
+redis	redis/rediskey.go	/^package redis$/;"	p
+redis	redis/showarticle.go	/^package redis$/;"	p
+redis	redis/stat.go	/^package redis$/;"	p
 router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p
 service	service/addarticle.go	/^package service$/;"	p
 service	service/showarticle.go	/^package service$/;"	p
+service	service/stat.go	/^package service$/;"	p
 service	service/user.go	/^package service$/;"	p
 session	session/auth.go	/^package session$/;"	p
 session	session/cors.go	/^package session$/;"	p
