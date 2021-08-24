@@ -1,6 +1,9 @@
 package tool
 
 import (
+	//"encoding/json"
+	//"fmt"
+	"math/rand"
 	"strings"
 	"time"
 )
@@ -30,4 +33,8 @@ func SliceToString(str []string) string {
 		temp += v + ","
 	}
 	return temp[:len(temp)-1] //最后一个,不要
+}
+func RandomTime() int64 {
+	return rand.Int63n(time.Now().Unix()) + 7200 //随机生成现在到两个小时以内的时间戳
+
 }

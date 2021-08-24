@@ -6,6 +6,7 @@ const (
 	RedisErr
 	MysqlErr
 	StrconvErr
+	MapStructErr
 )
 
 type Response struct {
@@ -36,6 +37,8 @@ func Err(errtype int, err error) Response {
 		resp.Msg = "Mysql操作失败"
 	case 4:
 		resp.Msg = "类型转换错误"
+	case 5:
+		resp.Msg = "map转struct错误"
 	default:
 		resp.Msg = "未知错误" //这确定不是坑自己？
 

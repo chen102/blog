@@ -19,13 +19,14 @@ ArticleCommentListservice	service/showarticle.go	/^type ArticleCommentListservic
 ArticleCommentRankKey	redis/rediskey.go	/^func ArticleCommentRankKey(userid, articleid uint) string {$/;"	f
 ArticleCommentStatKey	redis/rediskey.go	/^func ArticleCommentStatKey(userid, articleid, commentid uint) string {$/;"	f
 ArticleCommentservice	service/addarticle.go	/^type ArticleCommentservice struct {$/;"	t
-ArticleIdKey	redis/rediskey.go	/^func ArticleIdKey(userid, articleid uint) string {$/;"	f
+ArticleIdKey	redis/rediskey.go	/^func ArticleIdKey(articleid uint) string {$/;"	f
 ArticleIdStringKey	redis/rediskey.go	/^func ArticleIdStringKey(userid, articleid string) string {$/;"	f
 ArticleList	api/cudr.go	/^func ArticleList(c *gin.Context) {$/;"	f
 ArticleList	service/showarticle.go	/^func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Response {$/;"	f
 ArticleListservice	service/showarticle.go	/^type ArticleListservice struct {$/;"	t
 ArticleSservice	service/showarticle.go	/^type ArticleSservice struct {$/;"	t
 ArticleStatKey	redis/rediskey.go	/^func ArticleStatKey(artid uint) string {$/;"	f
+ArticleStringIdKey	redis/rediskey.go	/^func ArticleStringIdKey(articleid string) string {$/;"	f
 ArticleSubCommentRankKey	redis/rediskey.go	/^func ArticleSubCommentRankKey(userid, articleid, commentid uint) string {$/;"	f
 ArticleTagsKey	redis/rediskey.go	/^func ArticleTagsKey(userid, articleid uint) string {$/;"	f
 ArticleTagsStringKey	redis/rediskey.go	/^func ArticleTagsStringKey(userid, articleid string) string {$/;"	f
@@ -57,6 +58,7 @@ InitCommentRank	redis/rediskey.go	/^func InitCommentRank(member interface{}) red
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
 Login	service/user.go	/^func (service *UserLoginService) Login(c *gin.Context) serializer.Response {$/;"	f
+MapStructErr	serializer/common.go	/^	MapStructErr$/;"	c
 MysqlErr	serializer/common.go	/^	MysqlErr$/;"	c
 New	router/router.go	/^func New() *gin.Engine {$/;"	f
 NewRequest	gintest/test.go	/^func NewRequest(method, url, bodytype string, body map[string]interface{}) (*http.Request, error) {$/;"	f
@@ -66,9 +68,10 @@ Paginationservice	service/showarticle.go	/^type Paginationservice struct {$/;"	t
 ParamErr	serializer/common.go	/^	ParamErr$/;"	c
 ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {$/;"	f
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
+RandomTime	tool/common.go	/^func RandomTime() int64 {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
-RedisNil	redis/rediskey.go	/^const RedisNil = redis.Nil$/;"	c
+RedisNil	model/del.go	/^const RedisNil = redis.Nil$/;"	c
 Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
 Register	service/user.go	/^func (service *UserRegisterService) Register() serializer.Response {$/;"	f
 Response	serializer/common.go	/^type Response struct {$/;"	t
@@ -77,8 +80,8 @@ SetPassword	model/user.go	/^func (user *User) SetPassword(password string) error
 ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
 ShowAllComment	redis/showarticle.go	/^func ShowAllComment(uid, artid, offset, count uint) ([]string, error) {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
-ShowArticle	redis/showarticle.go	/^func ShowArticle(uid, artid uint) (interface{}, error) {$/;"	f
 ShowArticle	service/showarticle.go	/^func (service *ArticleSservice) ShowArticle() serializer.Response {$/;"	f
+ShowArticleCache	redis/showarticle.go	/^func ShowArticleCache(artid uint) (interface{}, error) {$/;"	f
 ShowArticleComment	api/cudr.go	/^func ShowArticleComment(c *gin.Context) {$/;"	f
 ShowComment	redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
@@ -106,6 +109,7 @@ StatSubComment	service/stat.go	/^func StatSubComment(stat model.Stat, cancestat 
 StatType	model/stat.go	/^type StatType uint$/;"	t
 StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
 StrconvErr	serializer/common.go	/^	StrconvErr$/;"	c
+StructToMap	model/main.go	/^func StructToMap(s interface{}) map[string]interface{} {$/;"	f
 TagKey	redis/rediskey.go	/^func TagKey(userid uint, tag string) string {$/;"	f
 TestCase	gintest/test.go	/^type TestCase struct {$/;"	t
 TestCases	gintest/test.go	/^type TestCases []TestCase$/;"	t
@@ -126,6 +130,7 @@ UserStatCommentValue	redis/rediskey.go	/^func UserStatCommentValue(userid, artid
 UserStatKey	redis/rediskey.go	/^func UserStatKey(userid uint, article bool) string {$/;"	f
 UserStatList	service/user.go	/^func UserStatList() serializer.Response {$/;"	f
 UserStatListService	service/user.go	/^type UserStatListService struct {$/;"	t
+WriteArticleCache	redis/showarticle.go	/^func WriteArticleCache(article map[string]interface{}) error {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
 api	api/user.go	/^package api$/;"	p
 db	model/db/user.go	/^package db$/;"	p
@@ -135,6 +140,7 @@ main	main.go	/^package main$/;"	p
 main	router_test.go	/^package main$/;"	p
 model	model/article.go	/^package model$/;"	p
 model	model/del.go	/^package model$/;"	p
+model	model/main.go	/^package model$/;"	p
 model	model/stat.go	/^package model$/;"	p
 model	model/user.go	/^package model$/;"	p
 redis	redis/addarticle.go	/^package redis$/;"	p

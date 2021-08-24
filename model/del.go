@@ -11,6 +11,8 @@ import (
 var Redisdb *redis.Client
 var DB *gorm.DB
 
+const RedisNil = redis.Nil
+
 const RedisKeyNull = redis.Nil //结果为空
 
 func DelRedis() {

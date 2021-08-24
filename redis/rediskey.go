@@ -8,8 +8,6 @@ import (
 	"strconv"
 )
 
-const RedisNil = redis.Nil
-
 //redis事务逻辑
 var Transactional *redis.Tx
 
@@ -55,6 +53,19 @@ func UserStatArticleKey(userid, artid uint) string {
 	return tool.StrSplicing("userservice:userid:", UintToStr(userid), ":articleid:", UintToStr(artid), "article:hash")
 }
 
+//文章键 articleservice:articleid:xx:article:hash
+//value:用户的文章内容
+func ArticleIdKey(articleid uint) string {
+
+	return tool.StrSplicing("articleservice:userid:articleid:", UintToStr(articleid), "article:hash")
+}
+
+func ArticleStringIdKey(articleid string) string {
+
+	return tool.StrSplicing("articleservice:userid:articleid:", articleid, "article:hash")
+}
+
+//----------------------------------------------
 //文章主键键 articlemanager:userid:xx:articlid:int
 func GetArticleIDKey(userid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), "articlid:int")
@@ -70,12 +81,6 @@ func GetArticleSubCommentsIDKey(userid, articleid, commentid uint) string {
 	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":commentid:", UintToStr(commentid), ":subcommentid:int")
 }
 
-//文章键 articlemanager:userid:xx:articleid:xx:hash
-//value:用户的文章内容
-func ArticleIdKey(userid, articleid uint) string {
-
-	return tool.StrSplicing("articlemanager:userid:", UintToStr(userid), ":articleid:", UintToStr(articleid), ":hash")
-}
 func ArticleIdStringKey(userid, articleid string) string {
 
 	return tool.StrSplicing("articlemanager:userid:", userid, ":articleid:", articleid, ":hash")

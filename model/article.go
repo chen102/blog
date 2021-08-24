@@ -8,7 +8,7 @@ type Article struct {
 	gorm.Model
 	Title    string
 	UserID   uint   //用户的外键
-	UserName string `gorm:"-" `
+	UserName string `gorm:"-" map:"omitempty" json:"omitempty"`
 	Stat     uint
 	Tags     string `mapstructure:",omitempty"`
 	Content  string

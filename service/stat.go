@@ -5,7 +5,7 @@ import (
 	"blog/redis"
 	"blog/serializer"
 
-	"fmt"
+	//"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	//"github.com/mitchellh/mapstructure"
@@ -69,7 +69,6 @@ func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
 	var article_map map[string]interface{}
 	data, _ := json.Marshal(&article)
 	json.Unmarshal(data, &article_map)
-	fmt.Println(article_map)
 	if err := redis.Stat(stat, article_map); err != nil {
 		return err, serializer.RedisErr
 	}
@@ -77,7 +76,6 @@ func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
 	if cancestat {
 
 	}
-	//防止重复点赞
 	if err := model.DB.Create(&stat).Error; err != nil {
 		return err, serializer.MysqlErr
 	}

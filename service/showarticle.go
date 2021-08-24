@@ -2,15 +2,14 @@ package service
 
 import (
 	"blog/model"
-	"errors"
-	//"blog/model/redis"
+	"blog/redis"
 	"blog/serializer"
-
-	"github.com/gin-gonic/gin"
 	//"blog/tool"
+	"errors"
+	"github.com/gin-gonic/gin"
 	//"encoding/json"
 	"fmt"
-	//"github.com/mitchellh/mapstructure"
+	"github.com/mitchellh/mapstructure"
 	//"strconv"
 )
 
@@ -128,8 +127,24 @@ func (service *ArticleSservice) DeleteArticle() serializer.Response {
 }
 func (service *ArticleSservice) ShowArticle() serializer.Response {
 	var article model.Article
-	if err := model.DB.First(&article, service.ArticleId).Error; err != nil {
-		return serializer.Err(serializer.MysqlErr, err)
+	data, err := redis.ShowArticleCache(service.ArticleId)
+	if err != nil && err != model.RedisNil {
+		return serializer.Err(serializer.RedisErr, err)
+	} else if err == model.RedisNil { //若缓存未命中,更新缓存
+		if err := model.DB.First(&article, service.ArticleId).Error; err != nil {
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		if err := redis.WriteArticleCache(model.StructToMap(article)); err != nil {
+
+			return serializer.Err(serializer.RedisErr, err)
+		}
+
+	}
+	if data != nil {
+
+		if err := mapstructure.Decode(data, &article); err != nil {
+			return serializer.Err(serializer.MapStructErr, err)
+		}
 	}
 	//根据文章的用户ID查询该用户的名称
 	var user []model.User
@@ -137,6 +152,7 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 		return serializer.Err(serializer.MysqlErr, err)
 	}
 	article.UserName = user[0].UserName
+
 	return serializer.BuildArticleResponse(article)
 	//var article model.Article
 	//data, err := redis.ShowArticle(service.AuthorId, service.ArticleId)

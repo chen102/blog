@@ -1,23 +1,41 @@
 package redis
 
 import (
-//. "blog/model"
-//"blog/tool"
-//"errors"
-//"github.com/go-redis/redis"
-//"strconv"
+	"blog/model"
+	//"errors"
+	//"fmt"
+	"github.com/go-redis/redis"
+	"strconv"
+	"time"
 )
 
-func ShowArticle(uid, artid uint) (interface{}, error) {
+func WriteArticleCache(article map[string]interface{}) error {
+	articleid := strconv.FormatFloat(article["ID"].(float64), 'f', 0, 64)
+	transactional := func(tx *redis.Tx) error {
+		if err := tx.HMSet(ArticleStringIdKey(articleid), article).Err(); err != nil {
+			return err
+		}
+		tx.Expire(ArticleStringIdKey(articleid), 1*time.Hour) //1小时存活
+		return nil
+	}
+	if err := model.Redisdb.Watch(transactional, ArticleStringIdKey(articleid)); err != nil { //保证并发安全
+		return err
+	}
+	return nil
 
-	//这里应该先在用户集合里找，有这个用户再去该用户的文章列表找,目前还没做用户模块
-	//ok, err := Redisdb.SIsMember(AuthorArticlesKey(uid), artid).Result()  在该作者所有文章中找到相应id
-	//if err != nil && err != RedisNil {
-	//return nil, err
-	//} else if !ok {
-	//return nil, errors.New("artid is not exist")
-	//}
-	//data, err := Redisdb.HGetAll(ArticleIdKey(uid, artid)).Result()
+}
+func ShowArticleCache(artid uint) (interface{}, error) {
+	exist, err := model.Redisdb.Exists(ArticleIdKey(artid)).Result()
+	if exist == 0 {
+		return nil, model.RedisNil
+	}
+	data, err := model.Redisdb.HGetAll(ArticleIdKey(artid)).Result()
+	if err != nil {
+		return nil, err
+	}
+	model.Redisdb.Expire(ArticleIdKey(artid), 1*time.Hour) //刷新存活
+	return data, nil
+
 	//if err != nil && err != RedisNil {
 	//return nil, err
 	//}

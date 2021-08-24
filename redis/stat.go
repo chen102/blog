@@ -16,7 +16,11 @@ func Stat(stat model.Stat, article map[string]interface{}) error {
 	pipe := model.Redisdb.Pipeline()
 	pipe.HMSet(UserStatArticleKey(stat.UserID, stat.ArticleID), article)
 	//更新用户点赞列表同时防止重复点赞
+
 	//点赞数+1
+	if err := pipe.Incr(ArticleStatKey(stat.ArticleID)).Err(); err != nil {
+		return err
+	}
 	if _, err := pipe.Exec(); err != nil {
 		return err
 	}
