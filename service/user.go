@@ -2,9 +2,9 @@ package service
 
 import (
 	"blog/model"
+	"blog/redis"
 	"blog/serializer"
 	"errors"
-
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +28,9 @@ type UserStatListService struct {
 	StatType model.StatType `form:"StatType" json:"StatType" binding:"omitempty,oneof=1 2"`
 	UserId   uint           `form:"AuthorId" json:"AuthorId" binding:"omitempty"` //若为空，即为自己的点赞文章列表
 	Paginationservice
+}
+type UpdateUsernameService struct {
+	UserName string `form:"username" json:"username" binding:"required,min=2,max=20"`
 }
 
 func UserStatList() serializer.Response {
@@ -74,7 +77,30 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	}
 	s := sessions.Default(c)
 	s.Clear()
+	s.Options(sessions.Options{
+		MaxAge: 86400,
+	})
 	s.Set("userID", user.ID) //gorm的自增ID
 	s.Save()
 	return serializer.BuildResponse("登录成功")
+}
+func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.Response {
+	user := model.GetcurrentUser(c)
+	if user == nil {
+		return serializer.Err(serializer.NoErr, errors.New("用户不存在"))
+	}
+	count := 0
+
+	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	if count > 0 {
+		return serializer.Err(serializer.ParamErr, errors.New("用户名已存在"))
+	}
+	if err := model.DB.Model(&user).Where("id=?", user.ID).Update("user_name", service.UserName).Error; err != nil {
+		return serializer.Err(serializer.MysqlErr, errors.New("修改失败"))
+
+	}
+	go func() {
+		model.RedisWriteDB.Del(redis.UserIdKey(user.ID))
+	}()
+	return serializer.BuildResponse("修改成功")
 }

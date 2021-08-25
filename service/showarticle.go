@@ -142,16 +142,30 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 	}
 	if data != nil {
 
-		if err := mapstructure.Decode(data, &article); err != nil {
+		if err := mapstructure.WeakDecode(data, &article); err != nil {
 			return serializer.Err(serializer.MapStructErr, err)
 		}
 	}
 	//根据文章的用户ID查询该用户的名称
 	var user []model.User
-	if err := model.DB.Select("user_name").First(&user, article.UserID).Error; err != nil {
+	username, err := redis.ShowUserNameCache(article.UserID)
+	if err != nil && err != model.RedisNil {
 		return serializer.Err(serializer.MysqlErr, err)
+	} else if err == model.RedisNil { //若缓存未命中,更新缓存
+		if err := model.DB.Select("user_name").First(&user, article.UserID).Error; err != nil {
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		if err := redis.WriteUserNameCache(article.UserID, user[0].UserName); err != nil {
+
+			return serializer.Err(serializer.RedisErr, err)
+		}
+
+		article.UserName = user[0].UserName
 	}
-	article.UserName = user[0].UserName
+	if username != "" {
+
+		article.UserName = username
+	}
 
 	return serializer.BuildArticleResponse(article)
 	//var article model.Article

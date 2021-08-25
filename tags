@@ -72,7 +72,8 @@ RandomTime	tool/common.go	/^func RandomTime() int64 {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
 RedisNil	model/del.go	/^const RedisNil = redis.Nil$/;"	c
-Redisdb	model/del.go	/^var Redisdb *redis.Client$/;"	v
+RedisReadDB	model/del.go	/^var RedisReadDB *redis.Client$/;"	v
+RedisWriteDB	model/del.go	/^var RedisWriteDB *redis.Client$/;"	v
 Register	service/user.go	/^func (service *UserRegisterService) Register() serializer.Response {$/;"	f
 Response	serializer/common.go	/^type Response struct {$/;"	t
 Session	session/session.go	/^func Session(secret string) gin.HandlerFunc {$/;"	f
@@ -84,6 +85,7 @@ ShowArticle	service/showarticle.go	/^func (service *ArticleSservice) ShowArticle
 ShowArticleCache	redis/showarticle.go	/^func ShowArticleCache(artid uint) (interface{}, error) {$/;"	f
 ShowArticleComment	api/cudr.go	/^func ShowArticleComment(c *gin.Context) {$/;"	f
 ShowComment	redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
+ShowUserNameCache	redis/user.go	/^func ShowUserNameCache(userid uint) (string, error) {$/;"	f
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
 SortArgs	redis/rediskey.go	/^func SortArgs(by string, offset, count int64, get []string, order string, alpha bool) *redis.Sort {$/;"	f
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
@@ -119,11 +121,15 @@ Transactional	redis/rediskey.go	/^var Transactional *redis.Tx$/;"	v
 UintToStr	redis/rediskey.go	/^func UintToStr(str uint) string {$/;"	f
 UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/showarticle.go	/^func (service *ArticleSservice) UpdateArticle() serializer.Response {$/;"	f
+UpdateUsername	service/user.go	/^func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.Response {$/;"	f
+UpdateUsernameService	service/user.go	/^type UpdateUsernameService struct {$/;"	t
 User	model/user.go	/^type User struct {$/;"	t
+UserIdKey	redis/rediskey.go	/^func UserIdKey(userid uint) string {$/;"	f
 UserLogin	api/user.go	/^func UserLogin(c *gin.Context) {$/;"	f
 UserLoginService	service/user.go	/^type UserLoginService struct {$/;"	t
 UserRegister	api/user.go	/^func UserRegister(c *gin.Context) {$/;"	f
 UserRegisterService	service/user.go	/^type UserRegisterService struct {$/;"	t
+UserRename	api/user.go	/^func UserRename(c *gin.Context) {$/;"	f
 UserStatArticleKey	redis/rediskey.go	/^func UserStatArticleKey(userid, artid uint) string {$/;"	f
 UserStatArticleValue	redis/rediskey.go	/^func UserStatArticleValue(userid, artid uint) string {$/;"	f
 UserStatCommentValue	redis/rediskey.go	/^func UserStatCommentValue(userid, artid, commentid uint) string {$/;"	f
@@ -131,8 +137,10 @@ UserStatKey	redis/rediskey.go	/^func UserStatKey(userid uint, article bool) stri
 UserStatList	service/user.go	/^func UserStatList() serializer.Response {$/;"	f
 UserStatListService	service/user.go	/^type UserStatListService struct {$/;"	t
 WriteArticleCache	redis/showarticle.go	/^func WriteArticleCache(article map[string]interface{}) error {$/;"	f
+WriteUserNameCache	redis/user.go	/^func WriteUserNameCache(userid uint, username string) error {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
 api	api/user.go	/^package api$/;"	p
+check	model/del.go	/^func check() bool {$/;"	f
 db	model/db/user.go	/^package db$/;"	p
 gintest	gintest/test.go	/^package gintest$/;"	p
 main	main.go	/^func main() {$/;"	f
@@ -147,6 +155,7 @@ redis	redis/addarticle.go	/^package redis$/;"	p
 redis	redis/rediskey.go	/^package redis$/;"	p
 redis	redis/showarticle.go	/^package redis$/;"	p
 redis	redis/stat.go	/^package redis$/;"	p
+redis	redis/user.go	/^package redis$/;"	p
 router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p

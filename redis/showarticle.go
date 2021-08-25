@@ -18,22 +18,22 @@ func WriteArticleCache(article map[string]interface{}) error {
 		tx.Expire(ArticleStringIdKey(articleid), 1*time.Hour) //1小时存活
 		return nil
 	}
-	if err := model.Redisdb.Watch(transactional, ArticleStringIdKey(articleid)); err != nil { //保证并发安全
+	if err := model.RedisWriteDB.Watch(transactional, ArticleStringIdKey(articleid)); err != nil { //保证并发安全
 		return err
 	}
 	return nil
 
 }
 func ShowArticleCache(artid uint) (interface{}, error) {
-	exist, err := model.Redisdb.Exists(ArticleIdKey(artid)).Result()
+	exist, err := model.RedisReadDB.Exists(ArticleIdKey(artid)).Result()
 	if exist == 0 {
 		return nil, model.RedisNil
 	}
-	data, err := model.Redisdb.HGetAll(ArticleIdKey(artid)).Result()
+	data, err := model.RedisReadDB.HGetAll(ArticleIdKey(artid)).Result()
 	if err != nil {
 		return nil, err
 	}
-	model.Redisdb.Expire(ArticleIdKey(artid), 1*time.Hour) //刷新存活
+	model.RedisWriteDB.Expire(ArticleIdKey(artid), 1*time.Hour) //刷新存活
 	return data, nil
 
 	//if err != nil && err != RedisNil {

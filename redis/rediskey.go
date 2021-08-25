@@ -64,6 +64,9 @@ func ArticleStringIdKey(articleid string) string {
 
 	return tool.StrSplicing("articleservice:userid:articleid:", articleid, "article:hash")
 }
+func UserIdKey(userid uint) string {
+	return tool.StrSplicing("userservice:userid:", UintToStr(userid), ":username:string")
+}
 
 //----------------------------------------------
 //文章主键键 articlemanager:userid:xx:articlid:int

@@ -8,21 +8,49 @@ import (
 	"time"
 )
 
-var Redisdb *redis.Client
+var RedisReadDB *redis.Client
+var RedisWriteDB *redis.Client
 var DB *gorm.DB
 
 const RedisNil = redis.Nil
 
 const RedisKeyNull = redis.Nil //结果为空
+//检查redis主从是否开启
+func check() bool {
+	RedisWriteDB.Set("MasterSlave", 1, 3*time.Second)
+	ok, err := RedisReadDB.Get("MasterSlave").Int()
+	if err != nil {
+		panic(err)
+	}
+	if ok == 1 {
+		return true
+	}
+	return false
+}
 
+//读写分离
 func DelRedis() {
-	Redisdb = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
-		Password: "",
+	RedisReadDB = redis.NewClient(&redis.Options{
+		Addr:     "192.168.122.1:6380", //这里不能两个都用回环
+		Password: "000000",
 		DB:       0,
 	})
-	pong, err := Redisdb.Ping().Result()
+	RedisWriteDB = redis.NewClient(&redis.Options{
+		Addr:     "127.0.0.1:6379",
+		Password: "000000",
+		DB:       0,
+	})
+	pong, err := RedisWriteDB.Ping().Result()
 	log.Println(pong, err)
+	pong, err = RedisReadDB.Ping().Result()
+	log.Println(pong, err)
+	if err := RedisReadDB.SlaveOf("172.17.0.3", "6379").Err(); err != nil { //redis主从
+		panic(err)
+	}
+	if !check() {
+		panic("主从开启失败")
+	}
+	log.Println("redis主从启动成功")
 }
 func DelMysql() error {
 	db, err := gorm.Open("mysql", "root:chenxi1234@tcp(10.177.3.141:3306)/blog?charset=utf8mb4&parseTime=True&loc=Local")
@@ -40,7 +68,8 @@ func DelMysql() error {
 	//设置一个连接被使用的最长时间，即过了一段时间后会被强制回收，理论上这可以有效减少不可用连接出现的概率。当数据库方面也设置了连接的超时时间时，这个值应当不超过数据库的超时参数值。
 
 	db.Set("gorm:table_options", "charset=utf8mb4") //tips:mysql容器中的默认编码是临时的,容器重启了就没了
-	db.AutoMigrate(&User{}, &Article{}, Stat{})
+	db.AutoMigrate(&User{}, &Article{}, &Stat{})
 	DB = db
+	log.Println("mysql启动成功")
 	return nil
 }

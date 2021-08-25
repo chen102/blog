@@ -26,3 +26,14 @@ func UserLogin(c *gin.Context) {
 
 	}
 }
+func UserRename(c *gin.Context) {
+	var service service.UpdateUsernameService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.UpdateUsername(c)
+		c.JSON(200, res)
+
+	}
+
+}

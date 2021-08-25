@@ -6,6 +6,9 @@ import (
 )
 
 func StructToMap(s interface{}) map[string]interface{} {
+	if s == nil {
+		return nil
+	}
 	var s_map map[string]interface{}
 	fmt.Println(s)
 	switch s.(type) {
