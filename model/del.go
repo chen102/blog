@@ -1,5 +1,6 @@
 package model
 
+//目前是直接读环境参数，后续会添加配置文件
 import "log"
 import (
 	"github.com/go-redis/redis"
@@ -19,7 +20,7 @@ const RedisKeyNull = redis.Nil //结果为空
 func check() bool {
 	RedisWriteDB.Set("MasterSlave", 1, 3*time.Second)
 	ok, err := RedisReadDB.Get("MasterSlave").Int()
-	if err != nil {
+	if err != nil && err != RedisNil {
 		panic(err)
 	}
 	if ok == 1 {
@@ -31,20 +32,21 @@ func check() bool {
 //读写分离
 func DelRedis() {
 	RedisReadDB = redis.NewClient(&redis.Options{
-		Addr:     "192.168.122.1:6380", //这里不能两个都用回环
+		Addr:     "192.168.122.1:6380", //这里不能两个都用回环，走的是网络层，需要模拟两个网段
 		Password: "000000",
 		DB:       0,
 	})
 	RedisWriteDB = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
-		Password: "000000",
+		Addr:     "127.0.0.1:6379", //
+		Password: "000000",         //若主不设置密码，redis主从起不来 具体看redis配置
 		DB:       0,
 	})
 	pong, err := RedisWriteDB.Ping().Result()
 	log.Println(pong, err)
 	pong, err = RedisReadDB.Ping().Result()
 	log.Println(pong, err)
-	if err := RedisReadDB.SlaveOf("172.17.0.3", "6379").Err(); err != nil { //redis主从
+	if err := RedisReadDB.SlaveOf("172.17.0.4", "6379").Err(); err != nil { //redis主从
+		//这里的ip是主的IP，因为这里是本地，所以直接用的容器的IP
 		panic(err)
 	}
 	if !check() {

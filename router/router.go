@@ -18,12 +18,12 @@ func New() *gin.Engine {
 		v0.POST("user/register", api.UserRegister)
 		v0.POST("user/login", api.UserLogin)
 		v0.POST("article/show", api.ShowArticle) //传ID了不能用GET
-		v0.POST("article/list", api.ArticleList)
 		v0.POST("article/comment/list", api.ShowArticleComment)
 		auth := v0.Group("/")
 		auth.Use(session.AuthRequired()) //需要登录的操作
 		{
 			//auth.DELETE("user/logout", api.UserLogout)
+			auth.POST("article/list", api.ArticleList)
 			auth.POST("user/rename", api.UserRename)
 			auth.POST("article/add", api.AddArticle)
 			auth.DELETE("article/delete", api.DeleteArticle)

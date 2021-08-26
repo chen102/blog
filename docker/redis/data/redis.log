@@ -1,0 +1,57 @@
+1:M 25 Aug 2021 10:58:49.068 * 1 changes in 3600 seconds. Saving...
+1:M 25 Aug 2021 10:58:49.069 * Background saving started by pid 22
+22:C 25 Aug 2021 10:58:49.083 * DB saved on disk
+22:C 25 Aug 2021 10:58:49.084 * RDB: 0 MB of memory used by copy-on-write
+1:M 25 Aug 2021 10:58:49.169 * Background saving terminated with success
+1:signal-handler (1629897107) Received SIGTERM scheduling shutdown...
+1:M 25 Aug 2021 13:11:47.827 # User requested shutdown...
+1:M 25 Aug 2021 13:11:47.827 * Calling fsync() on the AOF file.
+1:M 25 Aug 2021 13:11:47.827 * Saving the final RDB snapshot before exiting.
+1:M 25 Aug 2021 13:11:47.830 * DB saved on disk
+1:M 25 Aug 2021 13:11:47.830 # Redis is now ready to exit, bye bye...
+1:C 26 Aug 2021 06:55:16.040 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 26 Aug 2021 06:55:16.040 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 26 Aug 2021 06:55:16.040 # Configuration loaded
+1:M 26 Aug 2021 06:55:16.041 * monotonic clock: POSIX clock_gettime
+1:M 26 Aug 2021 06:55:16.041 * Running mode=standalone, port=6379.
+1:M 26 Aug 2021 06:55:16.042 # Server initialized
+1:M 26 Aug 2021 06:55:16.042 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 26 Aug 2021 06:55:16.048 * DB saved on disk
+1:M 26 Aug 2021 06:55:16.048 * DB loaded from append only file: 0.006 seconds
+1:M 26 Aug 2021 06:55:16.048 * Ready to accept connections
+1:M 26 Aug 2021 07:01:03.162 * Replica 172.17.0.3:6379 asks for synchronization
+1:M 26 Aug 2021 07:01:03.162 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for '671fedc076e0fa6e1ed844d19511685f5864e416', my replication IDs are '005646f774b4c8e6d6fd9c5fb95ab40cfc3b919a' and '0000000000000000000000000000000000000000')
+1:M 26 Aug 2021 07:01:03.162 * Replication backlog created, my new replication IDs are 'c26bc447194d9a9c4c4de08bf70fa7a5324dfb52' and '0000000000000000000000000000000000000000'
+1:M 26 Aug 2021 07:01:03.162 * Starting BGSAVE for SYNC with target: disk
+1:M 26 Aug 2021 07:01:03.162 * Background saving started by pid 19
+19:C 26 Aug 2021 07:01:03.168 * DB saved on disk
+19:C 26 Aug 2021 07:01:03.168 * RDB: 0 MB of memory used by copy-on-write
+1:M 26 Aug 2021 07:01:03.175 * Background saving terminated with success
+1:M 26 Aug 2021 07:01:03.175 * Synchronization with replica 172.17.0.3:6379 succeeded
+1:M 26 Aug 2021 08:01:04.032 * 1 changes in 3600 seconds. Saving...
+1:M 26 Aug 2021 08:01:04.033 * Background saving started by pid 20
+20:C 26 Aug 2021 08:01:04.048 * DB saved on disk
+20:C 26 Aug 2021 08:01:04.049 * RDB: 0 MB of memory used by copy-on-write
+1:M 26 Aug 2021 08:01:04.133 * Background saving terminated with success
+1:M 26 Aug 2021 08:28:17.374 * DB saved on disk
+1:M 26 Aug 2021 08:53:21.000 * DB saved on disk
+1:M 26 Aug 2021 09:53:21.019 * 1 changes in 3600 seconds. Saving...
+1:M 26 Aug 2021 09:53:21.020 * Background saving started by pid 21
+21:C 26 Aug 2021 09:53:21.027 * DB saved on disk
+21:C 26 Aug 2021 09:53:21.028 * RDB: 0 MB of memory used by copy-on-write
+1:M 26 Aug 2021 09:53:21.121 * Background saving terminated with success
+1:M 26 Aug 2021 10:53:22.018 * 1 changes in 3600 seconds. Saving...
+1:M 26 Aug 2021 10:53:22.019 * Background saving started by pid 22
+22:C 26 Aug 2021 10:53:22.033 * DB saved on disk
+22:C 26 Aug 2021 10:53:22.035 * RDB: 0 MB of memory used by copy-on-write
+1:M 26 Aug 2021 10:53:22.120 * Background saving terminated with success
+1:M 26 Aug 2021 11:53:23.068 * 1 changes in 3600 seconds. Saving...
+1:M 26 Aug 2021 11:53:23.069 * Background saving started by pid 23
+23:C 26 Aug 2021 11:53:23.076 * DB saved on disk
+23:C 26 Aug 2021 11:53:23.077 * RDB: 0 MB of memory used by copy-on-write
+1:M 26 Aug 2021 11:53:23.170 * Background saving terminated with success
+1:M 26 Aug 2021 12:53:24.022 * 1 changes in 3600 seconds. Saving...
+1:M 26 Aug 2021 12:53:24.023 * Background saving started by pid 24
+24:C 26 Aug 2021 12:53:24.037 * DB saved on disk
+24:C 26 Aug 2021 12:53:24.039 * RDB: 0 MB of memory used by copy-on-write
+1:M 26 Aug 2021 12:53:24.124 * Background saving terminated with success

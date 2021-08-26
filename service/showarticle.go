@@ -4,11 +4,14 @@ import (
 	"blog/model"
 	"blog/redis"
 	"blog/serializer"
+	"blog/tool"
+	"strconv"
+
 	//"blog/tool"
-	"errors"
+	//"errors"
 	"github.com/gin-gonic/gin"
 	//"encoding/json"
-	"fmt"
+	//"fmt"
 	"github.com/mitchellh/mapstructure"
 	//"strconv"
 )
@@ -68,58 +71,63 @@ func (service *ArticleCommentListservice) ArticleCommentList() serializer.Respon
 func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Response {
 	var user model.User
 	if service.AuthorId != 0 { //指定了用户
-		if err := model.DB.Where("user_id=?", service.AuthorId).First(&user).Error; err != nil {
-			fmt.Println(service.AuthorId)
-			return serializer.Err(serializer.MysqlErr, err)
+		user.ID = service.AuthorId
+	} else { //若没有，默认是自己
+		u := model.GetcurrentUser(c)
+		if u != nil {
+			user = *u
 		}
-	} else {
-
-		onse := model.GetcurrentUser(c) //没有指定用户默认就是自己的列表
-		if onse == nil {
-
-			return serializer.Err(serializer.NoErr, errors.New("用户不存在"))
-		}
-		user = *onse
 	}
 	if service.Count == 0 {
 		service.Count = 5
 	}
-	if err := model.DB.Limit(service.Count).Offset(service.Offset).Where("user_id=?", user.ID).Find(&user.Articles).Error; err != nil {
-		return serializer.Err(serializer.MysqlErr, err)
+	data, err := redis.ShowArticleListCache(user.ID, service.Offset, service.Count, service.Type)
+	if err != nil && err != model.RedisNil {
+		return serializer.Err(serializer.RedisErr, err)
+	} else if err == model.RedisNil {
+		if err := model.DB.Where("user_id=?", user.ID).Find(&user.Articles).Error; err != nil { //直接查该用户所有文章写入redis，下次翻页，排序，都是在redis读服务器进行
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		if err := redis.WriteArticleListCach(user.ID, user.Articles); err != nil {
+			return serializer.Err(serializer.RedisErr, err)
+		}
+
+		return serializer.BuildArticleListResponse(user.Articles)
 	}
-	return serializer.BuildArticleListResponse(user.Articles)
-	//res, err := redis.ListArticle(service.AuthorId, service.Offset, service.Count, service.Type)
-	//if err != nil {
+	//手动处理data
+	////Sort返回的结果为[]string，将string转为多个文章模型进行响应
+	article := make([]model.Article, len(data)/5) //5个string为一个article,分别是id,title,time,stat,tags
+	id := 0
+	for i := 0; i < len(data); i++ {
+		if i != 0 && i%5 == 0 {
+			id++
+		}
+		//这样写真的很蠢
+		switch i % 5 {
+		case 0:
+			articleid, err := strconv.Atoi(data[i])
+			if err != nil {
+				return serializer.Err(serializer.StrconvErr, err)
+			}
+			article[id].ID = uint(articleid)
+		case 1:
+			article[id].Title = data[i]
+		case 2:
+			article[id].UpdatedAt = tool.StringToTime(data[i])
+		case 3:
+			stat, err := strconv.Atoi(data[i])
+			if err != nil {
+				return serializer.Err(serializer.StrconvErr, err)
+			}
+			article[id].Stat = uint(stat)
+		case 4:
+			if data[i] != "" {
 
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	////Sort返回的结果为string，将string转为多个文章模型进行响应
-	//article := make([]model.Article, len(res)/4) //4个string为一个article,分别是id,title,time,tags
-	//id := 0
-	//for i := 0; i < len(res); i++ {
-	//if i != 0 && i%4 == 0 {
-	//id++
-	//}
-	//switch i % 4 {
-	//case 0:
-	//articleid, err := strconv.Atoi(res[i])
-	//if err != nil {
-	//return serializer.Err(serializer.StrconvErr, err)
-	//}
-	//article[id].ArticleId = uint(articleid)
-	//case 1:
-	//article[id].Title = res[i]
-	//case 2:
-	//article[id].Time = res[i]
-	//case 3:
-	//if res[i] != "" {
-
-	//article[id].Tags = res[i]
-	//}
-	//}
-	//}
-	//return serializer.BuildArticleListResponse(article)
-	//return serializer.BuildResponse("xx")
+				article[id].Tags = data[i]
+			}
+		}
+	}
+	return serializer.BuildArticleListResponse(article)
 }
 func (service *ArticleSservice) DeleteArticle() serializer.Response {
 	return serializer.Response{}

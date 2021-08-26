@@ -2,8 +2,7 @@ package redis
 
 import (
 	"blog/model"
-	//"errors"
-	//"fmt"
+	"errors"
 	"github.com/go-redis/redis"
 	"strconv"
 	"time"
@@ -26,7 +25,9 @@ func WriteArticleCache(article map[string]interface{}) error {
 }
 func ShowArticleCache(artid uint) (interface{}, error) {
 	exist, err := model.RedisReadDB.Exists(ArticleIdKey(artid)).Result()
-	if exist == 0 {
+	if err != nil && err != model.RedisNil {
+		return nil, err
+	} else if exist == 0 {
 		return nil, model.RedisNil
 	}
 	data, err := model.RedisReadDB.HGetAll(ArticleIdKey(artid)).Result()
@@ -35,40 +36,61 @@ func ShowArticleCache(artid uint) (interface{}, error) {
 	}
 	model.RedisWriteDB.Expire(ArticleIdKey(artid), 1*time.Hour) //刷新存活
 	return data, nil
+}
+func ShowArticleListCache(userid, offset, count uint, rank bool) ([]string, error) {
+	var res []string
+	if rank {
+		//rank功能待做，思路:需使用有序集合，每次点赞和查看文章时，增加文章的热度(一定时间内),然后按热度排序
+		//sortargs = SortArgs(tool.StrSplicing(ArticleIdStringKey(strconv.Itoa(int(uid)), "*"), "->stat"), int64(offset), int64(count), get, "DESC", false)
+	} else {
+		exist, err := model.RedisReadDB.Exists(ArticlesListKey(userid)).Result()
+		if err != nil && err != model.RedisNil {
+			return nil, err
+		} else if exist == 0 {
+			return nil, model.RedisNil
+		}
+		get := GetSort(ArticleStringIdKey("*"), true, "Title", "UpdatedAt", "Stat", "Tags") //排序后显示的字段
+		sortargs := SortArgs("", int64(offset), int64(count), get, "DESC", false)           //按时间排序：直接按key排序,也就是ID，ID大的一定后发布
+		res, err = model.RedisWriteDB.Sort(ArticlesListKey(userid), sortargs).Result()
+		//这里应该把排序的结果保存起来，下次直接查
+		if err != nil {
+			return nil, err
+		}
+	}
+	if res == nil {
+		return nil, errors.New("没拿到排序结果")
+	}
+	return res, nil
+}
+func WriteArticleListCach(userid uint, articles []model.Article) error {
+	//写入用户文章合集
+	//写入用户文章
+	//取出文章的ID
+	transactional := func(tx *redis.Tx) error {
 
-	//if err != nil && err != RedisNil {
-	//return nil, err
-	//}
-	//return data, nil
-	//}
-	//func ListArticle(uid, offset, count uint, rank bool) ([]string, error) {
-
-	//if count == 0 {
-	//count = 5
-	//}
-	//articlenum, err := Redisdb.SCard(AuthorArticlesKey(uid)).Result()
-	//if err != nil && err != RedisNil {
-	//return nil, err
-	//}
-	//if articlenum <= int64(offset) { 当偏移量大于总文章数时，后面返回空
-	//return nil, errors.New("is null")
-	//}
-	//get := GetSort(ArticleIdStringKey(strconv.Itoa(int(uid)), "*"), true, "title", "time", "stat", "tags")
-	//var sortargs *redis.Sort
-	//if rank { 按点赞排序
-
-	//sortargs = SortArgs(tool.StrSplicing(ArticleIdStringKey(strconv.Itoa(int(uid)), "*"), "->stat"), int64(offset), int64(count), get, "DESC", false)
-	//} else { 默认按时间排序
-	//sortargs = SortArgs("", int64(offset), int64(count), get, "DESC", false)
-	//这里其实应用用也by，拿文章的发布时间来进行排序，但是文章id是系统分配的，id大的一定是后发布的,所以这里直接用key来排序了,后序可以加个按时间排序
-
-	//}
-
-	//res, err := Redisdb.Sort(AuthorArticlesKey(uid), sortargs).Result()
-	//if err != nil {
-	//return nil, err
-	//}
-	return nil, nil
+		for _, v := range articles {
+			if err := tx.SAdd(ArticlesListKey(userid), v.ID).Err(); err != nil {
+				return err
+			}
+			exist, err := tx.Exists(ArticlesListKey(v.ID)).Result()
+			if err != nil {
+				return err
+			} else if exist == 1 {
+				tx.Expire(ArticleIdKey(v.ID), 1*time.Hour) //这里就把之前缓存的但这次没缓存的文章的过期时间强制与这次缓存的过期时间一致)
+				continue                                   //若缓存存在，跳过，避免struct转map的开销
+			}
+			if err := tx.HMSet(ArticleIdKey(v.ID), model.StructToMap(v)).Err(); err != nil {
+				return err
+			}
+			tx.Expire(ArticleIdKey(v.ID), 1*time.Hour)
+			tx.Expire(ArticlesListKey(userid), 1*time.Hour)
+		}
+		return nil
+	}
+	if err := model.RedisWriteDB.Watch(transactional, ArticlesListKey(userid)); err != nil { //保证并发安全
+		return err
+	}
+	return nil
 }
 func ShowComment(uid, artid uint) ([]string, error) {
 	//commentnum, err := Redisdb.ZCard(ArticleCommentRankKey(uid, artid)).Result()

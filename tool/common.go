@@ -2,17 +2,27 @@ package tool
 
 import (
 	//"encoding/json"
-	//"fmt"
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
 )
 
+const standard = "2006-01-02 15:04:05"
+
+func StringToTime(str string) time.Time {
+	fmt.Println(str)
+	st, _ := time.Parse(time.RFC3339, str)
+	fmt.Println(st)
+	return st
+}
+func TimeToString(t time.Time) string {
+	return t.Format(standard)
+}
 func ShortTime() string {
-	const shortForm = "2006-01-02 15:04:05"
 	now := time.Now()
 	tepm := time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), now.Nanosecond(), time.Local)
-	str := tepm.Format(shortForm)
+	str := tepm.Format(standard)
 	return str
 
 }
