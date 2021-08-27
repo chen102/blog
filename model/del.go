@@ -11,6 +11,7 @@ import (
 
 var RedisReadDB *redis.Client
 var RedisWriteDB *redis.Client
+var RedisSysDB *redis.Client
 var DB *gorm.DB
 
 const RedisNil = redis.Nil
@@ -41,12 +42,18 @@ func DelRedis() {
 		Password: "000000",         //若主不设置密码，redis主从起不来 具体看redis配置
 		DB:       0,
 	})
+	//系统redis客户端
+	RedisSysDB = redis.NewClient(&redis.Options{
+		Addr:     "192.168.122.1:6379",
+		Password: "000000",
+		DB:       0,
+	})
 	pong, err := RedisWriteDB.Ping().Result()
 	log.Println(pong, err)
 	pong, err = RedisReadDB.Ping().Result()
 	log.Println(pong, err)
-	if err := RedisReadDB.SlaveOf("172.17.0.4", "6379").Err(); err != nil { //redis主从
-		//这里的ip是主的IP，因为这里是本地，所以直接用的容器的IP
+	if err := RedisReadDB.SlaveOf("172.17.0.2", "6379").Err(); err != nil { //redis主从
+		//这里的ip是主的IP，因为这里是本地，所以直接用的容器的IP (需固定容器IP)
 		panic(err)
 	}
 	if !check() {

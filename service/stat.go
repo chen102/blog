@@ -9,7 +9,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	//"github.com/mitchellh/mapstructure"
-	"encoding/json"
+	//"encoding/json"
 )
 
 type StatService struct {
@@ -53,31 +53,12 @@ func (service *StatService) Stat(c *gin.Context) serializer.Response {
 
 //errorCode 返回错误代码，用于上层捕获err类型
 //点赞功能设计
-//用户点赞，写入redis，redis定时写入mysql点赞表，mysql计算点赞数，写入redis，
-func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
-	//文章模型
-	var article model.Article
-	if err := model.DB.First(&article, stat.ArticleID).Error; err != nil {
-		return err, serializer.MysqlErr
-	}
-	//这里应该用redis查，初始化的时候，将用户id和用户名存在一个kv中，以后设计
-	var user []model.User
-	if err := model.DB.Select("user_name").First(&user, article.UserID).Error; err != nil {
-		return err, serializer.MysqlErr
-	}
-	article.UserName = user[0].UserName
-	var article_map map[string]interface{}
-	data, _ := json.Marshal(&article)
-	json.Unmarshal(data, &article_map)
-	if err := redis.Stat(stat, article_map); err != nil {
-		return err, serializer.RedisErr
-	}
-	//取消点赞
-	if cancestat {
+//用户点赞，写入redis用户点赞合集，redis定时写入mysql点赞表，mysql计算点赞数，用户点赞列表 写入redis，
 
-	}
-	if err := model.DB.Create(&stat).Error; err != nil {
-		return err, serializer.MysqlErr
+func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
+	//点赞写缓存
+	if err := redis.WriteStatCache(stat, cancestat); err != nil {
+		return err, serializer.RedisErr
 	}
 	return nil, 0
 }

@@ -85,7 +85,7 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 	if err != nil && err != model.RedisNil {
 		return serializer.Err(serializer.RedisErr, err)
 	} else if err == model.RedisNil {
-		if err := model.DB.Where("user_id=?", user.ID).Find(&user.Articles).Error; err != nil { //直接查该用户所有文章写入redis，下次翻页，排序，都是在redis读服务器进行
+		if err := model.DB.Where("user_id=?", user.ID).Order("ID desc").Find(&user.Articles).Error; err != nil { //直接查该用户所有文章写入redis，下次翻页，排序，都是在redis读服务器进行
 			return serializer.Err(serializer.MysqlErr, err)
 		}
 		if err := redis.WriteArticleListCach(user.ID, user.Articles); err != nil {
@@ -102,7 +102,7 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 		if i != 0 && i%5 == 0 {
 			id++
 		}
-		//这样写真的很蠢
+		//这样写真的很蠢,但是又没有想到其他的方法，因为返回的是[]string
 		switch i % 5 {
 		case 0:
 			articleid, err := strconv.Atoi(data[i])

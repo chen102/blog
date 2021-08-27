@@ -14,6 +14,7 @@ type Article struct {
 	Time       time.Time `json:"ArticleTime,omitempty"`
 	Content    string    `json:"ArticleContent,omitempty"`
 	Tags       string    `json:"ArticleTags,omitempty"`
+	Stat       uint      `json:"ArticleStat,omitempty"`
 	//Comment    []model.Comment `json:"ArticleComment,omitempty"`
 	//CommentNum uint            `json:"ArticleCommentNum,omitempty"`
 }
@@ -64,6 +65,7 @@ func BuildArticleList(articles []model.Article) []Article {
 			Title:     article.Title,
 			Time:      article.UpdatedAt,
 			Tags:      article.Tags,
+			Stat:      article.Stat,
 		}
 		art = append(art, arttemp)
 	}

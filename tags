@@ -41,6 +41,7 @@ BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/
 CheckPassword	model/user.go	/^func (user *User) CheckPassword(password string) bool {$/;"	f
 CommentArticle	api/cudr.go	/^func CommentArticle(c *gin.Context) {$/;"	f
 Cors	session/cors.go	/^func Cors() gin.HandlerFunc {$/;"	f
+CronInit	cron/main.go	/^func CronInit() {$/;"	f
 CurrentUser	session/auth.go	/^func CurrentUser() gin.HandlerFunc {$/;"	f
 DB	model/del.go	/^var DB *gorm.DB$/;"	v
 DelMysql	model/del.go	/^func DelMysql() error {$/;"	f
@@ -74,6 +75,7 @@ RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
 RedisNil	model/del.go	/^const RedisNil = redis.Nil$/;"	c
 RedisReadDB	model/del.go	/^var RedisReadDB *redis.Client$/;"	v
+RedisSysDB	model/del.go	/^var RedisSysDB *redis.Client$/;"	v
 RedisWriteDB	model/del.go	/^var RedisWriteDB *redis.Client$/;"	v
 Register	service/user.go	/^func (service *UserRegisterService) Register() serializer.Response {$/;"	f
 Response	serializer/common.go	/^type Response struct {$/;"	t
@@ -93,7 +95,6 @@ SortArgs	redis/rediskey.go	/^func SortArgs(by string, offset, count int64, get [
 StartHandler	gintest/test.go	/^func StartHandler(router *gin.Engine, req *http.Request) (string, error) {$/;"	f
 Stat	api/cudr.go	/^func Stat(c *gin.Context) {$/;"	f
 Stat	model/stat.go	/^type Stat struct {$/;"	t
-Stat	redis/stat.go	/^func Stat(stat model.Stat, article map[string]interface{}) error {$/;"	f
 Stat	service/stat.go	/^func (service *StatService) Stat(c *gin.Context) serializer.Response {$/;"	f
 StatArticle	api/cudr.go	/^func StatArticle(c *gin.Context) {$/;"	f
 StatArticle	model/stat.go	/^	StatArticle StatType = iota$/;"	c
@@ -107,6 +108,8 @@ StatComment	redis/addarticle.go	/^func StatComment(who, uid, artid, commentid ui
 StatComment	service/addarticle.go	/^func (service *StatCommentservice) StatComment() serializer.Response {$/;"	f
 StatComment	service/stat.go	/^func StatComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
 StatCommentservice	service/addarticle.go	/^type StatCommentservice struct {$/;"	t
+StatCronService	cron/stat.go	/^func StatCronService() {$/;"	f
+StatCronServiceSpec	cron/stat.go	/^const StatCronServiceSpec = "*\/10 * * * * ?" \/\/每10秒一次$/;"	c
 StatService	service/stat.go	/^type StatService struct {$/;"	t
 StatSubComment	model/stat.go	/^	StatSubComment$/;"	c
 StatSubComment	service/stat.go	/^func StatSubComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
@@ -128,6 +131,7 @@ UpdateArticle	service/showarticle.go	/^func (service *ArticleSservice) UpdateArt
 UpdateUsername	service/user.go	/^func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.Response {$/;"	f
 UpdateUsernameService	service/user.go	/^type UpdateUsernameService struct {$/;"	t
 User	model/user.go	/^type User struct {$/;"	t
+UserCancesStatQueueKey	redis/rediskey.go	/^func UserCancesStatQueueKey() string {$/;"	f
 UserIdKey	redis/rediskey.go	/^func UserIdKey(userid uint) string {$/;"	f
 UserLogin	api/user.go	/^func UserLogin(c *gin.Context) {$/;"	f
 UserLoginService	service/user.go	/^type UserLoginService struct {$/;"	t
@@ -140,12 +144,17 @@ UserStatCommentValue	redis/rediskey.go	/^func UserStatCommentValue(userid, artid
 UserStatKey	redis/rediskey.go	/^func UserStatKey(userid uint, article bool) string {$/;"	f
 UserStatList	service/user.go	/^func UserStatList() serializer.Response {$/;"	f
 UserStatListService	service/user.go	/^type UserStatListService struct {$/;"	t
+UserStatQueueKey	redis/rediskey.go	/^func UserStatQueueKey() string {$/;"	f
+UserStatQueueValue	redis/rediskey.go	/^func UserStatQueueValue(userid, artid uint) string {$/;"	f
 WriteArticleCache	redis/showarticle.go	/^func WriteArticleCache(article map[string]interface{}) error {$/;"	f
 WriteArticleListCach	redis/showarticle.go	/^func WriteArticleListCach(userid uint, articles []model.Article) error {$/;"	f
+WriteStatCache	redis/stat.go	/^func WriteStatCache(stat model.Stat, cancestat bool) error {$/;"	f
 WriteUserNameCache	redis/user.go	/^func WriteUserNameCache(userid uint, username string) error {$/;"	f
 api	api/cudr.go	/^package api$/;"	p
 api	api/user.go	/^package api$/;"	p
 check	model/del.go	/^func check() bool {$/;"	f
+cron	cron/main.go	/^package cron$/;"	p
+cron	cron/stat.go	/^package cron$/;"	p
 db	model/db/user.go	/^package db$/;"	p
 gintest	gintest/test.go	/^package gintest$/;"	p
 main	main.go	/^func main() {$/;"	f
