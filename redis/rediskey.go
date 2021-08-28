@@ -79,12 +79,13 @@ func UserStatQueueKey() string {
 }
 
 //用户去掉点赞队列
-func UserCancesStatQueueKey() string {
-
-	return "statservice:redistomysql:userid:articleid:list"
-}
 func UserStatQueueValue(userid, artid uint) string {
 	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid))
+}
+
+//userid:artid:d
+func UserCancesStatQueueValue(userid, artid uint) string {
+	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid), ":d")
 }
 
 //----------------------------------------------

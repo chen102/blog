@@ -109,7 +109,7 @@ StatComment	service/addarticle.go	/^func (service *StatCommentservice) StatComme
 StatComment	service/stat.go	/^func StatComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
 StatCommentservice	service/addarticle.go	/^type StatCommentservice struct {$/;"	t
 StatCronService	cron/stat.go	/^func StatCronService() {$/;"	f
-StatCronServiceSpec	cron/stat.go	/^const StatCronServiceSpec = "*\/10 * * * * ?" \/\/每10秒一次$/;"	c
+StatCronServiceSpec	cron/stat.go	/^const StatCronServiceSpec = "*\/30 * * * * ?" \/\/每10秒一次$/;"	c
 StatService	service/stat.go	/^type StatService struct {$/;"	t
 StatSubComment	model/stat.go	/^	StatSubComment$/;"	c
 StatSubComment	service/stat.go	/^func StatSubComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
@@ -131,7 +131,7 @@ UpdateArticle	service/showarticle.go	/^func (service *ArticleSservice) UpdateArt
 UpdateUsername	service/user.go	/^func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.Response {$/;"	f
 UpdateUsernameService	service/user.go	/^type UpdateUsernameService struct {$/;"	t
 User	model/user.go	/^type User struct {$/;"	t
-UserCancesStatQueueKey	redis/rediskey.go	/^func UserCancesStatQueueKey() string {$/;"	f
+UserCancesStatQueueValue	redis/rediskey.go	/^func UserCancesStatQueueValue(userid, artid uint) string {$/;"	f
 UserIdKey	redis/rediskey.go	/^func UserIdKey(userid uint) string {$/;"	f
 UserLogin	api/user.go	/^func UserLogin(c *gin.Context) {$/;"	f
 UserLoginService	service/user.go	/^type UserLoginService struct {$/;"	t

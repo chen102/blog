@@ -119,3 +119,82 @@
 26:C 27 Aug 2021 10:53:10.056 * DB saved on disk
 26:C 27 Aug 2021 10:53:10.058 * RDB: 0 MB of memory used by copy-on-write
 1:M 27 Aug 2021 10:53:10.152 * Background saving terminated with success
+1:signal-handler (1630069922) Received SIGTERM scheduling shutdown...
+1:M 27 Aug 2021 13:12:02.526 # User requested shutdown...
+1:M 27 Aug 2021 13:12:02.526 * Calling fsync() on the AOF file.
+1:M 27 Aug 2021 13:12:02.528 * Saving the final RDB snapshot before exiting.
+1:M 27 Aug 2021 13:12:02.534 * DB saved on disk
+1:M 27 Aug 2021 13:12:02.534 # Redis is now ready to exit, bye bye...
+1:C 28 Aug 2021 02:31:16.294 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 28 Aug 2021 02:31:16.294 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 28 Aug 2021 02:31:16.294 # Configuration loaded
+1:M 28 Aug 2021 02:31:16.294 * monotonic clock: POSIX clock_gettime
+1:M 28 Aug 2021 02:31:16.295 * Running mode=standalone, port=6379.
+1:M 28 Aug 2021 02:31:16.295 # Server initialized
+1:M 28 Aug 2021 02:31:16.295 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 28 Aug 2021 02:31:16.300 * DB saved on disk
+1:M 28 Aug 2021 02:31:16.303 * DB saved on disk
+1:M 28 Aug 2021 02:31:16.306 * DB saved on disk
+1:M 28 Aug 2021 02:31:16.310 * DB saved on disk
+1:M 28 Aug 2021 02:31:16.314 * DB saved on disk
+1:M 28 Aug 2021 02:31:16.314 * DB loaded from append only file: 0.019 seconds
+1:M 28 Aug 2021 02:31:16.314 * Ready to accept connections
+1:M 28 Aug 2021 02:36:17.033 * 100 changes in 300 seconds. Saving...
+1:M 28 Aug 2021 02:36:17.033 * Background saving started by pid 18
+18:C 28 Aug 2021 02:36:17.037 * DB saved on disk
+18:C 28 Aug 2021 02:36:17.038 * RDB: 0 MB of memory used by copy-on-write
+1:M 28 Aug 2021 02:36:17.134 * Background saving terminated with success
+1:signal-handler (1630123051) Received SIGTERM scheduling shutdown...
+1:M 28 Aug 2021 03:57:31.870 # User requested shutdown...
+1:M 28 Aug 2021 03:57:31.870 * Calling fsync() on the AOF file.
+1:M 28 Aug 2021 03:57:31.872 * Saving the final RDB snapshot before exiting.
+1:M 28 Aug 2021 03:57:31.875 * DB saved on disk
+1:M 28 Aug 2021 03:57:31.876 # Redis is now ready to exit, bye bye...
+1:C 28 Aug 2021 10:45:55.456 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 28 Aug 2021 10:45:55.456 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 28 Aug 2021 10:45:55.456 # Configuration loaded
+1:M 28 Aug 2021 10:45:55.457 * monotonic clock: POSIX clock_gettime
+1:M 28 Aug 2021 10:45:55.457 * Running mode=standalone, port=6379.
+1:M 28 Aug 2021 10:45:55.457 # Server initialized
+1:M 28 Aug 2021 10:45:55.457 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 28 Aug 2021 10:45:55.461 * DB saved on disk
+1:M 28 Aug 2021 10:45:55.465 * DB saved on disk
+1:M 28 Aug 2021 10:45:55.468 * DB saved on disk
+1:M 28 Aug 2021 10:45:55.472 * DB saved on disk
+1:M 28 Aug 2021 10:45:55.475 * DB saved on disk
+1:M 28 Aug 2021 10:45:55.475 * DB loaded from append only file: 0.018 seconds
+1:M 28 Aug 2021 10:45:55.475 * Ready to accept connections
+1:signal-handler (1630147785) Received SIGTERM scheduling shutdown...
+1:M 28 Aug 2021 10:49:45.134 # User requested shutdown...
+1:M 28 Aug 2021 10:49:45.134 * Calling fsync() on the AOF file.
+1:M 28 Aug 2021 10:49:45.134 * Saving the final RDB snapshot before exiting.
+1:M 28 Aug 2021 10:49:45.137 * DB saved on disk
+1:M 28 Aug 2021 10:49:45.137 # Redis is now ready to exit, bye bye...
+1:C 28 Aug 2021 11:57:22.823 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 28 Aug 2021 11:57:22.823 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 28 Aug 2021 11:57:22.823 # Configuration loaded
+1:M 28 Aug 2021 11:57:22.824 * monotonic clock: POSIX clock_gettime
+1:M 28 Aug 2021 11:57:22.824 * Running mode=standalone, port=6379.
+1:M 28 Aug 2021 11:57:22.824 # Server initialized
+1:M 28 Aug 2021 11:57:22.824 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 28 Aug 2021 11:57:22.829 * DB saved on disk
+1:M 28 Aug 2021 11:57:22.832 * DB saved on disk
+1:M 28 Aug 2021 11:57:22.835 * DB saved on disk
+1:M 28 Aug 2021 11:57:22.839 * DB saved on disk
+1:M 28 Aug 2021 11:57:22.842 * DB saved on disk
+1:M 28 Aug 2021 11:57:22.842 * DB loaded from append only file: 0.018 seconds
+1:M 28 Aug 2021 11:57:22.842 * Ready to accept connections
+1:M 28 Aug 2021 12:02:23.018 * 100 changes in 300 seconds. Saving...
+1:M 28 Aug 2021 12:02:23.019 * Background saving started by pid 18
+18:C 28 Aug 2021 12:02:23.033 * DB saved on disk
+18:C 28 Aug 2021 12:02:23.034 * RDB: 0 MB of memory used by copy-on-write
+1:M 28 Aug 2021 12:02:23.119 * Background saving terminated with success
+1:M 28 Aug 2021 12:35:38.311 * Replica 172.17.0.2:6379 asks for synchronization
+1:M 28 Aug 2021 12:35:38.311 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for 'bbb0e8ad32e947d80772c7491056d08dcf23cf57', my replication IDs are '8325eaf342e81a7a70ee76350eb4ad25382689ef' and '0000000000000000000000000000000000000000')
+1:M 28 Aug 2021 12:35:38.311 * Replication backlog created, my new replication IDs are 'f421b2acd9b6e75cd67e627e9c10ddea69896814' and '0000000000000000000000000000000000000000'
+1:M 28 Aug 2021 12:35:38.311 * Starting BGSAVE for SYNC with target: disk
+1:M 28 Aug 2021 12:35:38.311 * Background saving started by pid 20
+20:C 28 Aug 2021 12:35:38.317 * DB saved on disk
+20:C 28 Aug 2021 12:35:38.318 * RDB: 0 MB of memory used by copy-on-write
+1:M 28 Aug 2021 12:35:38.372 * Background saving terminated with success
+1:M 28 Aug 2021 12:35:38.373 * Synchronization with replica 172.17.0.2:6379 succeeded

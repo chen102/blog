@@ -24,7 +24,8 @@ func WriteStatCache(stat model.Stat, cancestat bool) error {
 				return err
 			}
 
-			if err := tx.LPush(UserCancesStatQueueKey(), UserStatQueueValue(stat.UserID, stat.ArticleID)).Err(); err != nil {
+			//点赞和取消点赞公用一个队列
+			if err := tx.LPush(UserStatQueueKey(), UserCancesStatQueueValue(stat.UserID, stat.ArticleID)).Err(); err != nil {
 				return err
 			}
 
