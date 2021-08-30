@@ -23,6 +23,7 @@ func New() *gin.Engine {
 		auth.Use(session.AuthRequired()) //需要登录的操作
 		{
 			//auth.DELETE("user/logout", api.UserLogout)
+			auth.POST("user/like", api.UserArticlesLike)
 			auth.POST("article/list", api.ArticleList)
 			auth.POST("user/rename", api.UserRename)
 			auth.POST("article/add", api.AddArticle)

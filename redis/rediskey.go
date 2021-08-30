@@ -57,13 +57,15 @@ func UserStatArticleKey(userid, artid uint) string {
 //value:用户的文章内容
 func ArticleIdKey(articleid uint) string {
 
-	return tool.StrSplicing("articleservice:userid:articleid:", UintToStr(articleid), "article:hash")
+	return tool.StrSplicing("articleservice:userid:articleid:", UintToStr(articleid), ":article:hash")
 }
 
 func ArticleStringIdKey(articleid string) string {
 
-	return tool.StrSplicing("articleservice:userid:articleid:", articleid, "article:hash")
+	return tool.StrSplicing("articleservice:userid:articleid:", articleid, ":article:hash")
 }
+
+//用户名键
 func UserIdKey(userid uint) string {
 	return tool.StrSplicing("userservice:userid:", UintToStr(userid), ":username:string")
 }
@@ -73,19 +75,22 @@ func ArticlesListKey(userid uint) string {
 	return tool.StrSplicing("articleservice:userid:", UintToStr(userid), ":articleid:set")
 }
 
-//用户点赞队列
+//用户点赞队列键
 func UserStatQueueKey() string {
 	return "statservice:redistomysql:userid:articleid:list"
 }
 
-//用户去掉点赞队列
+//用户点赞消息
 func UserStatQueueValue(userid, artid uint) string {
 	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid))
 }
 
-//userid:artid:d
+//用户取消点赞消息
 func UserCancesStatQueueValue(userid, artid uint) string {
 	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid), ":d")
+}
+func UserStatList(userid uint) string {
+	return tool.StrSplicing("statservice:userstatlist:userid:", UintToStr(userid), "artid:set")
 }
 
 //----------------------------------------------

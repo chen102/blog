@@ -7,6 +7,7 @@ import (
 	"errors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 //用户注册服务
@@ -103,4 +104,43 @@ func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.
 		model.RedisWriteDB.Del(redis.UserIdKey(user.ID))
 	}()
 	return serializer.BuildResponse("修改成功")
+}
+func (service *UserStatListService) UserStatArticlesList(c *gin.Context) serializer.Response {
+	var user model.User
+	if service.UserId != 0 { //指定了用户
+		user.ID = service.UserId
+	} else { //若没有，默认是自己
+		u := model.GetcurrentUser(c)
+		if u != nil {
+			user = *u
+		}
+	}
+	if service.Count == 0 {
+		service.Count = 10
+	}
+	articles, err := redis.ShowUserStatListCache(user.ID, service.Offset, service.Count)
+	if err != nil && err != model.RedisNil {
+		return serializer.Err(serializer.RedisErr, err)
+	} else if err == model.RedisNil {
+		var stats []model.Stat
+		//从点赞表获取该用户点赞文章写入cache
+		if err := model.DB.Select("article_id").Where("user_id=? AND stat=?", user.ID, 0).Find(&stats).Error; err != nil {
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		for _, stat := range stats {
+			var article model.Article
+			if err := model.DB.Select([]string{"id", "title", "updated_at", "user_id", "stat", "tags", "content"}).Where("id=?", stat.ArticleID).First(&article).Error; err != nil {
+
+				return serializer.Err(serializer.MysqlErr, err)
+			}
+			log.Println(article)
+			user.Stat = append(user.Stat, article) //构建文章列表模型
+		}
+		if err := redis.WriteUserStatListCache(user.ID, user.Stat); err != nil {
+
+			return serializer.Err(serializer.RedisErr, err)
+		}
+		return serializer.BuildArticleListResponse(user.Stat)
+	}
+	return serializer.BuildArticleListResponse(articles)
 }

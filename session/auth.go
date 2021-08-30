@@ -4,9 +4,9 @@ import (
 	"blog/model"
 	"blog/model/db"
 	"blog/serializer"
-
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 // CurrentUser 获取登录用户
@@ -28,6 +28,7 @@ func CurrentUser() gin.HandlerFunc {
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if user, _ := c.Get("user"); user != nil {
+			log.Println("USER", user)
 			if _, ok := user.(*model.User); ok {
 				c.Next()
 				return

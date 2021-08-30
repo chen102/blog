@@ -56,6 +56,34 @@ func (service *StatService) Stat(c *gin.Context) serializer.Response {
 //用户点赞，写入redis用户点赞合集，redis定时写入mysql点赞表，mysql计算点赞数，用户点赞列表 写入redis，
 
 func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
+	//刷新用户点赞列表
+	//这里刷新用户点赞列表目的：用于及时的更新用户点赞列表，因为用户点赞列表是从点赞表查的，而点赞写缓存了，会造成用户点赞后，无法第一时间更新点赞列表(mysql、redis缓存数据一致性)
+	//第二个作用是防止用户重复点赞
+	if err := redis.ExistUserStatList(stat.UserID); err != nil && err != model.RedisNil {
+		return err, serializer.RedisErr
+	} else if err == model.RedisNil {
+		var ids []model.Stat
+		//从点赞表获取该用户点赞文章写入cache
+		if err := model.DB.Select("article_id").Where("user_id=? AND stat=?", stat.UserID, 0).Find(&ids).Error; err != nil {
+			return err, serializer.MysqlErr
+		}
+		var articles []model.Article
+		for k, id := range ids {
+			//计算这篇文章的点赞数
+			//if err:=model.DB.Where()
+			if err := model.DB.Where("article_id=?", id.ArticleID).First(&articles[k]).Error; err != nil {
+
+				return err, serializer.MysqlErr
+			}
+
+		}
+		if err := redis.WriteUserStatListCache(stat.UserID, articles); err != nil {
+
+			return err, serializer.MysqlErr
+		}
+
+	}
+
 	//点赞写缓存
 	if err := redis.WriteStatCache(stat, cancestat); err != nil {
 		return err, serializer.RedisErr

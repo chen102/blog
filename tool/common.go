@@ -48,3 +48,17 @@ func RandomTime() int64 {
 	return rand.Int63n(time.Now().Unix()) + 7200 //随机生成现在到两个小时以内的时间戳
 
 }
+
+//分页工具
+func Pagination(item []string, offset, count int) []string {
+	if offset*count < 0 { //不能是负数
+		return nil
+	}
+	leftover := offset + count
+	if int(offset) >= len(item) { //若偏移量超了，直接返回
+		return nil
+	} else if leftover >= len(item) { //若输出的超出了已有的输出剩下的全部
+		leftover = len(item) - offset
+	}
+	return item[offset:leftover]
+}

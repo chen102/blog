@@ -5,14 +5,14 @@ import (
 	"blog/redis"
 	"blog/serializer"
 	"blog/tool"
+	//"log"
 	"strconv"
-
 	//"blog/tool"
 	//"errors"
 	"github.com/gin-gonic/gin"
 	//"encoding/json"
 	//"fmt"
-	"github.com/mitchellh/mapstructure"
+	//"github.com/mitchellh/mapstructure"
 	//"strconv"
 )
 
@@ -88,6 +88,22 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 		if err := model.DB.Where("user_id=?", user.ID).Order("ID desc").Find(&user.Articles).Error; err != nil { //直接查该用户所有文章写入redis，下次翻页，排序，都是在redis读服务器进行
 			return serializer.Err(serializer.MysqlErr, err)
 		}
+		//给每篇文章点赞数,和用户名
+		for k, article := range user.Articles {
+			var u []model.User
+			//获取用户名
+			if err := model.DB.Select("user_name").First(&u, article.UserID).Error; err != nil {
+				return serializer.Err(serializer.MysqlErr, err)
+			}
+			user.Articles[k].UserName = u[0].UserName
+
+			var count int64
+			if err := model.DB.Model(&model.Stat{}).Where("article_id=? AND Stat=?", article.ID, 0).Count(&count).Error; err != nil {
+
+				return serializer.Err(serializer.MysqlErr, err)
+			}
+			user.Articles[k].Stat = uint(count)
+		}
 		if err := redis.WriteArticleListCach(user.ID, user.Articles); err != nil {
 			return serializer.Err(serializer.RedisErr, err)
 		}
@@ -142,40 +158,28 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 		if err := model.DB.First(&article, service.ArticleId).Error; err != nil {
 			return serializer.Err(serializer.MysqlErr, err)
 		}
+		var user []model.User
+		//获取用户名
+		if err := model.DB.Select("user_name").First(&user, article.UserID).Error; err != nil {
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		article.UserName = user[0].UserName
+
+		//获取点赞数
+		var count int64
+		if err := model.DB.Model(&model.Stat{}).Where("article_id=? AND Stat=?", article.ID, 0).Count(&count).Error; err != nil {
+
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		article.Stat = uint(count)
 		if err := redis.WriteArticleCache(model.StructToMap(article)); err != nil {
 
 			return serializer.Err(serializer.RedisErr, err)
 		}
 
+		return serializer.BuildArticleResponse(article)
 	}
-	if data != nil {
-
-		if err := mapstructure.WeakDecode(data, &article); err != nil {
-			return serializer.Err(serializer.MapStructErr, err)
-		}
-	}
-	//根据文章的用户ID查询该用户的名称
-	var user []model.User
-	username, err := redis.ShowUserNameCache(article.UserID)
-	if err != nil && err != model.RedisNil {
-		return serializer.Err(serializer.MysqlErr, err)
-	} else if err == model.RedisNil { //若缓存未命中,更新缓存
-		if err := model.DB.Select("user_name").First(&user, article.UserID).Error; err != nil {
-			return serializer.Err(serializer.MysqlErr, err)
-		}
-		if err := redis.WriteUserNameCache(article.UserID, user[0].UserName); err != nil {
-
-			return serializer.Err(serializer.RedisErr, err)
-		}
-
-		article.UserName = user[0].UserName
-	}
-	if username != "" {
-
-		article.UserName = username
-	}
-
-	return serializer.BuildArticleResponse(article)
+	return serializer.BuildArticleResponse(data[0])
 	//var article model.Article
 	//data, err := redis.ShowArticle(service.AuthorId, service.ArticleId)
 	//if err != nil {

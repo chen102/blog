@@ -2,6 +2,7 @@ package redis
 
 import (
 	"blog/model"
+	"blog/tool"
 	"errors"
 	"github.com/go-redis/redis"
 	"strconv"
@@ -23,7 +24,7 @@ func WriteArticleCache(article map[string]interface{}) error {
 	return nil
 
 }
-func ShowArticleCache(artid uint) (interface{}, error) {
+func ShowArticleCache(artid uint) ([]model.Article, error) {
 	exist, err := model.RedisReadDB.Exists(ArticleIdKey(artid)).Result()
 	if err != nil && err != model.RedisNil {
 		return nil, err
@@ -35,7 +36,24 @@ func ShowArticleCache(artid uint) (interface{}, error) {
 		return nil, err
 	}
 	model.RedisWriteDB.Expire(ArticleIdKey(artid), 1*time.Hour) //刷新存活
-	return data, nil
+	article := make([]model.Article, 1)
+	stat, err := strconv.Atoi(data["Stat"])
+	if err != nil {
+		return nil, err
+	}
+	userid, err := strconv.Atoi(data["UserID"])
+	if err != nil {
+		return nil, err
+	}
+	article[0].ID = artid
+	article[0].Stat = uint(stat)
+	article[0].UserID = uint(userid)
+	article[0].Content = data["Content"]
+	article[0].UserName = data["UserName"]
+	article[0].Title = data["Title"]
+	article[0].UpdatedAt = tool.StringToTime(data["UpdatedAt"])
+	article[0].Tags = data["Tags"]
+	return article, nil
 }
 func ShowArticleListCache(userid, offset, count uint, rank bool) ([]string, error) {
 	var res []string

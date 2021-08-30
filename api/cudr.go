@@ -23,6 +23,7 @@ func ArticleList(c *gin.Context) {
 
 	}
 }
+
 func AddArticle(c *gin.Context) {
 	var service service.ArticleAddSservice
 	if err := c.ShouldBind(&service); err != nil {

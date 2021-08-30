@@ -53,6 +53,7 @@ func BuildArticle(article model.Article) Article {
 		Time:       article.UpdatedAt,
 		Content:    article.Content,
 		Tags:       article.Tags,
+		Stat:       article.Stat,
 	}
 }
 

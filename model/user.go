@@ -8,11 +8,12 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName string
-	Account  string
-	Password string
-	Articles []Article //一个用户有0或多个文章
-	Stat     []Article //一个用户对0或多个文章点赞
+	UserName  string
+	Account   string
+	Password  string
+	Articles  []Article //一个用户有0或多个文章
+	Stat      []Article //一个用户对0或多个文章点赞
+	Followers []User    //一个用户对0或多个用户关注
 
 	//默认的外键名是拥有者的类型名加上其主键字段名即UserID，也可以重写外键gorm:"foreignKey:xxx
 }
@@ -32,7 +33,7 @@ func (user *User) CheckPassword(password string) bool {
 	return true
 }
 
-//获取当前登录用户的ID
+//获取当前登录用户
 func GetcurrentUser(c *gin.Context) *User {
 	user, _ := c.Get("user") //获取当前用户
 	if u, ok := user.(*User); ok {
