@@ -346,3 +346,151 @@
 28:C 30 Aug 2021 13:17:40.105 * DB saved on disk
 28:C 30 Aug 2021 13:17:40.107 * RDB: 0 MB of memory used by copy-on-write
 1:M 30 Aug 2021 13:17:40.191 * Background saving terminated with success
+1:signal-handler (1630330109) Received SIGTERM scheduling shutdown...
+1:M 30 Aug 2021 13:28:29.859 # Connection with replica 172.17.0.4:6379 lost.
+1:M 30 Aug 2021 13:28:29.932 # User requested shutdown...
+1:M 30 Aug 2021 13:28:29.932 * Calling fsync() on the AOF file.
+1:M 30 Aug 2021 13:28:29.932 * Saving the final RDB snapshot before exiting.
+1:M 30 Aug 2021 13:28:29.935 * DB saved on disk
+1:M 30 Aug 2021 13:28:29.935 # Redis is now ready to exit, bye bye...
+1:C 31 Aug 2021 05:22:57.348 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 31 Aug 2021 05:22:57.349 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 31 Aug 2021 05:22:57.349 # Configuration loaded
+1:M 31 Aug 2021 05:22:57.350 * monotonic clock: POSIX clock_gettime
+1:M 31 Aug 2021 05:22:57.351 * Running mode=standalone, port=6379.
+1:M 31 Aug 2021 05:22:57.351 # Server initialized
+1:M 31 Aug 2021 05:22:57.351 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 31 Aug 2021 05:22:57.355 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.358 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.361 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.365 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.368 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.372 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.378 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.384 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.390 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.399 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.405 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.411 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.417 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.420 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.424 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.434 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.439 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.444 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.450 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.454 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.460 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.464 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.468 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.471 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.476 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.479 * DB saved on disk
+1:M 31 Aug 2021 05:22:57.479 * DB loaded from append only file: 0.128 seconds
+1:M 31 Aug 2021 05:22:57.479 * Ready to accept connections
+1:M 31 Aug 2021 05:27:58.093 * 100 changes in 300 seconds. Saving...
+1:M 31 Aug 2021 05:27:58.093 * Background saving started by pid 20
+20:C 31 Aug 2021 05:27:58.097 * DB saved on disk
+20:C 31 Aug 2021 05:27:58.098 * RDB: 0 MB of memory used by copy-on-write
+1:M 31 Aug 2021 05:27:58.194 * Background saving terminated with success
+1:signal-handler (1630416074) Received SIGTERM scheduling shutdown...
+1:M 31 Aug 2021 13:21:14.538 # User requested shutdown...
+1:M 31 Aug 2021 13:21:14.538 * Calling fsync() on the AOF file.
+1:M 31 Aug 2021 13:21:14.538 * Saving the final RDB snapshot before exiting.
+1:M 31 Aug 2021 13:21:14.541 * DB saved on disk
+1:M 31 Aug 2021 13:21:14.541 # Redis is now ready to exit, bye bye...
+1:C 01 Sep 2021 01:27:31.235 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 01 Sep 2021 01:27:31.235 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 01 Sep 2021 01:27:31.235 # Configuration loaded
+1:M 01 Sep 2021 01:27:31.236 * monotonic clock: POSIX clock_gettime
+1:M 01 Sep 2021 01:27:31.236 * Running mode=standalone, port=6379.
+1:M 01 Sep 2021 01:27:31.236 # Server initialized
+1:M 01 Sep 2021 01:27:31.236 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 01 Sep 2021 01:27:31.240 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.244 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.247 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.250 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.254 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.258 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.263 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.267 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.270 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.273 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.276 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.279 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.283 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.286 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.289 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.292 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.296 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.299 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.302 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.305 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.309 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.312 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.315 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.318 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.321 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.325 * DB saved on disk
+1:M 01 Sep 2021 01:27:31.325 * DB loaded from append only file: 0.088 seconds
+1:M 01 Sep 2021 01:27:31.325 * Ready to accept connections
+1:M 01 Sep 2021 01:32:32.097 * 100 changes in 300 seconds. Saving...
+1:M 01 Sep 2021 01:32:32.097 * Background saving started by pid 18
+18:C 01 Sep 2021 01:32:32.101 * DB saved on disk
+18:C 01 Sep 2021 01:32:32.101 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 01:32:32.198 * Background saving terminated with success
+1:M 01 Sep 2021 08:10:11.437 * Replica 172.17.0.3:6379 asks for synchronization
+1:M 01 Sep 2021 08:10:11.437 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for 'bdef2a665feb085ab85a408f060a2fd0301104ae', my replication IDs are 'baaad34ff65ad23ea33e91bbedccbb2c4b1517db' and '0000000000000000000000000000000000000000')
+1:M 01 Sep 2021 08:10:11.437 * Replication backlog created, my new replication IDs are 'a8e072bd919a45cd01a92ef3d248a795ec20ede5' and '0000000000000000000000000000000000000000'
+1:M 01 Sep 2021 08:10:11.437 * Starting BGSAVE for SYNC with target: disk
+1:M 01 Sep 2021 08:10:11.438 * Background saving started by pid 19
+19:C 01 Sep 2021 08:10:11.445 * DB saved on disk
+19:C 01 Sep 2021 08:10:11.447 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 08:10:11.461 * Background saving terminated with success
+1:M 01 Sep 2021 08:10:11.462 * Synchronization with replica 172.17.0.3:6379 succeeded
+1:M 01 Sep 2021 09:10:12.057 * 1 changes in 3600 seconds. Saving...
+1:M 01 Sep 2021 09:10:12.057 * Background saving started by pid 21
+21:C 01 Sep 2021 09:10:12.072 * DB saved on disk
+21:C 01 Sep 2021 09:10:12.072 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 09:10:12.158 * Background saving terminated with success
+1:M 01 Sep 2021 09:12:53.272 * DB saved on disk
+1:M 01 Sep 2021 09:15:43.950 * DB saved on disk
+1:M 01 Sep 2021 09:22:03.622 * DB saved on disk
+1:M 01 Sep 2021 09:24:35.627 * DB saved on disk
+1:M 01 Sep 2021 09:30:14.340 * DB saved on disk
+1:M 01 Sep 2021 09:32:30.036 * DB saved on disk
+1:M 01 Sep 2021 09:58:43.572 * DB saved on disk
+1:M 01 Sep 2021 10:10:14.291 * 100 changes in 300 seconds. Saving...
+1:M 01 Sep 2021 10:10:14.291 * Background saving started by pid 22
+22:C 01 Sep 2021 10:10:14.296 * DB saved on disk
+22:C 01 Sep 2021 10:10:14.296 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 10:10:14.392 * Background saving terminated with success
+1:M 01 Sep 2021 11:10:15.007 * 1 changes in 3600 seconds. Saving...
+1:M 01 Sep 2021 11:10:15.007 * Background saving started by pid 23
+23:C 01 Sep 2021 11:10:15.014 * DB saved on disk
+23:C 01 Sep 2021 11:10:15.014 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 11:10:15.107 * Background saving terminated with success
+1:M 01 Sep 2021 11:37:31.383 * DB saved on disk
+1:M 01 Sep 2021 11:39:22.387 * DB saved on disk
+1:M 01 Sep 2021 11:41:10.421 * DB saved on disk
+1:M 01 Sep 2021 11:46:11.091 * 100 changes in 300 seconds. Saving...
+1:M 01 Sep 2021 11:46:11.092 * Background saving started by pid 24
+24:C 01 Sep 2021 11:46:11.098 * DB saved on disk
+24:C 01 Sep 2021 11:46:11.099 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 11:46:11.192 * Background saving terminated with success
+1:M 01 Sep 2021 11:47:05.237 * DB saved on disk
+1:M 01 Sep 2021 11:49:14.729 * DB saved on disk
+1:M 01 Sep 2021 12:00:56.631 * DB saved on disk
+1:M 01 Sep 2021 12:05:57.035 * 100 changes in 300 seconds. Saving...
+1:M 01 Sep 2021 12:05:57.036 * Background saving started by pid 25
+25:C 01 Sep 2021 12:05:57.051 * DB saved on disk
+25:C 01 Sep 2021 12:05:57.052 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 12:05:57.137 * Background saving terminated with success
+1:M 01 Sep 2021 12:32:59.077 * DB saved on disk
+1:M 01 Sep 2021 12:38:00.065 * 100 changes in 300 seconds. Saving...
+1:M 01 Sep 2021 12:38:00.065 * Background saving started by pid 26
+26:C 01 Sep 2021 12:38:00.072 * DB saved on disk
+26:C 01 Sep 2021 12:38:00.073 * RDB: 0 MB of memory used by copy-on-write
+1:M 01 Sep 2021 12:38:00.172 * Background saving terminated with success
+1:M 01 Sep 2021 12:39:26.854 * DB saved on disk
+1:M 01 Sep 2021 12:52:19.202 * DB saved on disk

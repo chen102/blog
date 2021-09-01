@@ -90,7 +90,7 @@ func WriteArticleListCach(userid uint, articles []model.Article) error {
 			if err := tx.SAdd(ArticlesListKey(userid), v.ID).Err(); err != nil {
 				return err
 			}
-			exist, err := tx.Exists(ArticlesListKey(v.ID)).Result()
+			exist, err := tx.Exists(ArticleIdKey(v.ID)).Result()
 			if err != nil {
 				return err
 			} else if exist == 1 {

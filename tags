@@ -38,6 +38,8 @@ BuildArticleList	serializer/article.go	/^func BuildArticleList(articles []model.
 BuildArticleListResponse	serializer/article.go	/^func BuildArticleListResponse(articles []model.Article) Response {$/;"	f
 BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article) Response {$/;"	f
 BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
+BuildUserList	serializer/user.go	/^func BuildUserList(users []model.User) []User {$/;"	f
+BuildUserListResponse	serializer/user.go	/^func BuildUserListResponse(userlist []model.User) Response {$/;"	f
 CheckPassword	model/user.go	/^func (user *User) CheckPassword(password string) bool {$/;"	f
 CommentArticle	api/cudr.go	/^func CommentArticle(c *gin.Context) {$/;"	f
 Cors	session/cors.go	/^func Cors() gin.HandlerFunc {$/;"	f
@@ -45,12 +47,15 @@ CronInit	cron/main.go	/^func CronInit() {$/;"	f
 CurrentUser	session/auth.go	/^func CurrentUser() gin.HandlerFunc {$/;"	f
 DB	model/del.go	/^var DB *gorm.DB$/;"	v
 DelMysql	model/del.go	/^func DelMysql() error {$/;"	f
+DelOtherFansList	redis/follower.go	/^func DelOtherFansList(follower model.Follower) error {$/;"	f
 DelRedis	model/del.go	/^func DelRedis() {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	service/showarticle.go	/^func (service *ArticleSservice) DeleteArticle() serializer.Response {$/;"	f
 Err	serializer/common.go	/^func Err(errtype int, err error) Response {$/;"	f
+ExistUserFollowerList	redis/follower.go	/^func ExistUserFollowerList(userid uint) error {$/;"	f
 ExistUserStatList	redis/stat.go	/^func ExistUserStatList(userid uint) error {$/;"	f
 Follower	model/followers.go	/^type Follower struct {$/;"	t
+FollowerUser	service/follower.go	/^func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Response {$/;"	f
 FollowerUserService	service/follower.go	/^type FollowerUserService struct {$/;"	t
 GetArticleCommentsIDKey	redis/rediskey.go	/^func GetArticleCommentsIDKey(userid, articleid uint) string {$/;"	f
 GetArticleIDKey	redis/rediskey.go	/^func GetArticleIDKey(userid uint) string {$/;"	f
@@ -93,6 +98,7 @@ ShowArticleCache	redis/showarticle.go	/^func ShowArticleCache(artid uint) ([]mod
 ShowArticleComment	api/cudr.go	/^func ShowArticleComment(c *gin.Context) {$/;"	f
 ShowArticleListCache	redis/showarticle.go	/^func ShowArticleListCache(userid, offset, count uint, rank bool) ([]string, error) {$/;"	f
 ShowComment	redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
+ShowFollowerListCache	redis/follower.go	/^func ShowFollowerListCache(userid, offset, count uint, fans bool) ([]model.User, error) {$/;"	f
 ShowUserNameCache	redis/user.go	/^func ShowUserNameCache(userid uint) (string, error) {$/;"	f
 ShowUserStatListCache	redis/stat.go	/^func ShowUserStatListCache(userid, offset, count uint) ([]model.Article, error) {$/;"	f
 SliceToString	tool/common.go	/^func SliceToString(str []string) string {$/;"	f
@@ -136,10 +142,15 @@ UpdateArticle	service/showarticle.go	/^func (service *ArticleSservice) UpdateArt
 UpdateUsername	service/user.go	/^func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.Response {$/;"	f
 UpdateUsernameService	service/user.go	/^type UpdateUsernameService struct {$/;"	t
 User	model/user.go	/^type User struct {$/;"	t
+User	serializer/user.go	/^type User struct {$/;"	t
 UserArticlesLike	api/user.go	/^func UserArticlesLike(c *gin.Context) {$/;"	f
 UserCancesStatQueueValue	redis/rediskey.go	/^func UserCancesStatQueueValue(userid, artid uint) string {$/;"	f
-UserFansListService	service/follower.go	/^type UserFansListService struct {$/;"	t
+UserFolloweListrKey	redis/rediskey.go	/^func UserFolloweListrKey(userid, listtype uint) string {$/;"	f
+UserFollowerList	api/user.go	/^func UserFollowerList(c *gin.Context) {$/;"	f
+UserFollowerList	model/db/user.go	/^func UserFollowerList(userid uint, fans bool) ([]User, error) {$/;"	f
+UserFollowerList	service/follower.go	/^func (service *UserFollowerListService) UserFollowerList(c *gin.Context) serializer.Response {$/;"	f
 UserFollowerListService	service/follower.go	/^type UserFollowerListService struct {$/;"	t
+UserFollowerUser	api/user.go	/^func UserFollowerUser(c *gin.Context) {$/;"	f
 UserIdKey	redis/rediskey.go	/^func UserIdKey(userid uint) string {$/;"	f
 UserLogin	api/user.go	/^func UserLogin(c *gin.Context) {$/;"	f
 UserLoginService	service/user.go	/^type UserLoginService struct {$/;"	t
@@ -156,18 +167,24 @@ UserStatList	service/user.go	/^func UserStatList() serializer.Response {$/;"	f
 UserStatListService	service/user.go	/^type UserStatListService struct {$/;"	t
 UserStatQueueKey	redis/rediskey.go	/^func UserStatQueueKey() string {$/;"	f
 UserStatQueueValue	redis/rediskey.go	/^func UserStatQueueValue(userid, artid uint) string {$/;"	f
+UserStringIdKey	redis/rediskey.go	/^func UserStringIdKey(userid string) string {$/;"	f
 WriteArticleCache	redis/showarticle.go	/^func WriteArticleCache(article map[string]interface{}) error {$/;"	f
 WriteArticleListCach	redis/showarticle.go	/^func WriteArticleListCach(userid uint, articles []model.Article) error {$/;"	f
+WriteFollowerCache	redis/follower.go	/^func WriteFollowerCache(follower model.Follower) error {$/;"	f
+WriteFollowerListCache	redis/follower.go	/^func WriteFollowerListCache(userid uint, users []model.User, fans bool) error {$/;"	f
 WriteStatCache	redis/stat.go	/^func WriteStatCache(stat model.Stat, cancestat bool) error {$/;"	f
 WriteUserNameCache	redis/user.go	/^func WriteUserNameCache(userid uint, username string) error {$/;"	f
 WriteUserStatListCache	redis/stat.go	/^func WriteUserStatListCache(userid uint, articles []model.Article) error {$/;"	f
 XOR	redis/stat.go	/^func XOR(exist, cancestat bool) bool {$/;"	f
+XUser	model/user.go	/^type XUser struct {$/;"	t
 api	api/cudr.go	/^package api$/;"	p
 api	api/user.go	/^package api$/;"	p
 check	model/del.go	/^func check() bool {$/;"	f
 cron	cron/main.go	/^package cron$/;"	p
 cron	cron/stat.go	/^package cron$/;"	p
 db	model/db/user.go	/^package db$/;"	p
+fansList	service/follower.go	/^func fansList(userid, offset, count uint) ([]model.User, error, int) {$/;"	f
+followList	service/follower.go	/^func followList(userid, offset, count uint) ([]model.User, error, int) {$/;"	f
 gintest	gintest/test.go	/^package gintest$/;"	p
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
@@ -178,7 +195,9 @@ model	model/followers.go	/^package model$/;"	p
 model	model/main.go	/^package model$/;"	p
 model	model/stat.go	/^package model$/;"	p
 model	model/user.go	/^package model$/;"	p
+mutualfollowingList	service/follower.go	/^func mutualfollowingList(follower, offset, count uint) ([]model.User, error, int) {$/;"	f
 redis	redis/addarticle.go	/^package redis$/;"	p
+redis	redis/follower.go	/^package redis$/;"	p
 redis	redis/rediskey.go	/^package redis$/;"	p
 redis	redis/showarticle.go	/^package redis$/;"	p
 redis	redis/stat.go	/^package redis$/;"	p
@@ -186,6 +205,7 @@ redis	redis/user.go	/^package redis$/;"	p
 router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p
+serializer	serializer/user.go	/^package serializer$/;"	p
 service	service/addarticle.go	/^package service$/;"	p
 service	service/follower.go	/^package service$/;"	p
 service	service/showarticle.go	/^package service$/;"	p

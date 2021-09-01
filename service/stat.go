@@ -67,11 +67,9 @@ func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
 		if err := model.DB.Select("article_id").Where("user_id=? AND stat=?", stat.UserID, 0).Find(&ids).Error; err != nil {
 			return err, serializer.MysqlErr
 		}
-		var articles []model.Article
+		articles := make([]model.Article, len(ids))
 		for k, id := range ids {
-			//计算这篇文章的点赞数
-			//if err:=model.DB.Where()
-			if err := model.DB.Where("article_id=?", id.ArticleID).First(&articles[k]).Error; err != nil {
+			if err := model.DB.Where("id=?", id.ArticleID).First(&articles[k]).Error; err != nil {
 
 				return err, serializer.MysqlErr
 			}

@@ -48,3 +48,26 @@ func UserArticlesLike(c *gin.Context) {
 	}
 
 }
+func UserFollowerUser(c *gin.Context) {
+	var service service.FollowerUserService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.FollowerUser(c)
+		c.JSON(200, res)
+
+	}
+
+}
+func UserFollowerList(c *gin.Context) {
+
+	var service service.UserFollowerListService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.UserFollowerList(c)
+		c.JSON(200, res)
+
+	}
+
+}

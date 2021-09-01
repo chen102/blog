@@ -65,9 +65,12 @@ func ArticleStringIdKey(articleid string) string {
 	return tool.StrSplicing("articleservice:userid:articleid:", articleid, ":article:hash")
 }
 
-//用户名键
+//用户键
 func UserIdKey(userid uint) string {
-	return tool.StrSplicing("userservice:userid:", UintToStr(userid), ":username:string")
+	return tool.StrSplicing("userservice:userid:", UintToStr(userid), ":user:hash")
+}
+func UserStringIdKey(userid string) string {
+	return tool.StrSplicing("userservice:userid:", userid, ":user:hash")
 }
 
 //文章列表键
@@ -89,8 +92,22 @@ func UserStatQueueValue(userid, artid uint) string {
 func UserCancesStatQueueValue(userid, artid uint) string {
 	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid), ":d")
 }
+
+//用户点赞列表键
 func UserStatList(userid uint) string {
-	return tool.StrSplicing("statservice:userstatlist:userid:", UintToStr(userid), "artid:set")
+	return tool.StrSplicing("statservice:userstatlist:userid:", UintToStr(userid), ":artid:set")
+}
+
+//用户关注列表键
+func UserFolloweListrKey(userid, listtype uint) string {
+	if listtype == 0 {
+		return tool.StrSplicing("followerservice:followerlist:userid:", UintToStr(userid), ":userid:set")
+	} else if listtype == 1 {
+		return tool.StrSplicing("followerservice:fanslist:userid:", UintToStr(userid), ":userid:set")
+	} else if listtype == 2 {
+		return tool.StrSplicing("followerservice:mutualfollowing:", UintToStr(userid), ":userid:set")
+	}
+	return ""
 }
 
 //----------------------------------------------

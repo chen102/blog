@@ -60,10 +60,11 @@ func WriteStatCache(stat model.Stat, cancestat bool) error {
 				return err
 			}
 			//这里不用担心并发的问题，因为这是用户自己的点赞列表，所以直接可以修改缓存
-			if err := tx.SRem(UserStatList(stat.UserID), stat.ArticleID); err != nil {
-				return nil
+			if err := tx.SRem(UserStatList(stat.UserID), stat.ArticleID).Err(); err != nil {
+				return err
 			}
 			//点赞和取消点赞公用一个队列
+			log.Println("DEBUG:", UserCancesStatQueueValue(stat.UserID, stat.ArticleID))
 			if err := tx.LPush(UserStatQueueKey(), UserCancesStatQueueValue(stat.UserID, stat.ArticleID)).Err(); err != nil {
 				return err
 			}
@@ -157,8 +158,6 @@ func WriteUserStatListCache(userid uint, articles []model.Article) error {
 				tx.Expire(ArticleIdKey((article.ID)), 1*time.Hour)
 				continue
 			}
-			log.Println(articles[k])
-			log.Println(model.StructToMap(articles[k]))
 			if err := tx.HMSet(ArticleIdKey(article.ID), model.StructToMap(articles[k])).Err(); err != nil {
 				return err
 			}

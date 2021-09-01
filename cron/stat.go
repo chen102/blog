@@ -46,7 +46,7 @@ func StatCronService() {
 		stat.UserID = uint(userid)
 		stat.ArticleID = uint(artid)
 		if len(arr) == 3 {
-			if err := model.DB.Model(&stat).Update("stat", 1); err != nil {
+			if err := model.DB.Model(&stat).Where("user_id=? AND article_id=?", stat.UserID, stat.ArticleID).Update("stat", true).Error; err != nil {
 				panic(err)
 			}
 			continue
