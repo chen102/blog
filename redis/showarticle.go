@@ -55,7 +55,7 @@ func ShowArticleCache(artid uint) ([]model.Article, error) {
 	article[0].Tags = data["Tags"]
 	return article, nil
 }
-func ShowArticleListCache(userid, offset, count uint, rank bool) ([]string, error) {
+func ShowArticleListCache(userid, offset, count uint, rank bool) ([]model.Article, error) {
 	var res []string
 	if rank {
 		//rank功能待做，思路:需使用有序集合，每次点赞和查看文章时，增加文章的热度(一定时间内),然后按热度排序
@@ -67,8 +67,8 @@ func ShowArticleListCache(userid, offset, count uint, rank bool) ([]string, erro
 		} else if exist == 0 {
 			return nil, model.RedisNil
 		}
-		get := GetSort(ArticleStringIdKey("*"), true, "Title", "UpdatedAt", "Stat", "Tags") //排序后显示的字段
-		sortargs := SortArgs("", int64(offset), int64(count), get, "DESC", false)           //按时间排序：直接按key排序,也就是ID，ID大的一定后发布
+		get := GetSort(ArticleStringIdKey("*"), true, "UserName", "Title", "UpdatedAt", "Stat", "Tags") //排序后显示的字段
+		sortargs := SortArgs("", int64(offset), int64(count), get, "DESC", false)                       //按时间排序：直接按key排序,也就是ID，ID大的一定后发布
 		res, err = model.RedisWriteDB.Sort(ArticlesListKey(userid), sortargs).Result()
 		//这里应该把排序的结果保存起来，下次直接查
 		if err != nil {
@@ -78,7 +78,11 @@ func ShowArticleListCache(userid, offset, count uint, rank bool) ([]string, erro
 	if res == nil {
 		return nil, errors.New("没拿到排序结果")
 	}
-	return res, nil
+	article, err := model.ArticleList(res)
+	if err != nil {
+		return nil, err
+	}
+	return article, nil
 }
 func WriteArticleListCach(userid uint, articles []model.Article) error {
 	//写入用户文章合集

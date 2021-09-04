@@ -25,6 +25,11 @@ type UserFollowerListService struct {
 }
 
 func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Response {
+	count := 0
+	model.DB.Model(&model.User{}).Where("id = ?", service.UserId).Count(&count)
+	if count == 0 {
+		return serializer.BuildResponse("没有此用户")
+	}
 	me := model.GetcurrentUser(c)
 	follow := model.Follower{
 		UserID:     me.ID,
@@ -127,7 +132,7 @@ func fansList(userid, offset, count uint) ([]model.User, error, int) {
 	} else if err == model.RedisNil {
 		users, err := db.UserFollowerList(userid, true)
 		if err != nil {
-			return nil, err, serializer.RedisErr
+			return nil, err, serializer.MysqlErr
 		}
 		if err := redis.WriteFollowerListCache(userid, users, true); err != nil {
 			return nil, err, serializer.RedisErr

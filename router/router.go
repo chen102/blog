@@ -23,6 +23,7 @@ func New() *gin.Engine {
 		auth.Use(session.AuthRequired()) //需要登录的操作
 		{
 			//auth.DELETE("user/logout", api.UserLogout)
+			auth.POST("follower/dynamic", api.UserDynamicList)
 			auth.POST("follower", api.UserFollowerUser)
 			auth.POST("follower/list", api.UserFollowerList)
 			auth.POST("user/like", api.UserArticlesLike)

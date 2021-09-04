@@ -24,14 +24,24 @@ func ExistUserFollowerList(userid uint) error {
 	}
 	return nil
 }
+func ShowUserFollowerID(userid uint) ([]string, error) {
+	if err := ExistUserFollowerList(userid); err != nil {
+		return nil, err
+	}
+	ids, err := model.RedisReadDB.SMembers(UserFolloweListrKey(userid, 0)).Result()
+	if err != nil {
+		return nil, err
+	}
+	return ids, nil
+}
 func WriteFollowerCache(follower model.Follower) error {
 	if !follower.Stat {
-		if err := model.RedisWriteDB.SAdd(UserFolloweListrKey(follower.UserID, 1), follower.FollowerID).Err(); err != nil {
+		if err := model.RedisWriteDB.SAdd(UserFolloweListrKey(follower.UserID, 0), follower.FollowerID).Err(); err != nil {
 			return err
 		}
 
 	} else { //取关
-		if err := model.RedisWriteDB.SRem(UserFolloweListrKey(follower.UserID, 1), follower.FollowerID).Err(); err != nil {
+		if err := model.RedisWriteDB.SRem(UserFolloweListrKey(follower.UserID, 0), follower.FollowerID).Err(); err != nil {
 			return err
 		}
 	}

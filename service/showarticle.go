@@ -4,9 +4,9 @@ import (
 	"blog/model"
 	"blog/redis"
 	"blog/serializer"
-	"blog/tool"
+	//"blog/tool"
 	//"log"
-	"strconv"
+	//"strconv"
 	//"blog/tool"
 	//"errors"
 	"github.com/gin-gonic/gin"
@@ -14,6 +14,7 @@ import (
 	//"fmt"
 	//"github.com/mitchellh/mapstructure"
 	//"strconv"
+	"blog/model/db"
 )
 
 //文章服务
@@ -81,68 +82,30 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 	if service.Count == 0 {
 		service.Count = 5
 	}
-	data, err := redis.ShowArticleListCache(user.ID, service.Offset, service.Count, service.Type)
+	article, err := redis.ShowArticleListCache(user.ID, service.Offset, service.Count, service.Type)
 	if err != nil && err != model.RedisNil {
 		return serializer.Err(serializer.RedisErr, err)
 	} else if err == model.RedisNil {
 		if err := model.DB.Where("user_id=?", user.ID).Order("ID desc").Find(&user.Articles).Error; err != nil { //直接查该用户所有文章写入redis，下次翻页，排序，都是在redis读服务器进行
 			return serializer.Err(serializer.MysqlErr, err)
 		}
-		//给每篇文章点赞数,和用户名
-		for k, article := range user.Articles {
-			var u []model.User
-			//获取用户名
-			if err := model.DB.Select("user_name").First(&u, article.UserID).Error; err != nil {
-				return serializer.Err(serializer.MysqlErr, err)
-			}
-			user.Articles[k].UserName = u[0].UserName
+		user.Articles, err = db.UserArticlesList(user.Articles)
+		if err != nil {
 
-			var count int64
-			if err := model.DB.Model(&model.Stat{}).Where("article_id=? AND Stat=?", article.ID, 0).Count(&count).Error; err != nil {
-
-				return serializer.Err(serializer.MysqlErr, err)
-			}
-			user.Articles[k].Stat = uint(count)
+			return serializer.Err(serializer.MysqlErr, err)
 		}
 		if err := redis.WriteArticleListCach(user.ID, user.Articles); err != nil {
 			return serializer.Err(serializer.RedisErr, err)
 		}
+		if len(user.Articles) > int(service.Count) {
 
+			return serializer.BuildArticleListResponse(user.Articles[:service.Count])
+		}
 		return serializer.BuildArticleListResponse(user.Articles)
 	}
+	//}
 	//手动处理data
 	////Sort返回的结果为[]string，将string转为多个文章模型进行响应
-	article := make([]model.Article, len(data)/5) //5个string为一个article,分别是id,title,time,stat,tags
-	id := 0
-	for i := 0; i < len(data); i++ {
-		if i != 0 && i%5 == 0 {
-			id++
-		}
-		//这样写真的很蠢,但是又没有想到其他的方法，因为返回的是[]string
-		switch i % 5 {
-		case 0:
-			articleid, err := strconv.Atoi(data[i])
-			if err != nil {
-				return serializer.Err(serializer.StrconvErr, err)
-			}
-			article[id].ID = uint(articleid)
-		case 1:
-			article[id].Title = data[i]
-		case 2:
-			article[id].UpdatedAt = tool.StringToTime(data[i])
-		case 3:
-			stat, err := strconv.Atoi(data[i])
-			if err != nil {
-				return serializer.Err(serializer.StrconvErr, err)
-			}
-			article[id].Stat = uint(stat)
-		case 4:
-			if data[i] != "" {
-
-				article[id].Tags = data[i]
-			}
-		}
-	}
 	return serializer.BuildArticleListResponse(article)
 }
 func (service *ArticleSservice) DeleteArticle() serializer.Response {

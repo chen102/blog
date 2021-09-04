@@ -62,11 +62,12 @@ func BuildArticleList(articles []model.Article) []Article {
 	art := make([]Article, 0)
 	for _, article := range articles {
 		arttemp := Article{
-			ArticleId: article.ID,
-			Title:     article.Title,
-			Time:      article.UpdatedAt,
-			Tags:      article.Tags,
-			Stat:      article.Stat,
+			ArticleId:  article.ID,
+			AuthorName: article.UserName,
+			Title:      article.Title,
+			Time:       article.UpdatedAt,
+			Tags:       article.Tags,
+			Stat:       article.Stat,
 		}
 		art = append(art, arttemp)
 	}
