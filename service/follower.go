@@ -5,7 +5,6 @@ import (
 	"blog/model/db"
 	"blog/redis"
 	"blog/serializer"
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -25,9 +24,9 @@ type UserFollowerListService struct {
 }
 
 func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Response {
-	count := 0
-	model.DB.Model(&model.User{}).Where("id = ?", service.UserId).Count(&count)
-	if count == 0 {
+
+	if !db.ExistUser(service.UserId) {
+
 		return serializer.BuildResponse("没有此用户")
 	}
 	me := model.GetcurrentUser(c)
@@ -76,8 +75,12 @@ func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Resp
 }
 func (service *UserFollowerListService) UserFollowerList(c *gin.Context) serializer.Response {
 	if service.UserId == 0 {
-		session := sessions.Default(c)
-		service.UserId = session.Get("userID").(uint)
+		me := model.GetcurrentUser(c)
+		service.UserId = me.ID
+	} else {
+		if !db.ExistUser(service.UserId) {
+			return serializer.BuildResponse("没有此用户")
+		}
 	}
 	if service.Count == 0 {
 		service.Count = 5

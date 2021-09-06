@@ -36,7 +36,7 @@ func AddArticle(c *gin.Context) {
 
 }
 func DeleteArticle(c *gin.Context) {
-	var service service.ArticleSservice
+	var service service.ArticleService
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
@@ -47,7 +47,7 @@ func DeleteArticle(c *gin.Context) {
 
 }
 func ShowArticle(c *gin.Context) {
-	var service service.ArticleSservice
+	var service service.ArticleService
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
@@ -58,55 +58,11 @@ func ShowArticle(c *gin.Context) {
 
 }
 func UpdateArticle(c *gin.Context) {
-	var service service.ArticleSservice
+	var service service.ArticleService
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, serializer.Err(serializer.ParamErr, err))
 	} else {
 		res := service.UpdateArticle()
-		c.JSON(200, res)
-
-	}
-
-}
-func CommentArticle(c *gin.Context) {
-	var service service.ArticleCommentservice
-	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, serializer.Err(serializer.ParamErr, err))
-	} else {
-		res := service.ArticleComment()
-		c.JSON(200, res)
-
-	}
-
-}
-func StatComment(c *gin.Context) {
-	var service service.StatCommentservice
-	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, serializer.Err(serializer.ParamErr, err))
-	} else {
-		res := service.StatComment()
-		c.JSON(200, res)
-
-	}
-
-}
-func StatArticle(c *gin.Context) {
-	var service service.StatArticleservice
-	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, serializer.Err(serializer.ParamErr, err))
-	} else {
-		res := service.StatArticle()
-		c.JSON(200, res)
-
-	}
-
-}
-func ShowArticleComment(c *gin.Context) {
-	var service service.ArticleCommentListservice
-	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, serializer.Err(serializer.ParamErr, err))
-	} else {
-		res := service.ArticleCommentList()
 		c.JSON(200, res)
 
 	}
@@ -120,4 +76,24 @@ func Stat(c *gin.Context) {
 		res := service.Stat(c)
 		c.JSON(200, res)
 	}
+}
+func Comment(c *gin.Context) {
+	var service service.CommentService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.Comment(c)
+		c.JSON(200, res)
+	}
+
+}
+func ShowCommentList(c *gin.Context) {
+	var service service.ArticleCommentListservice
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.CommentList()
+		c.JSON(200, res)
+	}
+
 }

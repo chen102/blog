@@ -15,33 +15,7 @@ type Article struct {
 	Content    string    `json:"ArticleContent,omitempty"`
 	Tags       string    `json:"ArticleTags,omitempty"`
 	Stat       uint      `json:"ArticleStat,omitempty"`
-	//Comment    []model.Comment `json:"ArticleComment,omitempty"`
-	//CommentNum uint            `json:"ArticleCommentNum,omitempty"`
 }
-
-//type Comment struct {
-//CommentId uint
-//UserId    uint
-//AuthorId  uint
-//Time      string
-//Content   string
-//Stat      uint
-//}
-
-//func BuildCommentList(comments []model.Comment) []Comment {
-//comm := make([]Comment, 0)
-//for _, comment := range comments {
-//comm = append(comm, Comment{
-//CommentId: comment.CommentId,
-//UserId:    comment.UserId,
-//AuthorId:  comment.AuthorId,
-//Time:      comment.Time,
-//Content:   comment.Content,
-//Stat:      comment.Stat,
-//})
-//}
-//return comm
-//}
 
 //返回一篇文章的详细详细
 func BuildArticle(article model.Article) Article {
@@ -85,10 +59,3 @@ func BuildArticleListResponse(articles []model.Article) Response {
 		Msg:  strconv.Itoa(len(articles)) + " articles Display Succ!",
 	}
 }
-
-//func BuildCommentListResponse(comments []model.Comment) Response {
-//return Response{
-//Data: BuildCommentList(comments),
-//Msg:  strconv.Itoa(len(comments)) + " comment Display Succ!",
-//}
-//}

@@ -115,6 +115,7 @@ func UserDynamicKey(userid uint) string {
 	return tool.StrSplicing("followerservice:dynamic:userid:", UintToStr(userid), ":articlid:set")
 }
 
+//
 //----------------------------------------------
 //文章主键键 articlemanager:userid:xx:articlid:int
 func GetArticleIDKey(userid uint) string {

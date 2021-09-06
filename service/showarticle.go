@@ -5,7 +5,6 @@ import (
 	"blog/redis"
 	"blog/serializer"
 	//"blog/tool"
-	//"log"
 	//"strconv"
 	//"blog/tool"
 	//"errors"
@@ -18,7 +17,7 @@ import (
 )
 
 //文章服务
-type ArticleSservice struct {
+type ArticleService struct {
 	//AuthorId  uint `form:"AuthorId" json:"AuthorId" binding:"required"`
 	ArticleId uint `form:"ArticleId" json:"ArticleId" binding:"required"`
 }
@@ -29,44 +28,11 @@ type Paginationservice struct {
 	Count  uint `form:"Count" json:"Count" binding:"omitempty"`
 }
 
-//文章分页服务
+//用户文章列表
 type ArticleListservice struct {
 	Type     bool `form:"rank" json:"rank" binding:"omitempty"`
 	AuthorId uint `form:"AuthorId" json:"AuthorId" binding:"omitempty"` //若为空，即为自己的文章列表
 	Paginationservice
-}
-
-//评论分页服务,若评论超过5条，需发起请求获取全部评论(分页的形式)
-type ArticleCommentListservice struct {
-	ArticleSservice
-	Paginationservice
-}
-
-func (service *ArticleCommentListservice) ArticleCommentList() serializer.Response {
-	//var comments []model.Comment
-	//res, err := redis.ShowAllComment(service.AuthorId, service.ArticleId, service.Offset, service.Count)
-	//if err != nil {
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	//for _, comment := range res {
-	//var temp model.Comment
-	//strconv.Unquote(comment)
-	//if len(comment) == 0 {
-	//continue
-	//}
-	//if err := json.Unmarshal([]byte(comment), &temp); err != nil {
-	//return serializer.Err(serializer.StrconvErr, err)
-	//}
-	//stat, err := redis.GetStat(service.AuthorId, service.ArticleId, temp.CommentId)
-	//if err != nil {
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	//temp.Stat = stat
-	//comments = append(comments, temp)
-
-	//}
-	//return serializer.BuildCommentListResponse(comments)
-	return serializer.BuildResponse("xx")
 }
 
 func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Response {
@@ -108,11 +74,14 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 	////Sort返回的结果为[]string，将string转为多个文章模型进行响应
 	return serializer.BuildArticleListResponse(article)
 }
-func (service *ArticleSservice) DeleteArticle() serializer.Response {
+func (service *ArticleService) DeleteArticle() serializer.Response {
 	return serializer.Response{}
 
 }
-func (service *ArticleSservice) ShowArticle() serializer.Response {
+func (service *ArticleService) ShowArticle() serializer.Response {
+	if !db.ExistArticle(service.ArticleId) {
+		return serializer.BuildResponse("没有此文章")
+	}
 	var article model.Article
 	data, err := redis.ShowArticleCache(service.ArticleId)
 	if err != nil && err != model.RedisNil {
@@ -139,51 +108,13 @@ func (service *ArticleSservice) ShowArticle() serializer.Response {
 
 			return serializer.Err(serializer.RedisErr, err)
 		}
+		//获取评论
 
 		return serializer.BuildArticleResponse(article)
+		//return serializer.BuildCommentListResponse(comment)
 	}
 	return serializer.BuildArticleResponse(data[0])
-	//var article model.Article
-	//data, err := redis.ShowArticle(service.AuthorId, service.ArticleId)
-	//if err != nil {
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	//if err := mapstructure.Decode(data, &article); err != nil {
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	//article.ArticleId = service.ArticleId
-	//article.AuthorId = service.AuthorId
-	////显示评论
-	//var comments []model.Comment
-
-	//comment, err := redis.ShowComment(service.AuthorId, service.ArticleId)
-	//if err != nil {
-
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	//commentnumString := comment[len(comment)-1] //查询的评论数
-	//commentnumInt, err := strconv.Atoi(commentnumString)
-	//if err != nil {
-	//return serializer.Err(serializer.StrconvErr, err)
-	//}
-	//for _, comment := range comment[:len(comment)-1] {
-	//var temp model.Comment
-	//strconv.Unquote(comment)
-	//if err := json.Unmarshal([]byte(comment), &temp); err != nil {
-	//return serializer.Err(serializer.StrconvErr, err)
-	//}
-	//stat, err := redis.GetStat(service.AuthorId, service.ArticleId, temp.CommentId)
-	//if err != nil {
-	//return serializer.Err(serializer.RedisErr, err)
-	//}
-	//temp.Stat = stat
-	//comments = append(comments, temp)
-
-	//}
-	//article.CommentNum = uint(commentnumInt)
-	//article.Comment = comments
-	//return serializer.BuildArticleResponse(article)
 }
-func (service *ArticleSservice) UpdateArticle() serializer.Response {
+func (service *ArticleService) UpdateArticle() serializer.Response {
 	return serializer.Response{}
 }

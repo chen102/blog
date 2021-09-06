@@ -14,9 +14,10 @@ type Article struct {
 	Title     string
 	UserID    uint   //用户的外键
 	UserName  string `gorm:"-" map:"omitempty" `
-	Stat      uint
+	Stat      uint   `gorm:"-"`
 	Tags      string `mapstructure:",omitempty"`
 	Content   string
+	Comment   []Comment
 }
 
 //手动处理redis sort的数据

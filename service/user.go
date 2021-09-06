@@ -129,7 +129,7 @@ func (service *UserStatListService) UserStatArticlesList(c *gin.Context) seriali
 		}
 		for _, stat := range stats {
 			var article model.Article
-			if err := model.DB.Select([]string{"id", "title", "updated_at", "user_id", "stat", "tags", "content"}).Where("id=?", stat.ArticleID).First(&article).Error; err != nil {
+			if err := model.DB.Select([]string{"id", "title", "updated_at", "user_id", "stat", "tags", "content"}).Where("id=?", stat.StatID).First(&article).Error; err != nil {
 
 				return serializer.Err(serializer.MysqlErr, err)
 			}

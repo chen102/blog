@@ -12,9 +12,9 @@ const (
 )
 
 type Stat struct {
-	ID        uint `gorm:"primary_key"`
-	Type      StatType
-	UserID    uint
-	ArticleID uint
-	Stat      bool //用于取消点赞
+	ID     uint `gorm:"primary_key"`
+	Type   StatType
+	UserID uint
+	StatID uint
+	Stat   bool //用于取消点赞
 }

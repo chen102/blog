@@ -10,6 +10,17 @@ import (
 	"time"
 )
 
+func WriteCommentStatCache(stat model.Stat, cancestat bool) error {
+	if !cancestat {
+		//点赞数+1
+	} else { //取消点赞
+
+		//点赞数-1
+	}
+	//走点赞队列
+	return nil
+}
+
 //go的bool不支持转int只能这样了
 //异或关系
 //存在，点赞 1
@@ -31,9 +42,9 @@ func XOR(exist, cancestat bool) bool {
 
 //redis事务到底要不要，处理每条错误
 //按道理来说，是不用，因为是一起返回结果
-func WriteStatCache(stat model.Stat, cancestat bool) error {
+func WriteArticleStatCache(stat model.Stat, cancestat bool) error {
 	//防止重复点赞
-	if ok, err := model.RedisReadDB.SIsMember(UserStatList(stat.UserID), stat.ArticleID).Result(); err != nil {
+	if ok, err := model.RedisReadDB.SIsMember(UserStatList(stat.UserID), stat.StatID).Result(); err != nil {
 		return err
 	} else if XOR(ok, cancestat) {
 		return errors.New("您可别点了")
@@ -44,28 +55,27 @@ func WriteStatCache(stat model.Stat, cancestat bool) error {
 		//点赞
 		if !cancestat {
 			//点赞数+1
-			if err := tx.HIncrBy(ArticleIdKey(stat.ArticleID), "Stat", 1).Err(); err != nil {
+			if err := tx.HIncrBy(ArticleIdKey(stat.StatID), "Stat", 1).Err(); err != nil {
 				return err
 			}
 			//加入用户点赞列表
-			if err := tx.SAdd(UserStatList(stat.UserID), stat.ArticleID).Err(); err != nil {
+			if err := tx.SAdd(UserStatList(stat.UserID), stat.StatID).Err(); err != nil {
 				return err
 			}
 
-			if err := tx.LPush(UserStatQueueKey(), UserStatQueueValue(stat.UserID, stat.ArticleID)).Err(); err != nil {
+			if err := tx.LPush(UserStatQueueKey(), UserStatQueueValue(stat.UserID, stat.StatID)).Err(); err != nil {
 				return err
 			}
 		} else { //取消点赞
-			if err := tx.HIncrBy(ArticleIdKey(stat.ArticleID), "Stat", -1).Err(); err != nil {
+			if err := tx.HIncrBy(ArticleIdKey(stat.StatID), "Stat", -1).Err(); err != nil {
 				return err
 			}
 			//这里不用担心并发的问题，因为这是用户自己的点赞列表，所以直接可以修改缓存
-			if err := tx.SRem(UserStatList(stat.UserID), stat.ArticleID).Err(); err != nil {
+			if err := tx.SRem(UserStatList(stat.UserID), stat.StatID).Err(); err != nil {
 				return err
 			}
 			//点赞和取消点赞公用一个队列
-			log.Println("DEBUG:", UserCancesStatQueueValue(stat.UserID, stat.ArticleID))
-			if err := tx.LPush(UserStatQueueKey(), UserCancesStatQueueValue(stat.UserID, stat.ArticleID)).Err(); err != nil {
+			if err := tx.LPush(UserStatQueueKey(), UserCancesStatQueueValue(stat.UserID, stat.StatID)).Err(); err != nil {
 				return err
 			}
 
@@ -73,7 +83,7 @@ func WriteStatCache(stat model.Stat, cancestat bool) error {
 		return nil
 	}
 	//这里不仅要监视文章，还要监视用户点赞列表
-	if err := model.RedisWriteDB.Watch(transactional, ArticleIdKey(stat.ArticleID), UserStatList(stat.UserID)); err != nil { //保证并发安全
+	if err := model.RedisWriteDB.Watch(transactional, ArticleIdKey(stat.StatID), UserStatList(stat.UserID)); err != nil { //保证并发安全
 		return err
 	}
 	return nil

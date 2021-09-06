@@ -71,3 +71,12 @@ func UserArticlesList(articles []Article) ([]Article, error) {
 	}
 	return articles, nil
 }
+func ExistUser(userid uint) bool {
+
+	count := 0
+	DB.Model(&User{}).Where("id = ?", userid).Count(&count)
+	if count == 0 {
+		return false
+	}
+	return true
+}
