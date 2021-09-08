@@ -2,6 +2,7 @@ package serializer
 
 import (
 	"blog/model"
+	"log"
 	"strconv"
 	"time"
 )
@@ -17,12 +18,15 @@ type Comment struct {
 	SubComment  bool
 }
 
-var resComment []Comment
+var resComment [][]Comment
 
-func BuildCommentList(comments []model.Comment, roots []int) []Comment {
-	resC := make([]Comment, 0)
+func BuildCommentList(comments []model.Comment, roots []int) [][]Comment {
+	resC := make([][]Comment, len(roots))
+	for i, _ := range resC {
+		resC[i] = make([]Comment, 0)
+	}
 	resComment = resC
-	for _, index := range roots {
+	for i, index := range roots {
 		comment := Comment{
 
 			CommentID: comments[index].ID,
@@ -32,8 +36,13 @@ func BuildCommentList(comments []model.Comment, roots []int) []Comment {
 			Time:      comments[index].UpdatedAt,
 			Stat:      comments[index].Stat,
 		}
-		resComment = append(resComment, comment)
-		RangeSubComment(comments, index)
+		resComment[i] = append(resComment[i], comment)
+		RangeSubComment(comments, index, i) //index标记楼主在comments的位置，i标记楼主在resComment的位置
+	}
+	for _, v := range resComment {
+		for _, x := range v {
+			log.Println(x)
+		}
 	}
 	return resComment
 }
@@ -43,7 +52,7 @@ func BuildCommentListResponse(comments []model.Comment, roots []int) Response {
 		Msg:  strconv.Itoa(len(resComment)) + " comment Display Succ!",
 	}
 }
-func RangeSubComment(comments []model.Comment, index int) {
+func RangeSubComment(comments []model.Comment, index, i int) {
 	for _, v := range comments[index].SubComments {
 		comment := Comment{
 
@@ -56,9 +65,8 @@ func RangeSubComment(comments []model.Comment, index int) {
 			Stat:        comments[v].Stat,
 			SubComment:  true, //表示这是子评论
 		}
-
-		resComment = append(resComment, comment)
-		RangeSubComment(comments, v)
+		resComment[i] = append(resComment[i], comment)
+		RangeSubComment(comments, v, i)
 
 	}
 }

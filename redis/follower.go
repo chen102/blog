@@ -35,7 +35,7 @@ func ShowUserFollowerID(userid uint) ([]string, error) {
 	return ids, nil
 }
 func WriteFollowerCache(follower model.Follower) error {
-	if !follower.Stat {
+	if !follower.State {
 		if err := model.RedisWriteDB.SAdd(UserFolloweListrKey(follower.UserID, 0), follower.FollowerID).Err(); err != nil {
 			return err
 		}
@@ -90,7 +90,7 @@ func WriteFollowerListCache(userid uint, users []model.User, fans bool) error {
 			if err := tx.HMSet(UserIdKey(user.ID), model.StructToMap(user)).Err(); err != nil {
 				return err
 			}
-			tx.Expire(UserIdKey(user.ID), 24*time.Hour) //1小时存活
+			tx.Expire(UserIdKey(user.ID), 24*time.Hour) //24小时存活
 
 		}
 		return nil
@@ -110,7 +110,6 @@ func WriteFollowerListCache(userid uint, users []model.User, fans bool) error {
 }
 func ShowFollowerListCache(userid, offset, count uint, fans bool) ([]model.User, error) {
 	var ids []string
-	log.Println("DEBUG")
 	if !fans { //关注列表
 		ok, err := model.RedisReadDB.Exists(UserFolloweListrKey(userid, 0)).Result()
 		if err != nil && err != model.RedisNil {

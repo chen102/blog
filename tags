@@ -13,6 +13,7 @@ Article	serializer/article.go	/^type Article struct {$/;"	t
 ArticleAddSservice	service/addarticle.go	/^type ArticleAddSservice struct {$/;"	t
 ArticleCommentIDKey	redis/rediskey.go	/^func ArticleCommentIDKey(userid, articleid, commentid uint) string {$/;"	f
 ArticleCommentIDStringKey	redis/rediskey.go	/^func ArticleCommentIDStringKey(userid, articlid, commentid string) string {$/;"	f
+ArticleCommentKey	redis/rediskey.go	/^func ArticleCommentKey(artid uint) string {$/;"	f
 ArticleCommentListservice	service/comment.go	/^type ArticleCommentListservice struct {$/;"	t
 ArticleCommentRankKey	redis/rediskey.go	/^func ArticleCommentRankKey(userid, articleid uint) string {$/;"	f
 ArticleCommentStatKey	redis/rediskey.go	/^func ArticleCommentStatKey(userid, articleid, commentid uint) string {$/;"	f
@@ -35,20 +36,24 @@ BuildArticle	serializer/article.go	/^func BuildArticle(article model.Article) Ar
 BuildArticleList	serializer/article.go	/^func BuildArticleList(articles []model.Article) []Article {$/;"	f
 BuildArticleListResponse	serializer/article.go	/^func BuildArticleListResponse(articles []model.Article) Response {$/;"	f
 BuildArticleResponse	serializer/article.go	/^func BuildArticleResponse(article model.Article) Response {$/;"	f
-BuildCommentList	serializer/comment.go	/^func BuildCommentList(comments []model.Comment, roots []int) []Comment {$/;"	f
+BuildCommentList	serializer/comment.go	/^func BuildCommentList(comments []model.Comment, roots []int) [][]Comment {$/;"	f
 BuildCommentListResponse	serializer/comment.go	/^func BuildCommentListResponse(comments []model.Comment, roots []int) Response {$/;"	f
 BuildCommentTree	model/comment.go	/^func BuildCommentTree(comments []Comment) ([]Comment, []int) {$/;"	f
 BuildResponse	serializer/common.go	/^func BuildResponse(msg string) Response {$/;"	f
 BuildUserList	serializer/user.go	/^func BuildUserList(users []model.User) []User {$/;"	f
 BuildUserListResponse	serializer/user.go	/^func BuildUserListResponse(userlist []model.User) Response {$/;"	f
+CancesStatCommenQueueValue	redis/rediskey.go	/^func CancesStatCommenQueueValue(userid, commentid uint) string {$/;"	f
 CheckPassword	model/user.go	/^func (user *User) CheckPassword(password string) bool {$/;"	f
 Comment	api/cudr.go	/^func Comment(c *gin.Context) {$/;"	f
 Comment	model/comment.go	/^type Comment struct {$/;"	t
 Comment	serializer/comment.go	/^type Comment struct {$/;"	t
 Comment	service/comment.go	/^func (service *CommentService) Comment(c *gin.Context) serializer.Response {$/;"	f
+CommentKey	redis/rediskey.go	/^func CommentKey(commentid uint) string {$/;"	f
 CommentList	model/db/article.go	/^func CommentList(artid uint) ([]Comment, error) {$/;"	f
 CommentList	service/comment.go	/^func (service *ArticleCommentListservice) CommentList() serializer.Response {$/;"	f
+CommentRank	model/comment.go	/^func CommentRank(data []string) ([]Comment, error) {$/;"	f
 CommentService	service/comment.go	/^type CommentService struct {$/;"	t
+CommentStringKey	redis/rediskey.go	/^func CommentStringKey(commentid string) string {$/;"	f
 Cors	session/cors.go	/^func Cors() gin.HandlerFunc {$/;"	f
 CronInit	cron/main.go	/^func CronInit() {$/;"	f
 CurrentUser	session/auth.go	/^func CurrentUser() gin.HandlerFunc {$/;"	f
@@ -77,6 +82,7 @@ GetStat	redis/showarticle.go	/^func GetStat(uid, artid, commentid uint) (uint, e
 GetUser	model/db/user.go	/^func GetUser(ID interface{}) (User, error) {$/;"	f
 GetcurrentUser	model/user.go	/^func GetcurrentUser(c *gin.Context) *User {$/;"	f
 InitCommentRank	redis/rediskey.go	/^func InitCommentRank(member interface{}) redis.Z {$/;"	f
+IntSliceToString	tool/common.go	/^func IntSliceToString(i []int) string {$/;"	f
 JsonMapParam	gintest/test.go	/^func JsonMapParam(param map[string]interface{}) (io.Reader, error) {$/;"	f
 JsonToMap	gintest/test.go	/^func JsonToMap(str []byte) (map[string]interface{}, error) {$/;"	f
 Login	service/user.go	/^func (service *UserLoginService) Login(c *gin.Context) serializer.Response {$/;"	f
@@ -87,12 +93,13 @@ NewRequest	gintest/test.go	/^func NewRequest(method, url, bodytype string, body 
 NewTest	gintest/test.go	/^func NewTest() *gin.Engine {$/;"	f
 NoErr	serializer/common.go	/^	NoErr = iota$/;"	c
 Pagination	tool/common.go	/^func Pagination(item []string, offset, count int) []string {$/;"	f
+PaginationINT	tool/common.go	/^func PaginationINT(item []string, offset, count int) []int {$/;"	f
 Paginationservice	service/showarticle.go	/^type Paginationservice struct {$/;"	t
 ParamErr	serializer/common.go	/^	ParamErr$/;"	c
 ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {$/;"	f
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
 RandomTime	tool/common.go	/^func RandomTime() int64 {$/;"	f
-RangeSubComment	serializer/comment.go	/^func RangeSubComment(comments []model.Comment, index int) {$/;"	f
+RangeSubComment	serializer/comment.go	/^func RangeSubComment(comments []model.Comment, index, i int) {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
 RedisNil	model/del.go	/^const RedisNil = redis.Nil$/;"	c
@@ -111,6 +118,7 @@ ShowArticleCache	redis/showarticle.go	/^func ShowArticleCache(artid uint) ([]mod
 ShowArticleListCache	redis/showarticle.go	/^func ShowArticleListCache(userid, offset, count uint, rank bool) ([]model.Article, error) {$/;"	f
 ShowComment	redis/showarticle.go	/^func ShowComment(uid, artid uint) ([]string, error) {$/;"	f
 ShowCommentList	api/cudr.go	/^func ShowCommentList(c *gin.Context) {$/;"	f
+ShowCommentListCache	redis/comment.go	/^func ShowCommentListCache(artid, offset, count uint) ([]model.Comment, error) {$/;"	f
 ShowDynamicCache	redis/dynamic.go	/^func ShowDynamicCache(userid, offset, count uint) ([]model.Article, error) {$/;"	f
 ShowFollowerListCache	redis/follower.go	/^func ShowFollowerListCache(userid, offset, count uint, fans bool) ([]model.User, error) {$/;"	f
 ShowUserFollowerID	redis/follower.go	/^func ShowUserFollowerID(userid uint) ([]string, error) {$/;"	f
@@ -125,6 +133,7 @@ Stat	service/stat.go	/^func (service *StatService) Stat(c *gin.Context) serializ
 StatArticle	model/stat.go	/^	StatArticle StatType = iota$/;"	c
 StatArticle	redis/addarticle.go	/^func StatArticle(who, uid, artid uint) error {$/;"	f
 StatArticle	service/stat.go	/^func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
+StatCommenQueueValue	redis/rediskey.go	/^func StatCommenQueueValue(userid, commentid uint) string {$/;"	f
 StatComment	model/stat.go	/^	StatComment$/;"	c
 StatComment	redis/addarticle.go	/^func StatComment(who, uid, artid, commentid uint) error {$/;"	f
 StatComment	service/stat.go	/^func StatComment(stat model.Stat, cancestat bool) (err error, errcode int) {$/;"	f
@@ -183,6 +192,7 @@ UserStringIdKey	redis/rediskey.go	/^func UserStringIdKey(userid string) string {
 WriteArticleCache	redis/showarticle.go	/^func WriteArticleCache(article map[string]interface{}) error {$/;"	f
 WriteArticleListCach	redis/showarticle.go	/^func WriteArticleListCach(userid uint, articles []model.Article) error {$/;"	f
 WriteArticleStatCache	redis/stat.go	/^func WriteArticleStatCache(stat model.Stat, cancestat bool) error {$/;"	f
+WriteCommentListCache	redis/comment.go	/^func WriteCommentListCache(artid uint, comments []model.Comment) error {$/;"	f
 WriteCommentStatCache	redis/stat.go	/^func WriteCommentStatCache(stat model.Stat, cancestat bool) error {$/;"	f
 WriteDynamicCache	redis/dynamic.go	/^func WriteDynamicCache(userid uint, articles []model.Article) error {$/;"	f
 WriteFollowerCache	redis/follower.go	/^func WriteFollowerCache(follower model.Follower) error {$/;"	f
@@ -213,13 +223,14 @@ model	model/stat.go	/^package model$/;"	p
 model	model/user.go	/^package model$/;"	p
 mutualfollowingList	service/follower.go	/^func mutualfollowingList(follower, offset, count uint) ([]model.User, error, int) {$/;"	f
 redis	redis/addarticle.go	/^package redis$/;"	p
+redis	redis/comment.go	/^package redis$/;"	p
 redis	redis/dynamic.go	/^package redis$/;"	p
 redis	redis/follower.go	/^package redis$/;"	p
 redis	redis/rediskey.go	/^package redis$/;"	p
 redis	redis/showarticle.go	/^package redis$/;"	p
 redis	redis/stat.go	/^package redis$/;"	p
 redis	redis/user.go	/^package redis$/;"	p
-resComment	serializer/comment.go	/^var resComment []Comment$/;"	v
+resComment	serializer/comment.go	/^var resComment [][]Comment$/;"	v
 router	router/router.go	/^package router$/;"	p
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/comment.go	/^package serializer$/;"	p

@@ -83,14 +83,29 @@ func UserStatQueueKey() string {
 	return "statservice:redistomysql:userid:articleid:list"
 }
 
-//用户点赞消息
+//点赞队列消息
+//0:点赞文章
+//1:取消点赞文章
+//2:点赞评论
+//3.取消点赞评论
+//用户点赞文章消息
 func UserStatQueueValue(userid, artid uint) string {
-	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid))
+	return tool.StrSplicing("0:", UintToStr(userid), ":", UintToStr(artid))
 }
 
-//用户取消点赞消息
+//用户取消点赞文章消息
 func UserCancesStatQueueValue(userid, artid uint) string {
-	return tool.StrSplicing(UintToStr(userid), ":", UintToStr(artid), ":d")
+	return tool.StrSplicing("1:", UintToStr(userid), ":", UintToStr(artid))
+}
+
+//用户点赞评论消息
+func StatCommenQueueValue(userid, commentid uint) string {
+	return tool.StrSplicing("2:", UintToStr(userid), ":", UintToStr(commentid))
+}
+
+//用户取消点赞评论消息
+func CancesStatCommenQueueValue(userid, commentid uint) string {
+	return tool.StrSplicing("3:", UintToStr(userid), ":", UintToStr(commentid))
 }
 
 //用户点赞列表键
@@ -115,7 +130,21 @@ func UserDynamicKey(userid uint) string {
 	return tool.StrSplicing("followerservice:dynamic:userid:", UintToStr(userid), ":articlid:set")
 }
 
-//
+//文章评论键
+func ArticleCommentKey(artid uint) string {
+	return tool.StrSplicing("articleservice:comment:articleid:", UintToStr(artid), ":commentid:set")
+}
+
+//评论键
+func CommentKey(commentid uint) string {
+	return tool.StrSplicing("commentservice:commentid:", UintToStr(commentid), ":comment:hash")
+}
+
+//评论键
+func CommentStringKey(commentid string) string {
+	return tool.StrSplicing("commentservice:commentid:", commentid, ":comment:hash")
+}
+
 //----------------------------------------------
 //文章主键键 articlemanager:userid:xx:articlid:int
 func GetArticleIDKey(userid uint) string {

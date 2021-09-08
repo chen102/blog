@@ -35,18 +35,28 @@ func StatCronService() {
 		var stat model.Stat
 		log.Println(userstats)
 		arr := strings.Split(userstats, ":")
-		userid, err := strconv.Atoi(arr[0])
+		userid, err := strconv.Atoi(arr[1])
 		if err != nil {
 			panic(err)
 		}
-		artid, err := strconv.Atoi(arr[1])
+		artid, err := strconv.Atoi(arr[2])
 		if err != nil {
 			panic(err)
 		}
 		stat.UserID = uint(userid)
 		stat.StatID = uint(artid)
-		if len(arr) == 3 {
-			if err := model.DB.Model(&stat).Where("user_id=? AND article_id=?", stat.UserID, stat.StatID).Update("stat", true).Error; err != nil {
+		switch arr[0] {
+		case "1":
+			if err := model.DB.Model(&stat).Where("type=? AND user_id=? AND stat_id=?", 0, stat.UserID, stat.StatID).Update("state", true).Error; err != nil {
+				panic(err)
+			}
+			continue
+
+		case "2":
+			stat.Type = 1
+
+		case "3":
+			if err := model.DB.Model(&stat).Where("type=? AND user_id=? AND stat_id=?", 1, stat.UserID, stat.StatID).Update("state", true).Error; err != nil {
 				panic(err)
 			}
 			continue

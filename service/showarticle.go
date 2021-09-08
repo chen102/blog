@@ -99,7 +99,7 @@ func (service *ArticleService) ShowArticle() serializer.Response {
 
 		//获取点赞数
 		var count int64
-		if err := model.DB.Model(&model.Stat{}).Where("article_id=? AND Stat=?", article.ID, 0).Count(&count).Error; err != nil {
+		if err := model.DB.Model(&model.Stat{}).Where("stat_id=? AND state=?", article.ID, 0).Count(&count).Error; err != nil {
 
 			return serializer.Err(serializer.MysqlErr, err)
 		}

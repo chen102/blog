@@ -6,7 +6,6 @@ import (
 	"blog/redis"
 	"blog/serializer"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 //用户关注服务
@@ -34,11 +33,7 @@ func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Resp
 		UserID:     me.ID,
 		FollowerID: service.UserId,
 	}
-	//删除别人粉丝列表缓存(粉丝列表要考虑并发性),配合redis事务，可控制并发
-	if err := redis.DelOtherFansList(follow); err != nil {
-
-		return serializer.Err(serializer.RedisErr, err)
-	}
+	//缓存策略,先更db后删缓存
 	//写入mysql
 	if !service.CancelFollower {
 
@@ -52,12 +47,17 @@ func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Resp
 			return serializer.Err(serializer.MysqlErr, err)
 		}
 	}
-	follow.Stat = service.CancelFollower
+	//删除别人粉丝列表缓存(粉丝列表要考虑并发性:a查看自己的粉丝列表，同时b关注了a，缓存无数据，a从数据库读到数据后，准备回写缓存，此刻b正好要更新数据库，更新完后，又去把缓存更新了，那请求a再往缓存中写的就是旧数据，属于脏数据),配合redis事务，可控制并发
+	if err := redis.DelOtherFansList(follow); err != nil {
+
+		return serializer.Err(serializer.RedisErr, err)
+	}
+	follow.State = service.CancelFollower
 	//写入缓存
 	if err := redis.ExistUserFollowerList(follow.UserID); err != nil && err != model.RedisNil {
 		return serializer.Err(serializer.RedisErr, err)
 	} else if err == nil {
-		if err := redis.WriteFollowerCache(follow); err != nil { //若缓存存在可直接同步修改缓存,自己的关注列表不用考虑并发性
+		if err := redis.WriteFollowerCache(follow); err != nil { //若缓存存在可直接同步修改缓存,自己的关注列表不用考虑并发性:我不能同时关注别人和看自己的粉丝列表
 
 			return serializer.Err(serializer.RedisErr, err)
 		}
@@ -111,7 +111,6 @@ func (service *UserFollowerListService) UserFollowerList(c *gin.Context) seriali
 	return serializer.BuildUserListResponse(Users)
 }
 func followList(userid, offset, count uint) ([]model.User, error, int) {
-	log.Println("DEBUG1")
 	res, err := redis.ShowFollowerListCache(userid, offset, count, false)
 	if err != nil && err != model.RedisNil {
 		return nil, err, serializer.RedisErr

@@ -35,7 +35,7 @@ func CommentList(artid uint) ([]Comment, error) {
 		}
 		comments[k].UserName = username[0]
 		var count int64
-		if err := DB.Model(&Stat{}).Where("type=? AND article_id=? AND Stat=?", 1, comment.ID, 0).Count(&count).Error; err != nil {
+		if err := DB.Model(&Stat{}).Where("type=? AND stat_id=? AND state=?", 1, comment.ID, 0).Count(&count).Error; err != nil {
 
 			return nil, err
 		}

@@ -4,6 +4,7 @@ import (
 	//"encoding/json"
 	"fmt"
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -44,6 +45,14 @@ func SliceToString(str []string) string {
 	}
 	return temp[:len(temp)-1] //最后一个,不要
 }
+func IntSliceToString(i []int) string {
+	var temp string
+	for _, v := range i {
+		temp += strconv.Itoa(v) + ","
+	}
+	return temp[:len(temp)-1]
+
+}
 func RandomTime() int64 {
 	return rand.Int63n(time.Now().Unix()) + 7200 //随机生成现在到两个小时以内的时间戳
 
@@ -61,4 +70,22 @@ func Pagination(item []string, offset, count int) []string {
 		leftover = len(item) - offset
 	}
 	return item[offset:leftover]
+}
+
+//输出[]int
+func PaginationINT(item []string, offset, count int) []int {
+	toint := make([]int, len(item))
+	for k, v := range item {
+		toint[k], _ = strconv.Atoi(v)
+	}
+	if offset*count < 0 { //不能是负数
+		return nil
+	}
+	leftover := offset + count
+	if int(offset) >= len(item) { //若偏移量超了，直接返回
+		return nil
+	} else if leftover >= len(item) { //若输出的超出了已有的输出剩下的全部
+		leftover = len(item) - offset
+	}
+	return toint[offset:leftover]
 }

@@ -61,7 +61,8 @@ func StatArticle(stat model.Stat, cancestat bool) (err error, errcode int) {
 	} else if err == model.RedisNil {
 		var ids []model.Stat
 		//从点赞表获取该用户点赞文章写入cache
-		if err := model.DB.Select("article_id").Where("user_id=? AND stat=?", stat.UserID, 0).Find(&ids).Error; err != nil {
+		if err := model.DB.Select("stat_id").Where("type=? AND user_id=? AND state=?", 0, stat.UserID, 0).Find(&ids).Error; err != nil {
+
 			return err, serializer.MysqlErr
 		}
 		articles := make([]model.Article, len(ids))

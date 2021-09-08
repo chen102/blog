@@ -18,6 +18,8 @@ func StructToMap(s interface{}) map[string]interface{} {
 		s = s.(Article)
 	case Stat:
 		s = s.(Stat)
+	case Comment:
+		s = s.(Comment)
 	default:
 		return nil
 	}

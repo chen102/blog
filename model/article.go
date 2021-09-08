@@ -23,7 +23,7 @@ type Article struct {
 //手动处理redis sort的数据
 func ArticleList(data []string) ([]Article, error) {
 	////Sort返回的结果为[]string，将string转为多个文章模型进行响应
-	article := make([]Article, len(data)/6) //5个string为一个article,分别是id,title,time,stat,tags
+	article := make([]Article, len(data)/6) //6个string为一个article,分别是id,title,time,stat,tags
 	id := 0
 	for i := 0; i < len(data); i++ {
 		if i != 0 && i%6 == 0 {

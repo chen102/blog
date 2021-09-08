@@ -16,5 +16,5 @@ type Stat struct {
 	Type   StatType
 	UserID uint
 	StatID uint
-	Stat   bool //用于取消点赞
+	State  bool //用于取消点赞
 }

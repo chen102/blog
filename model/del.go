@@ -52,7 +52,7 @@ func DelRedis() {
 	log.Println(pong, err)
 	pong, err = RedisReadDB.Ping().Result()
 	log.Println(pong, err)
-	if err := RedisReadDB.SlaveOf("172.17.0.2", "6379").Err(); err != nil { //redis主从
+	if err := RedisReadDB.SlaveOf("172.17.0.3", "6379").Err(); err != nil { //redis主从
 		//这里的ip是主的IP，因为这里是本地，所以直接用的容器的IP (需固定容器IP)
 		panic(err)
 	}

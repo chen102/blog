@@ -25,10 +25,10 @@ func UserFollowerList(userid uint, fans bool) ([]User, error) {
 		}
 		var followercount int64
 		var fanscount int64
-		if err := DB.Model(&Follower{}).Where("user_id=? AND stat=?", id, 0).Count(&followercount).Error; err != nil {
+		if err := DB.Model(&Follower{}).Where("user_id=? AND state=?", id, 0).Count(&followercount).Error; err != nil {
 			return nil, err
 		}
-		if err := DB.Model(&Follower{}).Where("follower_id=? AND stat=?", id, 0).Count(&fanscount).Error; err != nil {
+		if err := DB.Model(&Follower{}).Where("follower_id=? AND state=?", id, 0).Count(&fanscount).Error; err != nil {
 			return nil, err
 		}
 		users[k].FansNum = uint(fanscount)
@@ -42,12 +42,12 @@ func UserFollowerId(userid uint, fans bool) ([]int64, error) {
 
 	var ids []int64
 	if !fans {
-		if err := DB.Model(&Follower{}).Where("user_id=? AND stat=?", userid, 0).Pluck("follower_id", &ids).Error; err != nil {
+		if err := DB.Model(&Follower{}).Where("user_id=? AND state=?", userid, 0).Pluck("follower_id", &ids).Error; err != nil {
 			return nil, err
 		}
 
 	} else {
-		if err := DB.Model(&Follower{}).Where("follower_id=? AND stat=?", userid, 0).Pluck("user_id", &ids).Error; err != nil {
+		if err := DB.Model(&Follower{}).Where("follower_id=? AND state=?", userid, 0).Pluck("user_id", &ids).Error; err != nil {
 			return nil, err
 		}
 	}
@@ -63,7 +63,7 @@ func UserArticlesList(articles []Article) ([]Article, error) {
 		}
 		articles[k].UserName = username[0]
 		var count int64
-		if err := DB.Model(&Stat{}).Where("article_id=? AND Stat=?", article.ID, 0).Count(&count).Error; err != nil {
+		if err := DB.Model(&Stat{}).Where("type=? AND stat_id=? AND state=?", 0, article.ID, 0).Count(&count).Error; err != nil {
 
 			return nil, err
 		}

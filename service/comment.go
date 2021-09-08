@@ -3,9 +3,9 @@ package service
 import (
 	"blog/model"
 	"blog/model/db"
+	"blog/redis"
 	"blog/serializer"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 type CommentService struct {
@@ -51,16 +51,26 @@ func (service *ArticleCommentListservice) CommentList() serializer.Response {
 	if service.Count == 0 {
 		service.Count = 10
 	}
-	comments, err := db.CommentList(service.ArticleId)
-	if err != nil {
+	data, err := redis.ShowCommentListCache(service.ArticleId, service.Offset, service.Count)
+	if err != nil && err != model.RedisNil {
 		return serializer.Err(serializer.RedisErr, err)
-	}
-	commentTree, roots := model.BuildCommentTree(comments)
-	log.Println(roots)
-	for _, v := range commentTree {
+	} else if err == model.RedisNil {
+		comments, err := db.CommentList(service.ArticleId)
+		if err != nil {
+			return serializer.Err(serializer.RedisErr, err)
+		}
+		if err := redis.WriteCommentListCache(service.ArticleId, comments); err != nil {
 
-		log.Println(v)
+			return serializer.Err(serializer.RedisErr, err)
+		}
+		commentTree, roots := model.BuildCommentTree(comments)
+		if len(roots) > int(service.Count) {
+
+			return serializer.BuildCommentListResponse(commentTree, roots[:service.Count])
+		}
+		return serializer.BuildCommentListResponse(commentTree, roots)
+
 	}
+	commentTree, roots := model.BuildCommentTree(data)
 	return serializer.BuildCommentListResponse(commentTree, roots)
-	//return serializer.BuildResponse("xx")
 }

@@ -11,13 +11,32 @@ import (
 )
 
 func WriteCommentStatCache(stat model.Stat, cancestat bool) error {
-	if !cancestat {
-		//点赞数+1
-	} else { //取消点赞
+	transactional := func(tx *redis.Tx) error {
+		if !cancestat {
+			//点赞数+1
+			if err := tx.HIncrBy(CommentKey(stat.StatID), "Stat", 1).Err(); err != nil {
+				return err
+			}
+			//走点赞队列
 
-		//点赞数-1
+			if err := tx.LPush(UserStatQueueKey(), StatCommenQueueValue(stat.UserID, stat.StatID)).Err(); err != nil {
+				return err
+			}
+		} else { //取消点赞
+			//点赞数-1
+			if err := tx.HIncrBy(CommentKey(stat.StatID), "Stat", -1).Err(); err != nil {
+				return err
+			}
+			//走点赞队列
+
+			if err := tx.LPush(UserStatQueueKey(), CancesStatCommenQueueValue(stat.UserID, stat.StatID)).Err(); err != nil {
+				return err
+			}
+
+		}
+		return nil
 	}
-	//走点赞队列
+	model.RedisWriteDB.Watch(transactional, CommentKey(stat.StatID))
 	return nil
 }
 
