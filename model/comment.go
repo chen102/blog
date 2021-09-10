@@ -17,6 +17,7 @@ type Comment struct {
 	Content     string
 	ArticleID   uint  //文章外键
 	FCommentID  int   //父评论ID
+	RootID      int   //楼主
 	SubComments []int `gorm:"-" json:"omitempty"`
 	Stat        uint  `gorm:"-"`
 }

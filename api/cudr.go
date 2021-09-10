@@ -97,3 +97,13 @@ func ShowCommentList(c *gin.Context) {
 	}
 
 }
+func Delete(c *gin.Context) {
+	var service service.DeleteService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, serializer.Err(serializer.ParamErr, err))
+	} else {
+		res := service.Delete(c)
+		c.JSON(200, res)
+	}
+
+}

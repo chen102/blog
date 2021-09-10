@@ -77,3 +77,33 @@ func WriteCommentListCache(artid uint, comments []model.Comment) error {
 	return nil
 
 }
+func DeleteComment(artid uint) error {
+	if err := model.RedisWriteDB.Del(ArticleCommentKey(artid)).Err(); err != nil {
+		return err
+	}
+	return nil
+}
+func CommentIncrementCache(artid uint, commentids []int64) ([]int64, error) {
+	transactional := func(tx *redis.Tx) error {
+		for k, commentid := range commentids {
+			if err := tx.SAdd(ArticleCommentKey(artid), commentid).Err(); err != nil {
+				return err
+			}
+			exist, err := tx.Exists(CommentKey(uint(commentid))).Result()
+			if err != nil && err != model.RedisNil {
+				return err
+			} else if exist == 1 {
+				if err := tx.Expire(CommentKey(uint(commentid)), 1*time.Hour).Err(); err != nil {
+					return err
+				}
+				commentids[k] = -1
+			}
+
+		}
+		return nil
+	}
+	if err := model.RedisWriteDB.Watch(transactional, ArticleCommentKey(artid)); err != nil {
+		return nil, err
+	}
+	return commentids, nil
+}

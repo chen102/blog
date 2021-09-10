@@ -5,6 +5,7 @@ import (
 	"blog/model/db"
 	"blog/redis"
 	"blog/serializer"
+	"blog/tool"
 	"github.com/gin-gonic/gin"
 	//"strconv"
 )
@@ -24,28 +25,52 @@ func (service *DynamicService) Dynamic(c *gin.Context) serializer.Response {
 
 		return serializer.Err(serializer.RedisErr, err)
 	} else if err == model.RedisNil {
-		var ids []string
-		if ids, err = redis.ShowUserFollowerID(me.ID); err != nil && err != model.RedisNil {
+		var useridsCache []string //从缓存拿用户关注ID
+		var userids []int64       //从数据库拿用户ID
+		if useridsCache, err = redis.ShowUserFollowerID(me.ID); err != nil && err != model.RedisNil {
 			return serializer.Err(serializer.RedisErr, err)
 		} else if err == model.RedisNil { //二级缓存失效,刷新关注用户列表
-			users, err := db.UserFollowerList(me.ID, false)
+			//拿关注用户id
+			userids, err = db.UserFollowerId(me.ID, false)
+			if err != nil {
+				return serializer.Err(serializer.MysqlErr, err)
+			} else if len(userids) == 0 {
+
+				return serializer.BuildResponse("没有关注用户")
+			}
+			//筛选id
+			userids, err = redis.UserIncrementCache(userids)
+			if err != nil {
+				return serializer.Err(serializer.RedisErr, err)
+			}
+			//拿用户信息
+			users, err := db.UserFollowerList(userids)
 			if err != nil {
 				return serializer.Err(serializer.MysqlErr, err)
 			}
 			if err := redis.WriteFollowerListCache(me.ID, users, false); err != nil {
 				return serializer.Err(serializer.RedisErr, err)
 			}
-			ids, _ = redis.ShowUserFollowerID(me.ID)
 		}
-		if len(ids) == 0 {
-			return serializer.BuildResponse("没有关注用户")
+		var ids []int64
+		if len(useridsCache) != 0 {
+			ids = tool.StringSliceTOIntSlice(useridsCache)
+		} else {
+			ids = userids
 		}
-		var articles []model.Article
-		if err := model.DB.Where("user_id IN (?)", ids).Order("ID desc").Find(&articles).Error; err != nil { //这里有个GORM的坑，要使用"(?),官方文档是?"
-
+		//拿到关注用户文章ID
+		articleids, err := db.UserFollowerArticleID(ids)
+		if err != nil {
 			return serializer.Err(serializer.MysqlErr, err)
 		}
-		articles, err = db.UserArticlesList(articles)
+		//筛选id
+		articleids, err = redis.ArticleIncrementCache(me.ID, articleids)
+		if err != nil {
+			return serializer.Err(serializer.RedisErr, err)
+
+		}
+		//拿文章信息
+		articles, err := db.UserArticlesList(articleids)
 		if err != nil {
 			return serializer.Err(serializer.MysqlErr, err)
 		}
@@ -53,11 +78,12 @@ func (service *DynamicService) Dynamic(c *gin.Context) serializer.Response {
 
 			return serializer.Err(serializer.RedisErr, err)
 		}
-		if len(articles) > int(service.Count) {
+		//if len(articles) > int(service.Count) {
 
-			return serializer.BuildArticleListResponse(articles[:int(service.Count)])
-		}
-		return serializer.BuildArticleListResponse(articles)
+		//return serializer.BuildArticleListResponse(articles[:int(service.Count)])
+		//}
+		//return serializer.BuildArticleListResponse(articles)
+		return serializer.BuildResponse("请再次执行")
 	}
 
 	return serializer.BuildArticleListResponse(res)

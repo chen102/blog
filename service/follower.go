@@ -63,7 +63,12 @@ func (service *FollowerUserService) FollowerUser(c *gin.Context) serializer.Resp
 		}
 	} else if err == model.RedisNil { //缓存未命中，构建缓存
 		//从关注表，获取关注用户信息写入cache
-		users, err := db.UserFollowerList(me.ID, false)
+		userids, err := db.UserFollowerId(me.ID, false)
+		if err != nil {
+
+			return serializer.Err(serializer.MysqlErr, err)
+		}
+		users, err := db.UserFollowerList(userids)
 		if err != nil {
 			return serializer.Err(serializer.MysqlErr, err)
 		}
@@ -115,7 +120,12 @@ func followList(userid, offset, count uint) ([]model.User, error, int) {
 	if err != nil && err != model.RedisNil {
 		return nil, err, serializer.RedisErr
 	} else if err == model.RedisNil {
-		users, err := db.UserFollowerList(userid, false)
+		userids, err := db.UserFollowerId(userid, false)
+		if err != nil {
+
+			return nil, err, serializer.MysqlErr
+		}
+		users, err := db.UserFollowerList(userids)
 		if err != nil {
 			return nil, err, serializer.RedisErr
 		}
@@ -132,7 +142,12 @@ func fansList(userid, offset, count uint) ([]model.User, error, int) {
 	if err != nil && err != model.RedisNil {
 		return nil, err, serializer.RedisErr
 	} else if err == model.RedisNil {
-		users, err := db.UserFollowerList(userid, true)
+		userids, err := db.UserFollowerId(userid, true)
+		if err != nil {
+
+			return nil, err, serializer.MysqlErr
+		}
+		users, err := db.UserFollowerList(userids)
 		if err != nil {
 			return nil, err, serializer.MysqlErr
 		}

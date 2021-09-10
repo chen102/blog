@@ -53,6 +53,13 @@ func IntSliceToString(i []int) string {
 	return temp[:len(temp)-1]
 
 }
+func StringSliceTOIntSlice(str []string) []int64 {
+	res := make([]int64, len(str))
+	for k, v := range str {
+		res[k], _ = strconv.ParseInt(v, 10, 64)
+	}
+	return res
+}
 func RandomTime() int64 {
 	return rand.Int63n(time.Now().Unix()) + 7200 //随机生成现在到两个小时以内的时间戳
 

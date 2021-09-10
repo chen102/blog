@@ -41,21 +41,21 @@ func ShowDynamicCache(userid, offset, count uint) ([]model.Article, error) {
 func WriteDynamicCache(userid uint, articles []model.Article) error {
 	transactional := func(tx *redis.Tx) error {
 		for _, article := range articles {
-			if err := tx.SAdd(UserDynamicKey(userid), article.ID).Err(); err != nil {
-				return err
-			}
-			exist, err := tx.Exists(ArticleIdKey(article.ID)).Result()
-			if err != nil {
-				return err
-			} else if exist == 1 {
-				tx.Expire(ArticleIdKey(article.ID), 1*time.Hour)
-				continue
-			}
+			//if err := tx.SAdd(UserDynamicKey(userid), article.ID).Err(); err != nil {
+			//return err
+			//}
+			//exist, err := tx.Exists(ArticleIdKey(article.ID)).Result()
+			//if err != nil {
+			//return err
+			//} else if exist == 1 {
+			//tx.Expire(ArticleIdKey(article.ID), 1*time.Hour)
+			//continue
+			//}
 			if err := tx.HMSet(ArticleIdKey(article.ID), model.StructToMap(article)).Err(); err != nil {
 				return err
 			}
 			tx.Expire(ArticleIdKey(article.ID), 1*time.Hour)
-			tx.Expire(UserDynamicKey(userid), 10*time.Second)
+			//tx.Expire(UserDynamicKey(userid), 10*time.Second)
 		}
 		return nil
 	}

@@ -16,8 +16,8 @@ import (
 )
 
 type TestCase struct {
-	CaseName, Method, Url, BodyType string      //用例名称,方法，地址，body类型
-	Param, Exp                      interface{} //参数，期望输出
+	CaseName, Method, Url, BodyType, Cookie string      //用例名称,方法，地址，body类型
+	Param, Exp                              interface{} //参数，期望输出
 }
 type TestCases []TestCase
 
@@ -43,7 +43,7 @@ func JsonMapParam(param map[string]interface{}) (io.Reader, error) {
 	}
 	return bytes.NewBuffer(j), nil
 }
-func NewRequest(method, url, bodytype string, body map[string]interface{}) (*http.Request, error) {
+func NewRequest(method, url, bodytype, cookie string, body map[string]interface{}) (*http.Request, error) {
 	if method == "GET" {
 		return http.NewRequest(method, url, nil)
 	}
@@ -58,6 +58,9 @@ func NewRequest(method, url, bodytype string, body map[string]interface{}) (*htt
 		if err != nil {
 			return nil, err
 		}
+		if cookie != "" {
+			req.Header.Set("Cookie", cookie)
+		}
 
 		req.Header.Set("Content-Type", "application/json;charset=utf-8")
 		return req, nil
@@ -68,12 +71,15 @@ func NewRequest(method, url, bodytype string, body map[string]interface{}) (*htt
 		if err != nil {
 			return nil, err
 		}
+		if cookie != "" {
+			req.Header.Set("Cookie", cookie)
+		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8")
 		return req, nil
 	}
 	return nil, fmt.Errorf("bodytype:JSON OR FORM")
 }
-func StartHandler(router *gin.Engine, req *http.Request) (string, error) {
+func StartHandler(router *gin.Engine, req *http.Request) (string, http.Header, error) {
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 	//result := w.Result()
@@ -83,7 +89,7 @@ func StartHandler(router *gin.Engine, req *http.Request) (string, error) {
 	//return nil, err
 	//}
 
-	return w.Body.String(), nil
+	return w.Body.String(), w.HeaderMap, nil
 }
 
 //输出成querystring形式
@@ -91,7 +97,7 @@ func ParamToStr(mp map[string]interface{}) string {
 	values := ""
 	for k, v := range mp {
 		switch v.(type) {
-		case int: //真的蠢 感觉这样写
+		case int:
 			values += "&" + k + "=" + strconv.Itoa(v.(int))
 		case uint:
 			values += "&" + k + "=" + strconv.Itoa(int(v.(uint)))

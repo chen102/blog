@@ -29,3 +29,6 @@ func WriteUserNameCache(userid uint, username string) error {
 	}
 	return nil
 }
+func UserIncrementCache(userids []int64) ([]int64, error) {
+	return userids, nil
+}

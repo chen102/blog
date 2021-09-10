@@ -23,16 +23,14 @@ func New() *gin.Engine {
 		{
 			//auth.DELETE("user/logout", api.UserLogout)
 			auth.POST("article/comment/list", api.ShowCommentList)
-
+			auth.POST("article/delete", api.Delete)
 			auth.POST("article/comment", api.Comment)
 			auth.POST("follower/dynamic", api.UserDynamicList)
 			auth.POST("follower", api.UserFollowerUser)
 			auth.POST("follower/list", api.UserFollowerList)
 			auth.POST("user/like", api.UserArticlesLike)
 			auth.POST("article/list", api.ArticleList)
-			auth.POST("user/rename", api.UserRename)
 			auth.POST("article/add", api.AddArticle)
-			auth.DELETE("article/delete", api.DeleteArticle)
 			auth.POST("article/update", api.UpdateArticle)
 			auth.POST("article/stat", api.Stat)
 		}

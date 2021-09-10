@@ -67,7 +67,7 @@ func TestUserRegister(t *testing.T) {
 		if err != nil {
 			t.Error(err.Error())
 		}
-		bodyBody, err := gintest.StartHandler(r, req)
+		bodyBody, _, err := gintest.StartHandler(r, req)
 		if err != nil {
 			t.Error(err.Error())
 		}
@@ -97,7 +97,7 @@ func TestUserLogin(t *testing.T) {
 		if err != nil {
 			t.Error(err.Error())
 		}
-		bodyBody, err := gintest.StartHandler(r, req)
+		bodyBody, _, err := gintest.StartHandler(r, req)
 		if err != nil {
 			t.Error(err.Error())
 		}

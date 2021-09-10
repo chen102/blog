@@ -91,21 +91,10 @@ func WriteArticleListCach(userid uint, articles []model.Article) error {
 	transactional := func(tx *redis.Tx) error {
 
 		for _, v := range articles {
-			if err := tx.SAdd(ArticlesListKey(userid), v.ID).Err(); err != nil {
-				return err
-			}
-			exist, err := tx.Exists(ArticleIdKey(v.ID)).Result()
-			if err != nil {
-				return err
-			} else if exist == 1 {
-				tx.Expire(ArticleIdKey(v.ID), 1*time.Hour) //这里就把之前缓存的但这次没缓存的文章的过期时间强制与这次缓存的过期时间一致)
-				continue                                   //若缓存存在，跳过，避免struct转map的开销
-			}
 			if err := tx.HMSet(ArticleIdKey(v.ID), model.StructToMap(v)).Err(); err != nil {
 				return err
 			}
 			tx.Expire(ArticleIdKey(v.ID), 1*time.Hour)
-			tx.Expire(ArticlesListKey(userid), 1*time.Hour)
 		}
 		return nil
 	}
@@ -114,61 +103,36 @@ func WriteArticleListCach(userid uint, articles []model.Article) error {
 	}
 	return nil
 }
-func ShowComment(uid, artid uint) ([]string, error) {
-	//commentnum, err := Redisdb.ZCard(ArticleCommentRankKey(uid, artid)).Result()
-	//if err != nil {
-	//return nil, err
-	//}
-	//if commentnum < 5 {
-	//comment := make([]string, commentnum)
-	//commentids, err := Redisdb.ZRevRange(ArticleCommentRankKey(uid, artid), 0, commentnum).Result()
-	//if err != nil {
-	//return nil, err
-	//}
-	//for k, commentid := range commentids {
-	//comment[k], err = Redisdb.HGet(ArticleCommentIDStringKey(strconv.Itoa(int(uid)), strconv.Itoa(int(artid)), commentid), "comment:0").Result()
-
-	//}
-	//comment = append(comment, strconv.Itoa(int(commentnum))) //最后一个string判断是否还有评论
-	//return comment, nil
-
-	//} else {
-
-	//comment := make([]string, 5)
-	//commentids, err := Redisdb.ZRange(ArticleCommentRankKey(uid, artid), 0, 5).Result()
-	//if err != nil {
-	//return nil, err
-	//}
-	//for k, commentid := range commentids {
-	//comment[k], err = Redisdb.HGet(ArticleCommentIDStringKey(strconv.Itoa(int(uid)), strconv.Itoa(int(artid)), commentid), "comment:0").Result()
-
-	//}
-
-	//comment = append(comment, strconv.Itoa(int(commentnum))) //默认只显示5条评论，并把总评论数返回
-	//return comment, nil
-	//}
-	return nil, nil
-
+func DeleteArticle(userid, articleid uint) error {
+	//删除文章缓存 1.删动态索引 2.删文章索引
+	if err := model.RedisWriteDB.Del(UserDynamicKey(userid)); err != nil {
+		return nil
+	}
+	if err := model.RedisWriteDB.Del(ArticlesListKey(userid)).Err(); err != nil {
+		return nil
+	}
+	return nil
 }
-func ShowAllComment(uid, artid, offset, count uint) ([]string, error) {
-	//comment := make([]string, count)
-	//stop := count + offset - 1
-	//commentids, err := Redisdb.ZRevRange(ArticleCommentRankKey(uid, artid), int64(offset), int64(stop)).Result()
-	//if err != nil {
-	//return nil, err
-	//}
-	//for k, commentid := range commentids {
-	//comment[k], err = Redisdb.HGet(ArticleCommentIDStringKey(strconv.Itoa(int(uid)), strconv.Itoa(int(artid)), commentid), "comment:0").Result()
-
-	//}
-	return nil, nil
-
-}
-func GetStat(uid, artid, commentid uint) (uint, error) {
-	//stat, err := Redisdb.Get(ArticleCommentStatKey(uid, artid, commentid)).Int()
-	//if err != nil && err != RedisNil {
-	//return 0, err
-	//}
-	//return uint(stat), nil
-	return 0, nil
+func ArticleIncrementCache(userid uint, articleids []int64) ([]int64, error) {
+	transactional := func(tx *redis.Tx) error {
+		for k, id := range articleids {
+			if err := tx.SAdd(UserDynamicKey(userid), id).Err(); err != nil {
+				return err
+			}
+			exist, err := tx.Exists(ArticleIdKey(uint(id))).Result()
+			if err != nil && err != model.RedisNil {
+				return err
+			} else if exist == 1 {
+				if err := tx.Expire(ArticleIdKey(uint(id)), 1*time.Hour).Err(); err != nil {
+					return err
+				}
+				articleids[k] = -1
+			}
+		}
+		return nil
+	}
+	if err := model.RedisWriteDB.Watch(transactional, ArticlesListKey(userid)); err != nil { //保证并发安全
+		return nil, err
+	}
+	return articleids, nil
 }

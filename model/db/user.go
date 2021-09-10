@@ -11,11 +11,7 @@ func GetUser(ID interface{}) (User, error) {
 }
 
 //若fans为true,则返回粉丝列表,否则返回关注列表
-func UserFollowerList(userid uint, fans bool) ([]User, error) {
-	ids, err := UserFollowerId(userid, fans)
-	if err != nil {
-		return nil, err
-	}
+func UserFollowerList(ids []int64) ([]User, error) {
 	users := make([]User, len(ids))
 	for k, id := range ids {
 		//每个关注用户的关注、粉丝数、姓名、简介
@@ -53,9 +49,28 @@ func UserFollowerId(userid uint, fans bool) ([]int64, error) {
 	}
 	return ids, nil
 }
+func UserArticleID(userid uint) ([]int64, error) {
+	var articleids []int64
+	if err := DB.Model(&Article{}).Where("user_id=?", userid).Pluck("id", &articleids).Error; err != nil {
+		return nil, err
+	}
+	return articleids, nil
+}
+func UserFollowerArticleID(userids []int64) ([]int64, error) {
+	var articleids []int64
+	if err := DB.Model(&Article{}).Where("user_id IN (?)", userids).Pluck("id", &articleids).Error; err != nil { //这里有个GORM的坑，要使用"(?),官方文档是?"
+		return nil, err
+
+	}
+	return articleids, nil
+}
 
 //给每篇文章点赞数,和用户名
-func UserArticlesList(articles []Article) ([]Article, error) {
+func UserArticlesList(articleids []int64) ([]Article, error) {
+	var articles []Article
+	if err := DB.Where("id IN (?)", articleids).Order("ID desc").Find(&articles).Error; err != nil {
+		return nil, err
+	}
 	for k, article := range articles {
 		var username []string
 		if err := DB.Model(&User{}).Where("id=?", article.UserID).Pluck("user_name", &username).Error; err != nil {
