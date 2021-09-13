@@ -96,3 +96,14 @@ func PaginationINT(item []string, offset, count int) []int {
 	}
 	return toint[offset:leftover]
 }
+
+//模拟队列操作
+func Push(queue []int64, e int64) []int64 {
+	queue = append(queue, e)
+	return queue
+}
+func Pop(queue []int64) (int64, []int64) {
+	temp := queue[0]
+	queue = queue[1:]
+	return temp, queue
+}

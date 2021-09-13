@@ -70,7 +70,7 @@ DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	model/db/article.go	/^func DeleteArticle(articleid uint) error {$/;"	f
 DeleteArticle	redis/showarticle.go	/^func DeleteArticle(userid, articleid uint) error {$/;"	f
 DeleteArticle	service/showarticle.go	/^func (service *ArticleService) DeleteArticle() serializer.Response {$/;"	f
-DeleteComment	model/db/article.go	/^func DeleteComment(commentid uint) error {$/;"	f
+DeleteComment	model/db/article.go	/^func DeleteComment(commentids []int64) error {$/;"	f
 DeleteComment	redis/comment.go	/^func DeleteComment(artid uint) error {$/;"	f
 DeleteService	service/deleteArticle.go	/^type DeleteService struct {$/;"	t
 Dynamic	service/dynamic.go	/^func (service *DynamicService) Dynamic(c *gin.Context) serializer.Response {$/;"	f
@@ -107,6 +107,8 @@ Paginationservice	service/showarticle.go	/^type Paginationservice struct {$/;"	t
 ParamErr	serializer/common.go	/^	ParamErr$/;"	c
 ParamToStr	gintest/test.go	/^func ParamToStr(mp map[string]interface{}) string {$/;"	f
 Ping	api/cudr.go	/^func Ping(c *gin.Context) {$/;"	f
+Pop	tool/common.go	/^func Pop(queue []int64) (int64, []int64) {$/;"	f
+Push	tool/common.go	/^func Push(queue []int64, e int64) []int64 {$/;"	f
 RandomTime	tool/common.go	/^func RandomTime() int64 {$/;"	f
 RangeSubComment	serializer/comment.go	/^func RangeSubComment(comments []model.Comment, index, i int) {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
@@ -154,6 +156,7 @@ StrconvErr	serializer/common.go	/^	StrconvErr$/;"	c
 StringSliceTOIntSlice	tool/common.go	/^func StringSliceTOIntSlice(str []string) []int64 {$/;"	f
 StringToTime	tool/common.go	/^func StringToTime(str string) time.Time {$/;"	f
 StructToMap	model/main.go	/^func StructToMap(s interface{}) map[string]interface{} {$/;"	f
+SubCommentid	model/db/article.go	/^func SubCommentid(commentid uint) ([]int64, error) {$/;"	f
 TagKey	redis/rediskey.go	/^func TagKey(userid uint, tag string) string {$/;"	f
 TestAddComment	service/comment_test.go	/^func TestAddComment(t *testing.T) {$/;"	f
 TestCase	gintest/test.go	/^type TestCase struct {$/;"	t

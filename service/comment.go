@@ -10,8 +10,8 @@ import (
 
 type CommentService struct {
 	ArticleService
-	CommentID  uint   `form:"Rev" json:"Rev" binding:"omitempty"`             //回复评论ID
-	LandlordID uint   `form:"LandlordId json:"LandlordId binding:"omitempty"` //楼主ID
+	CommentID  uint   `form:"Rev" json:"Rev" binding:"omitempty"` //回复评论ID
+	LandlordId uint   `form:"LandlordId json:"LandlordId binding:"omitempty"`
 	Content    string `form:"Content" json:"Content" binding:"required"`
 }
 type ArticleCommentListservice struct {
@@ -32,22 +32,21 @@ func (service *CommentService) Comment(c *gin.Context) serializer.Response {
 		ArticleID: service.ArticleId,
 		Content:   service.Content,
 	}
-	if service.CommentID == 0 || service.LandlordID == 0 {
+	if service.CommentID == 0 || service.LandlordId == 0 {
 		comment.FCommentID = -1
 	} else {
 
-		if !db.ExistComment(service.CommentID) || !db.ExistComment(service.LandlordID) {
+		if !db.ExistComment(service.CommentID) || !db.ExistComment(service.LandlordId) {
 
 			return serializer.BuildResponse("没有此评论")
 		}
 		comment.FCommentID = int(service.CommentID)
-		comment.RootID = int(service.LandlordID)
 	}
 	if err := model.DB.Create(&comment).Error; err != nil {
 		return serializer.Err(serializer.MysqlErr, err)
 	}
 
-	return serializer.BuildResponse("xx")
+	return serializer.BuildResponse("评论成功")
 }
 func (service *ArticleCommentListservice) CommentList() serializer.Response {
 	if service.Count == 0 {

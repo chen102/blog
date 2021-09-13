@@ -5,8 +5,8 @@ import (
 	"blog/model/db"
 	"blog/redis"
 	"blog/serializer"
-
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type DeleteService struct {
@@ -35,9 +35,20 @@ func (service *DeleteService) Delete(c *gin.Context) serializer.Response {
 	}
 	return serializer.BuildResponse("删除成功")
 }
+
+//评论表存父节点原因
+//因为如果存子节点的话，每次添加评论，都需要修改父评论的记录，导致添加评论效率低下，只存父节点的代价是查询和删除都要链式的查找子评论
 func deleteComment(userid, commentid, articleid uint) (err error, errcode int) {
+	//获取删除的评论及子评论列表
+	commentids, err := db.SubCommentid(commentid)
+	if err != nil {
+		return err, serializer.MysqlErr
+	}
+	for _, v := range commentids {
+		log.Println(v)
+	}
 	//更DB
-	if err := db.DeleteComment(commentid); err != nil {
+	if err := db.DeleteComment(commentids); err != nil {
 		return err, serializer.MysqlErr
 	}
 	//删缓存

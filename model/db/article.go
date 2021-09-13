@@ -1,6 +1,9 @@
 package db
 
-import . "blog/model"
+import (
+	. "blog/model"
+	"blog/tool"
+)
 
 func ExistArticle(artid uint) bool {
 	count := 0
@@ -72,22 +75,42 @@ func DeleteArticle(articleid uint) error {
 	}
 	return tx.Commit().Error
 }
-func DeleteComment(commentid uint) error {
+func DeleteComment(commentids []int64) error {
+	//开启mysql事务
 	tx := DB.Begin()
-	//删评论点赞
-	if err := tx.Where("type=? AND stat_id=?", 1, commentid).Delete(&Stat{}).Error; err != nil {
+	//删评论及子评论点赞
+	if err := tx.Where("type=? AND stat_id IN (?)", 1, commentids).Delete(&Stat{}).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
-	//删子评论
-	if err := tx.Where("root_id=?", commentid).Delete(&Comment{}).Error; err != nil {
-		tx.Rollback()
-		return err
-	}
-	//删评论
-	if err := tx.Delete(&Comment{}, commentid).Error; err != nil {
+	//删评论及子评论
+	//有问题
+	if err := tx.Where("id IN (?)", commentids).Delete(&Comment{}).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
 	return tx.Commit().Error
+}
+
+//队列dfs
+func SubCommentid(commentid uint) ([]int64, error) {
+	commentids := []int64{int64(commentid)}
+	var queue []int64 //切片模拟队列
+	//rootid加入队列
+	if err := DB.Model(&Comment{}).Where("f_comment_id=?", commentid).Pluck("id", &queue).Error; err != nil {
+		return nil, err
+	}
+	for len(queue) != 0 {
+		var temp []int64
+		if err := DB.Model(&Comment{}).Where("f_comment_id=?", queue[0]).Pluck("id", &temp).Error; err != nil {
+			return nil, err
+		}
+		for _, v := range temp {
+			queue = tool.Push(queue, v)
+		}
+		var cid int64
+		cid, queue = tool.Pop(queue)
+		commentids = append(commentids, cid)
+	}
+	return commentids, nil
 }
