@@ -57,13 +57,14 @@ CommentList	service/comment.go	/^func (service *ArticleCommentListservice) Comme
 CommentRank	model/comment.go	/^func CommentRank(data []string) ([]Comment, error) {$/;"	f
 CommentService	service/comment.go	/^type CommentService struct {$/;"	t
 CommentStringKey	redis/rediskey.go	/^func CommentStringKey(commentid string) string {$/;"	f
+Config	tool/disposition.go	/^type Config struct {$/;"	t
 Cors	session/cors.go	/^func Cors() gin.HandlerFunc {$/;"	f
 CronInit	cron/main.go	/^func CronInit() {$/;"	f
 CurrentUser	session/auth.go	/^func CurrentUser() gin.HandlerFunc {$/;"	f
 DB	model/del.go	/^var DB *gorm.DB$/;"	v
-DelMysql	model/del.go	/^func DelMysql() error {$/;"	f
+DelMysql	model/del.go	/^func DelMysql(config tool.Config) {$/;"	f
 DelOtherFansList	redis/follower.go	/^func DelOtherFansList(follower model.Follower) error {$/;"	f
-DelRedis	model/del.go	/^func DelRedis() {$/;"	f
+DelRedis	model/del.go	/^func DelRedis(config tool.Config) {$/;"	f
 Delete	api/cudr.go	/^func Delete(c *gin.Context) {$/;"	f
 Delete	service/deleteArticle.go	/^func (service *DeleteService) Delete(c *gin.Context) serializer.Response {$/;"	f
 DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
@@ -98,6 +99,7 @@ Login	service/user.go	/^func (service *UserLoginService) Login(c *gin.Context) s
 MapStructErr	serializer/common.go	/^	MapStructErr$/;"	c
 MysqlErr	serializer/common.go	/^	MysqlErr$/;"	c
 New	router/router.go	/^func New() *gin.Engine {$/;"	f
+NewConfig	tool/disposition.go	/^func NewConfig() *Config {$/;"	f
 NewRequest	gintest/test.go	/^func NewRequest(method, url, bodytype, cookie string, body map[string]interface{}) (*http.Request, error) {$/;"	f
 NewTest	gintest/test.go	/^func NewTest() *gin.Engine {$/;"	f
 NoErr	serializer/common.go	/^	NoErr = iota$/;"	c
@@ -111,6 +113,7 @@ Pop	tool/common.go	/^func Pop(queue []int64) (int64, []int64) {$/;"	f
 Push	tool/common.go	/^func Push(queue []int64, e int64) []int64 {$/;"	f
 RandomTime	tool/common.go	/^func RandomTime() int64 {$/;"	f
 RangeSubComment	serializer/comment.go	/^func RangeSubComment(comments []model.Comment, index, i int) {$/;"	f
+ReadConfig	tool/disposition.go	/^func (config *Config) ReadConfig() {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
 RedisNil	model/del.go	/^const RedisNil = redis.Nil$/;"	c
@@ -267,3 +270,4 @@ session	session/cors.go	/^package session$/;"	p
 session	session/session.go	/^package session$/;"	p
 standard	tool/common.go	/^const standard = "2006-01-02 15:04:05"$/;"	c
 tool	tool/common.go	/^package tool$/;"	p
+tool	tool/disposition.go	/^package tool$/;"	p

@@ -3,14 +3,14 @@ package main
 import "blog/model"
 import "blog/router"
 import "blog/cron"
+import "blog/tool"
 
 func main() {
-	if err := model.DelMysql(); err != nil {
-		panic(err)
-	}
+	config := tool.NewConfig()
+	config.ReadConfig()
+	model.DelMysql(*config)
+	model.DelRedis(*config)
 	go cron.CronInit()
-
-	model.DelRedis()
 	r := router.New()
 	r.Run(":3000")
 }

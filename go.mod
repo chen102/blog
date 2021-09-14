@@ -12,4 +12,5 @@ require (
 	github.com/onsi/gomega v1.14.0 // indirect
 	github.com/robfig/cron/v3 v3.0.1
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	gopkg.in/yaml.v2 v2.4.0
 )

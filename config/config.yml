@@ -1,0 +1,33 @@
+mysql: 
+    #数据库名称
+    name: mysql
+
+    #数据库连接信息
+    dns: root:chenxi1234@tcp(127.0.0.1:3306)/blog?charset=utf8mb4&parseTime=True&loc=Local
+    #是否开启日志
+    log: false
+    #日志文件位置
+    logfile: 
+    #最大可空闲连接数
+    maxidleConns: 20
+    #最大连接数
+    maxopenConns: 100
+    #一个连接使用的最大时长(秒)
+    connmaxlifetime: 30
+redis: 
+    #主IP地址
+    masterip: 192.168.122.1
+    #主端口
+    masterport: 6379
+    #主认证密码
+    masterauth: 000000
+    #主数据库号
+    masterdb: 0
+    #主RedisIP
+    slaveofip: 172.17.0.3
+    salveip: 127.0.0.1
+    slaveport: 6380
+    slaveauth: 000000
+    salvedb: 0
+
+    
