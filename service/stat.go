@@ -42,7 +42,7 @@ func (service *StatService) Stat(c *gin.Context) serializer.Response {
 		}
 
 	}
-	return serializer.BuildResponse("点赞成功!")
+	return serializer.BuildResponse("成功")
 }
 
 //errorCode 返回错误代码，用于上层捕获err类型

@@ -103,7 +103,7 @@ func WriteArticleListCach(userid uint, articles []model.Article) error {
 	}
 	return nil
 }
-func DeleteArticle(userid, articleid uint) error {
+func DeleteArticle(userid uint) error {
 	//删除文章缓存 1.删动态索引 2.删文章索引
 	if err := model.RedisWriteDB.Del(UserDynamicKey(userid)); err != nil {
 		return nil

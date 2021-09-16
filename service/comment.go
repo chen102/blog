@@ -16,8 +16,6 @@ type CommentService struct {
 }
 type ArticleCommentListservice struct {
 	ArticleService
-
-	CommentID uint `form:"Rev" json:"Rev" binding:"omitempty"`
 	Paginationservice
 }
 

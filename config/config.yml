@@ -24,7 +24,7 @@ redis:
     #主数据库号
     masterdb: 0
     #主RedisIP
-    slaveofip: 172.17.0.3
+    slaveofip: 172.17.0.4
     salveip: 127.0.0.1
     slaveport: 6380
     slaveauth: 000000

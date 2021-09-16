@@ -63,7 +63,7 @@ func deleteArticle(userid, articleid uint) (err error, errcode int) {
 		return err, serializer.MysqlErr
 	}
 	//删缓存
-	if err := redis.DeleteArticle(userid, articleid); err != nil {
+	if err := redis.DeleteArticle(userid); err != nil {
 		return err, serializer.RedisErr
 	}
 	return nil, 0

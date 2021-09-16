@@ -12,13 +12,12 @@ import (
 	//"encoding/json"
 	//"fmt"
 	//"github.com/mitchellh/mapstructure"
-	//"strconv"
 	"blog/model/db"
+	"strconv"
 )
 
 //文章服务
 type ArticleService struct {
-	//AuthorId  uint `form:"AuthorId" json:"AuthorId" binding:"required"`
 	ArticleId uint `form:"ArticleId" json:"ArticleId" binding:"required"`
 }
 
@@ -87,11 +86,9 @@ func (service *ArticleListservice) ArticleList(c *gin.Context) serializer.Respon
 	////Sort返回的结果为[]string，将string转为多个文章模型进行响应
 	return serializer.BuildArticleListResponse(article)
 }
-func (service *ArticleService) DeleteArticle() serializer.Response {
-	return serializer.Response{}
-
-}
-func (service *ArticleService) ShowArticle() serializer.Response {
+func (service *ArticleService) ShowArticle(id string) serializer.Response {
+	artid, _ := strconv.Atoi(id)
+	service.ArticleId = uint(artid)
 	if !db.ExistArticle(service.ArticleId) {
 		return serializer.BuildResponse("没有此文章")
 	}

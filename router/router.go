@@ -2,8 +2,11 @@ package router
 
 import (
 	"blog/api"
+	_ "blog/docs"
 	"blog/session"
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func New() *gin.Engine {
@@ -13,11 +16,15 @@ func New() *gin.Engine {
 	r.Use(session.Session("secret"))
 	r.Use(session.Cors())
 	r.Use(session.CurrentUser())
+	//swagger := &ginSwagger.Config{
+	//URL: "http://localhost:3000/swagger/doc.json",
+	//}
 	v0 := r.Group("/api/v0")
 	{
+		v0.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 		v0.POST("user/register", api.UserRegister)
 		v0.POST("user/login", api.UserLogin)
-		v0.POST("article/show", api.ShowArticle) //传ID了不能用GET
+		v0.GET("article/show", api.ShowArticle)
 		auth := v0.Group("/")
 		auth.Use(session.AuthRequired()) //需要登录的操作
 		{
@@ -31,7 +38,6 @@ func New() *gin.Engine {
 			auth.POST("user/like", api.UserArticlesLike)
 			auth.POST("article/list", api.ArticleList)
 			auth.POST("article/add", api.AddArticle)
-			auth.POST("article/update", api.UpdateArticle)
 			auth.POST("article/stat", api.Stat)
 		}
 	}

@@ -1,0 +1,632 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "完成了博客的基本功能",
+        "title": "博客系统后端",
+        "contact": {
+            "name": "陈浩",
+            "url": "https://github.com/chen102",
+            "email": "773532732@qq.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost",
+    "paths": {
+        "/api/v0/article/add": {
+            "post": {
+                "description": "用户增加文章",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "增加文章",
+                "parameters": [
+                    {
+                        "description": "文章标题名，最大20",
+                        "name": "ArticleTitle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章正文",
+                        "name": "ArticleContent",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章标签",
+                        "name": "Tags",
+                        "in": "body",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "发表成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/article/comment": {
+            "post": {
+                "description": "显示文章评论列表",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "评论列表",
+                "parameters": [
+                    {
+                        "description": "文章id",
+                        "name": "ArticleId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "评论id，若为空即为对文章评论",
+                        "name": "Rev",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表偏移量",
+                        "name": "Offset",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表一页请求的个数",
+                        "name": "Count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/serializer.Comment"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/article/delete": {
+            "post": {
+                "description": "用户删除指定的文章",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除文章/评论",
+                "parameters": [
+                    {
+                        "description": "删除id",
+                        "name": "DeleteId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "文章id,若是删除评论，这个字段不能为空",
+                        "name": "ArticleId",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "若为空，删文章，为true删评论",
+                        "name": "Type",
+                        "in": "body",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/article/list": {
+            "post": {
+                "description": "显示用户文章列表",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户文章列表",
+                "parameters": [
+                    {
+                        "description": "用户id，若为空，即为当前登录用户",
+                        "name": "AuthorId",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "排序：若为空按时间排序，若为true按发布时间排序",
+                        "name": "Rank",
+                        "in": "body",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "description": "列表偏移量",
+                        "name": "Offset",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表一页请求的个数",
+                        "name": "Count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Article"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/article/show": {
+            "get": {
+                "description": "显示文章详情",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查看文章",
+                "parameters": [
+                    {
+                        "description": "文章id",
+                        "name": "ArticleId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/serializer.Article"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/article/stat": {
+            "post": {
+                "description": "用户给文章或者评论点赞",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "点赞",
+                "parameters": [
+                    {
+                        "description": "点赞id",
+                        "name": "StatId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "点赞类型:若为空，对文章点赞，为true点赞评论",
+                        "name": "StatType",
+                        "in": "body",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "description": "取消点赞:若为空，点赞，为true取消点赞",
+                        "name": "CancelStat",
+                        "in": "body",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/follower": {
+            "post": {
+                "description": "用户关注另一个用户",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "关注用户",
+                "parameters": [
+                    {
+                        "description": "用户id",
+                        "name": "UserId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "若为true对该用户取关",
+                        "name": "CancelFollower",
+                        "in": "body",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "关注成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/follower/dynamic": {
+            "post": {
+                "description": "显示关注用户的动态",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户关注动态",
+                "parameters": [
+                    {
+                        "description": "列表偏移量",
+                        "name": "Offset",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表一页请求的个数",
+                        "name": "Count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/serializer.Article"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/follower/list": {
+            "post": {
+                "description": "显示用户关注的用户列表信息",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户关注/粉丝列表",
+                "parameters": [
+                    {
+                        "description": "用户id，若为空，即为当前登录用户",
+                        "name": "UserId",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "1:只能是1或为空，空:关注列表，1:",
+                        "name": "Type",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表偏移量",
+                        "name": "Offset",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表一页请求的个数",
+                        "name": "Count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/serializer.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/user/like": {
+            "post": {
+                "description": "显示用户点赞的文章列表",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户喜欢文章列表",
+                "parameters": [
+                    {
+                        "description": "用户id，若为空，即为当前登录用户",
+                        "name": "AuthorId",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表偏移量",
+                        "name": "Offset",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "列表一页请求的个数",
+                        "name": "Count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/serializer.Article"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/user/login": {
+            "post": {
+                "description": "用户输入账号密码进行登录",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "登录用户",
+                "parameters": [
+                    {
+                        "description": "账号,长度大于7，小于20",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "密码,长度大于7，小于20",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "登录成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/user/register": {
+            "post": {
+                "description": "用户输入账号密码等信息进行注册",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "注册用户",
+                "parameters": [
+                    {
+                        "description": "用户名,长度大于2，小于20",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "账号,长度大于7，小于20",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "密码,长度大于7，小于20",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "重复密码",
+                        "name": "reppassword",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "注册成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "serializer.Article": {
+            "type": "object",
+            "properties": {
+                "ArticleContent": {
+                    "type": "string"
+                },
+                "ArticleId": {
+                    "type": "integer"
+                },
+                "ArticleStat": {
+                    "type": "integer"
+                },
+                "ArticleTags": {
+                    "type": "string"
+                },
+                "ArticleTime": {
+                    "type": "string"
+                },
+                "ArticleTitle": {
+                    "type": "string"
+                },
+                "AuthorId": {
+                    "type": "integer"
+                },
+                "AuthorName": {
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.Comment": {
+            "type": "object",
+            "properties": {
+                "commentID": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "revUserName": {
+                    "type": "string"
+                },
+                "stat": {
+                    "type": "integer"
+                },
+                "subComment": {
+                    "type": "boolean"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "integer"
+                },
+                "userName": {
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.User": {
+            "type": "object",
+            "properties": {
+                "Briefly": {
+                    "type": "string"
+                },
+                "FansNum": {
+                    "type": "integer"
+                },
+                "FollowerNum": {
+                    "type": "integer"
+                },
+                "UserName": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

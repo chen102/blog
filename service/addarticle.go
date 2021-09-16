@@ -3,6 +3,7 @@ package service
 import (
 	"blog/model"
 	//"blog/model/redis"
+	"blog/redis"
 	"blog/serializer"
 	"blog/tool"
 	"errors"
@@ -22,6 +23,10 @@ func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Respons
 	if user == nil {
 
 		return serializer.Err(serializer.NoErr, errors.New("用户不存在"))
+	}
+	//删缓存
+	if err := redis.DeleteArticle(user.ID); err != nil {
+		return serializer.Err(serializer.RedisErr, err)
 	}
 	article := model.Article{
 		Title:   service.Title,

@@ -67,10 +67,8 @@ DelOtherFansList	redis/follower.go	/^func DelOtherFansList(follower model.Follow
 DelRedis	model/del.go	/^func DelRedis(config tool.Config) {$/;"	f
 Delete	api/cudr.go	/^func Delete(c *gin.Context) {$/;"	f
 Delete	service/deleteArticle.go	/^func (service *DeleteService) Delete(c *gin.Context) serializer.Response {$/;"	f
-DeleteArticle	api/cudr.go	/^func DeleteArticle(c *gin.Context) {$/;"	f
 DeleteArticle	model/db/article.go	/^func DeleteArticle(articleid uint) error {$/;"	f
-DeleteArticle	redis/showarticle.go	/^func DeleteArticle(userid, articleid uint) error {$/;"	f
-DeleteArticle	service/showarticle.go	/^func (service *ArticleService) DeleteArticle() serializer.Response {$/;"	f
+DeleteArticle	redis/showarticle.go	/^func DeleteArticle(userid uint) error {$/;"	f
 DeleteComment	model/db/article.go	/^func DeleteComment(commentids []int64) error {$/;"	f
 DeleteComment	redis/comment.go	/^func DeleteComment(artid uint) error {$/;"	f
 DeleteService	service/deleteArticle.go	/^type DeleteService struct {$/;"	t
@@ -114,6 +112,7 @@ Push	tool/common.go	/^func Push(queue []int64, e int64) []int64 {$/;"	f
 RandomTime	tool/common.go	/^func RandomTime() int64 {$/;"	f
 RangeSubComment	serializer/comment.go	/^func RangeSubComment(comments []model.Comment, index, i int) {$/;"	f
 ReadConfig	tool/disposition.go	/^func (config *Config) ReadConfig() {$/;"	f
+ReadDoc	docs/docs.go	/^func (s *s) ReadDoc() string {$/;"	f
 RedisErr	serializer/common.go	/^	RedisErr$/;"	c
 RedisKeyNull	model/del.go	/^const RedisKeyNull = redis.Nil \/\/结果为空$/;"	c
 RedisNil	model/del.go	/^const RedisNil = redis.Nil$/;"	c
@@ -126,7 +125,7 @@ Session	session/session.go	/^func Session(secret string) gin.HandlerFunc {$/;"	f
 SetPassword	model/user.go	/^func (user *User) SetPassword(password string) error {$/;"	f
 ShortTime	tool/common.go	/^func ShortTime() string {$/;"	f
 ShowArticle	api/cudr.go	/^func ShowArticle(c *gin.Context) {$/;"	f
-ShowArticle	service/showarticle.go	/^func (service *ArticleService) ShowArticle() serializer.Response {$/;"	f
+ShowArticle	service/showarticle.go	/^func (service *ArticleService) ShowArticle(id string) serializer.Response {$/;"	f
 ShowArticleCache	redis/showarticle.go	/^func ShowArticleCache(artid uint) ([]model.Article, error) {$/;"	f
 ShowArticleListCache	redis/showarticle.go	/^func ShowArticleListCache(userid, offset, count uint, rank bool) ([]model.Article, error) {$/;"	f
 ShowCommentList	api/cudr.go	/^func ShowCommentList(c *gin.Context) {$/;"	f
@@ -157,9 +156,11 @@ StatType	model/stat.go	/^type StatType uint$/;"	t
 StrSplicing	tool/common.go	/^func StrSplicing(str ...string) string {$/;"	f
 StrconvErr	serializer/common.go	/^	StrconvErr$/;"	c
 StringSliceTOIntSlice	tool/common.go	/^func StringSliceTOIntSlice(str []string) []int64 {$/;"	f
+StringToInt	tool/common.go	/^func StringToInt(str string) int {$/;"	f
 StringToTime	tool/common.go	/^func StringToTime(str string) time.Time {$/;"	f
 StructToMap	model/main.go	/^func StructToMap(s interface{}) map[string]interface{} {$/;"	f
 SubCommentid	model/db/article.go	/^func SubCommentid(commentid uint) ([]int64, error) {$/;"	f
+SwaggerInfo	docs/docs.go	/^var SwaggerInfo = swaggerInfo{$/;"	v
 TagKey	redis/rediskey.go	/^func TagKey(userid uint, tag string) string {$/;"	f
 TestAddComment	service/comment_test.go	/^func TestAddComment(t *testing.T) {$/;"	f
 TestCase	gintest/test.go	/^type TestCase struct {$/;"	t
@@ -169,7 +170,6 @@ TestUserRegister	router_test.go	/^func TestUserRegister(t *testing.T) {$/;"	f
 TimeToString	tool/common.go	/^func TimeToString(t time.Time) string {$/;"	f
 Transactional	redis/rediskey.go	/^var Transactional *redis.Tx$/;"	v
 UintToStr	redis/rediskey.go	/^func UintToStr(str uint) string {$/;"	f
-UpdateArticle	api/cudr.go	/^func UpdateArticle(c *gin.Context) {$/;"	f
 UpdateArticle	service/showarticle.go	/^func (service *ArticleService) UpdateArticle() serializer.Response {$/;"	f
 UpdateUsername	service/user.go	/^func (service *UpdateUsernameService) UpdateUsername(c *gin.Context) serializer.Response {$/;"	f
 UpdateUsernameService	service/user.go	/^type UpdateUsernameService struct {$/;"	t
@@ -195,7 +195,6 @@ UserLogin	api/user.go	/^func UserLogin(c *gin.Context) {$/;"	f
 UserLoginService	service/user.go	/^type UserLoginService struct {$/;"	t
 UserRegister	api/user.go	/^func UserRegister(c *gin.Context) {$/;"	f
 UserRegisterService	service/user.go	/^type UserRegisterService struct {$/;"	t
-UserRename	api/user.go	/^func UserRename(c *gin.Context) {$/;"	f
 UserStatArticleKey	redis/rediskey.go	/^func UserStatArticleKey(userid, artid uint) string {$/;"	f
 UserStatArticleValue	redis/rediskey.go	/^func UserStatArticleValue(userid, artid uint) string {$/;"	f
 UserStatArticlesList	service/user.go	/^func (service *UserStatListService) UserStatArticlesList(c *gin.Context) serializer.Response {$/;"	f
@@ -228,9 +227,12 @@ db	model/db/article.go	/^package db$/;"	p
 db	model/db/user.go	/^package db$/;"	p
 deleteArticle	service/deleteArticle.go	/^func deleteArticle(userid, articleid uint) (err error, errcode int) {$/;"	f
 deleteComment	service/deleteArticle.go	/^func deleteComment(userid, commentid, articleid uint) (err error, errcode int) {$/;"	f
+doc	docs/docs.go	/^var doc = `{$/;"	v
+docs	docs/docs.go	/^package docs$/;"	p
 fansList	service/follower.go	/^func fansList(userid, offset, count uint) ([]model.User, error, int) {$/;"	f
 followList	service/follower.go	/^func followList(userid, offset, count uint) ([]model.User, error, int) {$/;"	f
 gintest	gintest/test.go	/^package gintest$/;"	p
+init	docs/docs.go	/^func init() {$/;"	f
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
 main	router_test.go	/^package main$/;"	p
@@ -252,6 +254,7 @@ redis	redis/stat.go	/^package redis$/;"	p
 redis	redis/user.go	/^package redis$/;"	p
 resComment	serializer/comment.go	/^var resComment [][]Comment$/;"	v
 router	router/router.go	/^package router$/;"	p
+s	docs/docs.go	/^type s struct{}$/;"	t
 serializer	serializer/article.go	/^package serializer$/;"	p
 serializer	serializer/comment.go	/^package serializer$/;"	p
 serializer	serializer/common.go	/^package serializer$/;"	p
@@ -269,5 +272,6 @@ session	session/auth.go	/^package session$/;"	p
 session	session/cors.go	/^package session$/;"	p
 session	session/session.go	/^package session$/;"	p
 standard	tool/common.go	/^const standard = "2006-01-02 15:04:05"$/;"	c
+swaggerInfo	docs/docs.go	/^type swaggerInfo struct {$/;"	t
 tool	tool/common.go	/^package tool$/;"	p
 tool	tool/disposition.go	/^package tool$/;"	p

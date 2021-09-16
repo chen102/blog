@@ -11,6 +11,10 @@ import (
 
 const standard = "2006-01-02 15:04:05"
 
+func StringToInt(str string) int {
+	res, _ := strconv.Atoi(str)
+	return res
+}
 func StringToTime(str string) time.Time {
 	fmt.Println(str)
 	st, _ := time.Parse(time.RFC3339, str)

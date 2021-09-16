@@ -1,0 +1,387 @@
+1:signal-handler (1631635755) Received SIGTERM scheduling shutdown...
+1:M 14 Sep 2021 16:09:15.416 # User requested shutdown...
+1:M 14 Sep 2021 16:09:15.416 * Calling fsync() on the AOF file.
+1:M 14 Sep 2021 16:09:15.416 * Saving the final RDB snapshot before exiting.
+1:M 14 Sep 2021 16:09:15.420 * DB saved on disk
+1:M 14 Sep 2021 16:09:15.420 # Redis is now ready to exit, bye bye...
+1:C 14 Sep 2021 23:56:30.298 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 14 Sep 2021 23:56:30.298 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 14 Sep 2021 23:56:30.298 # Configuration loaded
+1:M 14 Sep 2021 23:56:30.300 * monotonic clock: POSIX clock_gettime
+1:M 14 Sep 2021 23:56:30.302 * Running mode=standalone, port=6379.
+1:M 14 Sep 2021 23:56:30.302 # Server initialized
+1:M 14 Sep 2021 23:56:30.302 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 14 Sep 2021 23:56:30.307 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.310 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.314 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.318 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.322 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.326 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.330 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.334 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.340 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.346 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.352 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.358 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.362 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.366 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.370 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.374 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.378 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.382 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.387 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.396 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.400 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.405 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.408 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.413 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.417 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.422 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.428 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.434 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.438 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.445 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.448 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.452 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.455 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.462 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.465 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.468 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.472 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.475 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.479 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.482 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.486 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.489 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.494 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.498 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.501 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.505 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.509 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.513 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.517 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.521 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.525 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.529 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.533 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.537 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.541 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.545 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.549 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.553 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.561 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.571 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.574 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.579 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.583 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.586 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.590 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.594 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.598 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.601 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.605 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.608 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.612 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.615 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.619 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.622 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.625 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.629 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.632 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.635 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.639 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.642 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.648 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.655 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.664 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.667 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.670 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.674 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.678 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.681 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.684 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.688 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.691 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.694 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.698 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.701 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.704 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.708 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.711 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.715 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.719 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.722 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.725 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.729 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.732 * DB saved on disk
+1:M 14 Sep 2021 23:56:30.732 * DB loaded from append only file: 0.430 seconds
+1:M 14 Sep 2021 23:56:30.732 * Ready to accept connections
+1:M 15 Sep 2021 00:01:31.046 * 100 changes in 300 seconds. Saving...
+1:M 15 Sep 2021 00:01:31.047 * Background saving started by pid 18
+18:C 15 Sep 2021 00:01:31.057 * DB saved on disk
+18:C 15 Sep 2021 00:01:31.058 * RDB: 0 MB of memory used by copy-on-write
+1:M 15 Sep 2021 00:01:31.150 * Background saving terminated with success
+1:signal-handler (1631669057) Received SIGTERM scheduling shutdown...
+1:M 15 Sep 2021 01:24:17.566 # User requested shutdown...
+1:M 15 Sep 2021 01:24:17.566 * Calling fsync() on the AOF file.
+1:M 15 Sep 2021 01:24:17.567 * Saving the final RDB snapshot before exiting.
+1:M 15 Sep 2021 01:24:17.575 * DB saved on disk
+1:M 15 Sep 2021 01:24:17.576 # Redis is now ready to exit, bye bye...
+1:C 15 Sep 2021 02:05:03.252 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 15 Sep 2021 02:05:03.253 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 15 Sep 2021 02:05:03.253 # Configuration loaded
+1:M 15 Sep 2021 02:05:03.253 * monotonic clock: POSIX clock_gettime
+1:M 15 Sep 2021 02:05:03.254 * Running mode=standalone, port=6379.
+1:M 15 Sep 2021 02:05:03.254 # Server initialized
+1:M 15 Sep 2021 02:05:03.254 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 15 Sep 2021 02:05:03.261 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.264 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.268 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.272 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.278 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.287 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.293 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.297 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.303 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.306 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.309 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.313 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.316 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.319 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.323 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.326 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.329 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.333 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.336 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.340 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.343 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.346 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.349 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.352 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.358 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.364 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.368 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.372 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.375 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.378 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.382 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.385 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.388 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.392 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.395 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.398 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.402 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.405 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.408 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.413 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.419 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.422 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.426 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.430 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.439 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.442 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.445 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.448 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.452 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.458 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.464 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.467 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.470 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.474 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.477 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.480 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.483 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.487 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.490 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.494 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.497 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.500 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.503 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.506 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.510 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.513 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.517 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.520 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.523 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.527 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.530 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.536 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.542 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.548 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.554 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.560 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.563 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.567 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.570 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.574 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.577 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.581 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.583 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.587 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.590 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.594 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.597 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.600 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.604 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.607 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.610 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.613 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.616 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.620 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.623 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.626 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.630 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.633 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.637 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.640 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.644 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.647 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.651 * DB saved on disk
+1:M 15 Sep 2021 02:05:03.651 * DB loaded from append only file: 0.397 seconds
+1:M 15 Sep 2021 02:05:03.651 * Ready to accept connections
+1:M 15 Sep 2021 02:10:04.068 * 100 changes in 300 seconds. Saving...
+1:M 15 Sep 2021 02:10:04.069 * Background saving started by pid 18
+18:C 15 Sep 2021 02:10:04.072 * DB saved on disk
+18:C 15 Sep 2021 02:10:04.073 * RDB: 0 MB of memory used by copy-on-write
+1:M 15 Sep 2021 02:10:04.169 * Background saving terminated with success
+1:M 15 Sep 2021 08:05:44.999 * Replica 172.17.0.2:6379 asks for synchronization
+1:M 15 Sep 2021 08:05:44.999 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for 'fa1587a8185d185b81533137ad4bc8d3724dc1be', my replication IDs are 'e94bebf44ae4da11d4ccb4660da6c1b5980d98d8' and '0000000000000000000000000000000000000000')
+1:M 15 Sep 2021 08:05:44.999 * Replication backlog created, my new replication IDs are 'd1d5f31849f87cfbbfa95e94c558a23d5fbed39f' and '0000000000000000000000000000000000000000'
+1:M 15 Sep 2021 08:05:44.999 * Starting BGSAVE for SYNC with target: disk
+1:M 15 Sep 2021 08:05:44.999 * Background saving started by pid 19
+19:C 15 Sep 2021 08:05:45.003 * DB saved on disk
+19:C 15 Sep 2021 08:05:45.003 * RDB: 0 MB of memory used by copy-on-write
+1:M 15 Sep 2021 08:05:45.054 * Background saving terminated with success
+1:M 15 Sep 2021 08:05:45.055 * Synchronization with replica 172.17.0.2:6379 succeeded
+1:signal-handler (1631714554) Received SIGTERM scheduling shutdown...
+1:M 15 Sep 2021 14:02:34.589 # User requested shutdown...
+1:M 15 Sep 2021 14:02:34.589 * Calling fsync() on the AOF file.
+1:M 15 Sep 2021 14:02:34.590 * Saving the final RDB snapshot before exiting.
+1:M 15 Sep 2021 14:02:34.595 * DB saved on disk
+1:M 15 Sep 2021 14:02:34.595 # Redis is now ready to exit, bye bye...
+1:C 16 Sep 2021 07:24:13.361 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 16 Sep 2021 07:24:13.361 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 16 Sep 2021 07:24:13.361 # Configuration loaded
+1:M 16 Sep 2021 07:24:13.362 * monotonic clock: POSIX clock_gettime
+1:M 16 Sep 2021 07:24:13.363 * Running mode=standalone, port=6379.
+1:M 16 Sep 2021 07:24:13.363 # Server initialized
+1:M 16 Sep 2021 07:24:13.363 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 16 Sep 2021 07:24:13.369 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.374 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.377 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.380 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.384 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.387 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.390 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.394 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.397 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.404 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.408 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.411 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.414 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.418 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.421 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.425 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.431 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.435 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.440 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.444 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.448 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.452 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.455 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.458 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.462 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.466 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.469 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.472 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.475 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.478 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.482 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.486 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.489 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.493 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.497 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.503 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.506 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.510 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.513 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.517 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.524 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.527 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.530 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.533 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.536 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.540 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.543 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.547 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.551 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.554 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.557 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.560 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.564 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.568 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.571 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.575 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.578 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.582 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.585 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.588 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.591 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.595 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.598 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.601 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.604 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.608 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.611 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.614 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.617 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.621 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.624 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.627 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.631 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.634 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.638 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.641 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.644 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.647 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.650 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.654 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.657 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.663 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.666 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.670 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.673 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.676 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.679 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.682 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.685 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.688 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.691 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.694 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.697 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.702 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.705 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.709 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.715 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.719 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.724 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.728 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.731 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.735 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.739 * DB saved on disk
+1:M 16 Sep 2021 07:24:13.740 * DB loaded from append only file: 0.376 seconds
+1:M 16 Sep 2021 07:24:13.740 * Ready to accept connections
+1:M 16 Sep 2021 07:29:14.021 * 100 changes in 300 seconds. Saving...
+1:M 16 Sep 2021 07:29:14.021 * Background saving started by pid 18
+18:C 16 Sep 2021 07:29:14.026 * DB saved on disk
+18:C 16 Sep 2021 07:29:14.027 * RDB: 0 MB of memory used by copy-on-write
+1:M 16 Sep 2021 07:29:14.122 * Background saving terminated with success
+1:M 16 Sep 2021 08:22:40.747 * Replica 172.17.0.2:6379 asks for synchronization
+1:M 16 Sep 2021 08:22:40.747 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for 'f1c5b7b6c04143699c8bc42dcf86d57100ddcb5d', my replication IDs are 'da752d13c62facd032901d5c3d225e6547066cc2' and '0000000000000000000000000000000000000000')
+1:M 16 Sep 2021 08:22:40.747 * Replication backlog created, my new replication IDs are '871d447704b023a8c8c79bc42833bc2f7b0ad1c8' and '0000000000000000000000000000000000000000'
+1:M 16 Sep 2021 08:22:40.747 * Starting BGSAVE for SYNC with target: disk
+1:M 16 Sep 2021 08:22:40.747 * Background saving started by pid 19
+19:C 16 Sep 2021 08:22:40.751 * DB saved on disk
+19:C 16 Sep 2021 08:22:40.751 * RDB: 0 MB of memory used by copy-on-write
+1:M 16 Sep 2021 08:22:40.753 * Background saving terminated with success
+1:M 16 Sep 2021 08:22:40.753 * Synchronization with replica 172.17.0.2:6379 succeeded
