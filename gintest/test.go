@@ -1,29 +1,43 @@
 package gintest
 
 import (
+	"blog/model"
+	"blog/router"
+	"blog/tool"
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	//"gopkg.in/yaml.v2"
 	"io"
 	//"io/ioutil"
-	"blog/model"
-	"blog/router"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"strings"
 )
 
+const (
+	Functional      = iota //功能测试
+	LocalData              //局部数据结构
+	IndependentPath        //独立路径
+	Error                  //各种错误处理
+	Boundary               //临界值
+)
+
 type TestCase struct {
-	CaseName, Method, Url, BodyType, Cookie string      //用例名称,方法，地址，body类型
-	Param, Exp                              interface{} //参数，期望输出
+	CaseType                      uint        //测试用例类型
+	Description                   string      //描述
+	Method, Url, BodyType, Cookie string      //用例名称,方法，地址，body类型
+	Param, Exp                    interface{} //参数，期望输出
 }
 type TestCases []TestCase
 
 func NewTest() *gin.Engine {
-	model.DelRedis()
-	model.DelMysql()
+	config := tool.NewConfig()
+	config.TestReadConfig()
+	model.DelMysql(*config)
+	model.DelRedis(*config)
 	return router.New()
 }
 
@@ -94,6 +108,9 @@ func StartHandler(router *gin.Engine, req *http.Request) (string, http.Header, e
 
 //输出成querystring形式
 func ParamToStr(mp map[string]interface{}) string {
+	if len(mp) == 0 {
+		return ""
+	}
 	values := ""
 	for k, v := range mp {
 		switch v.(type) {
@@ -103,6 +120,10 @@ func ParamToStr(mp map[string]interface{}) string {
 			values += "&" + k + "=" + strconv.Itoa(int(v.(uint)))
 		case string:
 			values += "&" + k + "=" + v.(string)
+		case []string: //若是切片，则key名相同
+			for _, v1 := range v.([]string) {
+				values += "&" + k + "=" + v1
+			}
 		}
 	}
 	temp := values[1:]

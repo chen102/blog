@@ -2,7 +2,10 @@ package tool
 
 import (
 	//"encoding/json"
+	"bytes"
+	"compress/zlib"
 	"fmt"
+	"io"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -30,6 +33,27 @@ func ShortTime() string {
 	str := tepm.Format(standard)
 	return str
 
+}
+
+//压缩
+func Compress(str string) string {
+	var in bytes.Buffer
+	w := zlib.NewWriter(&in)
+	w.Write([]byte(str))
+	w.Close()
+	return in.String()
+}
+
+//解压在
+func UnCompress(str string) (string, error) {
+	var out bytes.Buffer
+	b := bytes.NewReader([]byte(str))
+	res, err := zlib.NewReader(b)
+	if err != nil {
+		return "", err
+	}
+	io.Copy(&out, res)
+	return out.String(), nil
 }
 
 //多字符串拼接

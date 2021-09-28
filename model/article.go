@@ -12,12 +12,13 @@ type Article struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index" json:"omitempty"`
 	Title     string
-	UserID    uint   //用户的外键
-	UserName  string `gorm:"-" map:"omitempty" `
-	Stat      uint   `gorm:"-"`
-	Tags      string `mapstructure:",omitempty"`
-	Content   string
-	Comment   []Comment
+
+	UserID   uint      `gorm:"index"` //用户的外键
+	UserName string    `gorm:"-" map:"omitempty" `
+	Stat     uint      `gorm:"-"`
+	Tags     string    `mapstructure:",omitempty"`
+	Content  string    `gorm:"type:text"` //0-65535字节长文本
+	Comment  []Comment `gorm:"-"`
 }
 
 //手动处理redis sort的数据

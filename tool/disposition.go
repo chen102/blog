@@ -41,3 +41,12 @@ func (config *Config) ReadConfig() {
 		panic("解析文件config.yml发生错误")
 	}
 }
+func (config *Config) TestReadConfig() {
+	file, err := ioutil.ReadFile("../config/config.yml")
+	if err != nil {
+		panic("读取文件config.yml发生错误")
+	}
+	if yaml.Unmarshal(file, config) != nil {
+		panic("解析文件config.yml发生错误")
+	}
+}

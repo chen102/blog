@@ -16,16 +16,17 @@ mysql:
     connmaxlifetime: 30
 redis: 
     #主IP地址
-    masterip: 192.168.122.1
+    masterip: 172.17.0.3
     #主端口
     masterport: 6379
     #主认证密码
     masterauth: 000000
     #主数据库号
     masterdb: 0
-    #主RedisIP
+    #从数据库IP
     slaveofip: 172.17.0.4
-    salveip: 127.0.0.1
+    #从RedisIP
+    salveip: 172.17.0.4
     slaveport: 6380
     slaveauth: 000000
     salvedb: 0

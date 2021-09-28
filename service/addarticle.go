@@ -14,8 +14,8 @@ import (
 //添加文章服务
 type ArticleAddSservice struct {
 	Title   string   `form:"ArticleTitle" json:"ArticleTitle" binding:"required,max=20"`
-	Content string   `form:"ArticleContent" json:"ArticleContent" binding:"required"`
-	Tags    []string `form:"Tags" json:"Tags" binding:"omitempty"`
+	Content string   `form:"ArticleContent" json:"ArticleContent" binding:"required,max=65535"`
+	Tags    []string `form:"Tags" json:"Tags" binding:"omitempty,max=5"`
 }
 
 func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Response {
@@ -28,11 +28,14 @@ func (service *ArticleAddSservice) AddArticle(c *gin.Context) serializer.Respons
 	if err := redis.DeleteArticle(user.ID); err != nil {
 		return serializer.Err(serializer.RedisErr, err)
 	}
+
 	article := model.Article{
 		Title:   service.Title,
 		UserID:  user.ID,
-		Content: service.Content,
-		Tags:    tool.SliceToString(service.Tags),
+		Content: tool.Compress(service.Content),
+	}
+	if service.Tags != nil {
+		article.Tags = tool.SliceToString(service.Tags)
 	}
 	if err := model.DB.Create(&article).Error; err != nil {
 		return serializer.Err(serializer.MysqlErr, err)

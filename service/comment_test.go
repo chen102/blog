@@ -8,32 +8,8 @@ import (
 
 func TestAddComment(t *testing.T) {
 	r := gintest.NewTest()
-	Cookies := make(map[int]string, 3)
 	//登录获取Cookie
-	login := gintest.TestCases{
-		{CaseName: "用户2", Method: "POST", Url: "/api/v0/user/login", BodyType: "JSON", Param: map[string]interface{}{
-
-			"account":  "66666666",
-			"password": "12341234",
-		}, Exp: false},
-		{CaseName: "用户6", Method: "POST", Url: "/api/v0/user/login", BodyType: "JSON", Param: map[string]interface{}{
-			"account":  "user00004",
-			"password": "12341234",
-		}, Exp: false},
-		{CaseName: "用户3", Method: "POST", Url: "/api/v0/user/login", BodyType: "JSON", Param: map[string]interface{}{
-			"account":  "66666666",
-			"password": "12341234",
-		}, Exp: false},
-	}
-	for k, v := range login {
-		req, err := gintest.NewRequest(v.Method, v.Url, v.BodyType, "", v.Param.(map[string]interface{}))
-		if err != nil {
-			t.Error(err.Error())
-		}
-		_, headers, err := gintest.StartHandler(r, req)
-		Cookies[k] = headers["Set-Cookie"][0]
-
-	}
+	Cookies := gintest.GetCookie()
 	testCases := gintest.TestCases{
 		{CaseName: "功能测试1", Method: "POST", Url: "/api/v0/article/comment", Cookie: Cookies[0], BodyType: "JSON", Param: map[string]interface{}{
 			"ArticleId": 2,
